@@ -134,7 +134,7 @@
 <select id="mou-day" aria-label="วันที่" style="width:auto;margin:0" disabled></select>
 <span id="mou-period-status" class="sub" aria-live="polite"></span></div><section class="panel" style="grid-column:1/-1" aria-live="polite"><h3>ความคืบหน้าตามตัวกรอง</h3><p id="mou-live-summary"></p><progress id="mou-live-bar" max="100" style="width:100%" hidden></progress><p class="sub" id="mou-live-coverage"></p></section><div class="content" id="mou-comparison">
 <section class="panel"><small id="mou-chart-scope">เปรียบเทียบกลุ่มตรวจสอบ 1–5</small><h3 id="mou-title"></h3><div class="legend"><span><i></i>เป้าหมาย MOU</span><span><i></i>ผลปฏิบัติตาม MOU</span><span><i></i>ส่วนต่าง MOU</span></div><div class="chart" id="mou-chart"></div></section>
-<section class="panel"><h3>ข้อมูลรายกลุ่ม</h3><table><thead><tr><th scope="col">กลุ่ม</th><th scope="col">เป้าหมาย</th><th scope="col">ผลปฏิบัติ</th><th scope="col">ส่วนต่าง</th></tr></thead><tbody id="mou-values"></tbody></table><p class="sub">— ไม่มีข้อมูลหรือคำนวณไม่ได้ · ส่วนต่าง = ผลปฏิบัติ − เป้าหมาย</p><p class="note" id="mou-note"></p></section>
+<section class="panel"><h3>เป้าหมายและผลรายกลุ่มของงานที่เลือก</h3><p id="mou-group-job" class="sub"></p><div style="overflow-x:auto" tabindex="0" aria-label="ตารางเป้าหมายและผลรายกลุ่ม"><table style="min-width:540px"><thead><tr><th scope="col">กลุ่ม</th><th scope="col">เป้าหมาย</th><th scope="col">ผลปฏิบัติ</th><th scope="col">ส่วนต่าง</th><th scope="col">% เทียบเป้าหมาย</th><th scope="col">สัดส่วนเป้าหมาย</th><th scope="col">สัดส่วนผล</th></tr></thead><tbody id="mou-values"></tbody></table></div><p class="sub">— ไม่มีข้อมูลหรือคำนวณไม่ได้ · สัดส่วนคิดเทียบกับยอดรวม 5 กลุ่มของงานเดียวกัน</p><p class="note" id="mou-note"></p></section>
 </div>
 <div class="lower"><details id="mou-explain" class="panel"><summary><strong>คำชี้แจงผู้อำนวยการกลุ่ม 1–5</strong></summary>
 <form id="mou-explain-form" style="display:grid;gap:8px;margin-top:8px">
@@ -280,10 +280,11 @@
     const table = find('mou-values');
     find('mou-count').textContent = 'รายการ ' + (picker.selectedIndex + 1) + ' จาก ' + domain.jobs.length;
     find('mou-title').textContent = job.name + (job.unit ? ' · ' + job.unit : '');
+    find('mou-group-job').textContent = job.name + (job.unit ? ' · ' + job.unit : '');
     table.replaceChildren();
     const visible = i => metric === -1 || metric === i;
     root.querySelectorAll('.legend span').forEach((item,i) => { item.hidden = !visible(i); });
-    root.querySelectorAll('thead th').forEach((item,i) => { item.hidden = i > 0 && !visible(i-1); });
+    root.querySelectorAll('thead th').forEach((item,i) => { item.hidden = i > 0 && i <= 3 && !visible(i-1); });
     chart.replaceChildren();
     const allValues = [...job.plan, ...job.actual];
     const quantitative = !job.unit.startsWith('ร้') && allValues.some(v => numeric(v) !== null)
@@ -313,6 +314,19 @@
     find('mou-kpi-percent').textContent = percent === null ? '—' : format(percent)+'%';
     find('mou-kpi-coverage').textContent = complete.length + ' / ' + scope.length + ' กลุ่ม';
     find('mou-kpi-group').textContent = selectedGroup < 0 ? 'กลุ่ม 1–5' : 'กลุ่ม ' + (selectedGroup+1);
+    const asRate = value => {
+      const text = String(value ?? '').trim();
+      return numeric(text.endsWith('%') ? text.slice(0,-1) : text);
+    };
+    const ratio = (value, base) => value !== null && base !== null && base > 0
+      ? format(value / base * 100) + '%' : '—';
+    const fullTotal = values => {
+      const numbers = values.map(numeric);
+      return quantitative && numbers.every(value => value !== null)
+        ? numbers.reduce((sum,value) => sum + value,0) : null;
+    };
+    const totalPlan = fullTotal(job.plan);
+    const totalActual = fullTotal(job.actual);
     const bar = find('mou-live-bar');
     bar.hidden = percent === null;
     if (percent !== null) bar.value = Math.min(percent, 100);
@@ -331,6 +345,12 @@
       if (visible(0)) row.insertCell().textContent = shown(job.plan[i]);
       if (visible(1)) row.insertCell().textContent = shown(job.actual[i]);
       if (visible(2)) row.insertCell().textContent = signed(differences[i]);
+      const goalValue = job.plan[i];
+      const actualValue = job.actual[i];
+      const comparable = String(goalValue ?? '').trim().endsWith('%') === String(actualValue ?? '').trim().endsWith('%');
+      row.insertCell().textContent = comparable ? ratio(asRate(actualValue),asRate(goalValue)) : '—';
+      row.insertCell().textContent = ratio(numeric(goalValue),totalPlan);
+      row.insertCell().textContent = ratio(numeric(actualValue),totalActual);
       if (!quantitative) continue;
       const lane = document.createElement('div');
       lane.className = 'lane';
