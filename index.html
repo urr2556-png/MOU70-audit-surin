@@ -1,4 +1,4 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CASHBORAD MOU70 | SAO Surin</title><style>body{margin:0;font:16px system-ui;background:#f0f6ff}#connection{padding:14px 20px;background:white}#connection .connection-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}#connection .connection-heading a{margin-left:auto}#connection button{font:inherit;padding:7px 12px;margin:3px}#status{margin:6px 0}.error{color:#a01931}#mou-digital[hidden]{display:none!important}</style><script src="https://accounts.google.com/gsi/client" async defer></script></head><body>
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CASHBORAD MOU70 | SAO Surin</title><style>body{margin:0;font:16px system-ui;background:#f0f6ff}#connection{padding:14px 20px;background:white}#connection .connection-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}#connection .connection-heading a{margin-left:auto}#connection button{font:inherit;padding:7px 12px;margin:3px}#status{margin:6px 0}.error{color:#a01931}#mou-digital[hidden],#mou-digital [hidden]{display:none!important}</style><script src="https://accounts.google.com/gsi/client" async defer></script></head><body>
 <section id="connection"><div class="connection-heading"><strong>CASHBORAD MOU70 · เชื่อมข้อมูล Google Sheets</strong><a href="https://docs.google.com/spreadsheets/d/1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU/edit" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:7px 12px;border-radius:7px;background:#166534;color:white;text-decoration:none">กรอกข้อมูล MOU</a></div><button id="connect">เชื่อมบัญชี Google</button><button id="refresh" disabled>อ่านข้อมูลล่าสุด</button><button id="disconnect" disabled>ออกจากการเชื่อมต่อ</button><p id="status" role="status">กรุณาเชื่อมบัญชี Google ที่มีสิทธิ์อ่านชีต MOU</p></section>
 <section id="mou-digital" lang="th">
 <style>
@@ -132,7 +132,17 @@
 <select id="mou-year" aria-label="ปี พ.ศ." style="width:auto;margin:0"><option value="">ภาพรวมรอบที่ 1</option><option>2569</option><option>2570</option></select>
 <select id="mou-month" aria-label="เดือน" style="width:auto;margin:0" disabled></select>
 <select id="mou-day" aria-label="วันที่" style="width:auto;margin:0" disabled></select>
-<span id="mou-period-status" class="sub" aria-live="polite"></span></div><section class="panel" style="grid-column:1/-1" aria-live="polite"><h3>ความคืบหน้าตามตัวกรอง</h3><p id="mou-live-summary"></p><progress id="mou-live-bar" max="100" style="width:100%" hidden></progress><p class="sub" id="mou-live-coverage"></p></section><div class="content" id="mou-comparison">
+<span id="mou-period-status" class="sub" aria-live="polite"></span></div><section id="mou-all-jobs" class="panel" style="grid-column:1/-1">
+<h3 id="mou-all-title">ภาพรวม 5 กลุ่ม</h3>
+<div style="overflow-x:auto" tabindex="0" aria-label="ตารางภาพรวมงาน MOU"><table style="min-width:960px"><thead><tr>
+<th scope="col">ลำดับ</th><th scope="col" style="text-align:left">งานตาม MOU</th><th scope="col">หน่วย</th>
+<th scope="col">เป้าหมาย</th><th scope="col">ร้อยละเป้าหมาย</th>
+<th scope="col">ผลปฏิบัติ</th><th scope="col">ร้อยละผล</th>
+<th scope="col">ส่วนต่าง</th><th scope="col">ส่วนต่าง (จุดร้อยละ)</th>
+</tr></thead><tbody id="mou-all-rows"></tbody></table></div>
+<p class="sub" id="mou-all-note"></p>
+<p class="sub">ยอดเชิงจำนวนรวมเมื่อข้อมูลครบ 5 กลุ่ม ร้อยละเป็นค่าเฉลี่ยของร้อยละที่บันทึกในชีตเมื่อครบ 5 กลุ่ม ส่วนต่าง = ผล − เป้าหมาย</p>
+</section><section id="mou-selected-progress" class="panel" style="grid-column:1/-1" aria-live="polite"><h3>ความคืบหน้าตามตัวกรอง</h3><p id="mou-live-summary"></p><progress id="mou-live-bar" max="100" style="width:100%" hidden></progress><p class="sub" id="mou-live-coverage"></p></section><div class="content" id="mou-comparison">
 <section class="panel"><small id="mou-chart-scope">เปรียบเทียบกลุ่มตรวจสอบ 1–5</small><h3 id="mou-title"></h3><div class="legend"><span><i></i>เป้าหมาย MOU</span><span><i></i>ผลปฏิบัติตาม MOU</span><span><i></i>ส่วนต่าง MOU</span></div><div class="chart" id="mou-chart"></div></section>
 <section class="panel"><h3>เป้าหมายและผลรายกลุ่มของงานที่เลือก</h3><p id="mou-group-job" class="sub"></p><div style="overflow-x:auto" tabindex="0" aria-label="ตารางเป้าหมายและผลรายกลุ่ม"><table style="min-width:540px"><thead><tr><th scope="col">กลุ่ม</th><th scope="col">เป้าหมาย</th><th scope="col">ผลปฏิบัติ</th><th scope="col">ส่วนต่าง</th><th scope="col">% เทียบเป้าหมาย</th><th scope="col">สัดส่วนเป้าหมาย</th><th scope="col">สัดส่วนผล</th></tr></thead><tbody id="mou-values"></tbody></table></div><p class="sub">— ไม่มีข้อมูลหรือคำนวณไม่ได้ · สัดส่วนคิดเทียบกับยอดรวม 5 กลุ่มของงานเดียวกัน</p><p class="note" id="mou-note"></p></section>
 </div>
@@ -264,7 +274,49 @@
     find('mou-job-rows').replaceChildren(...rows);
     render();
   }
+  function renderAllJobs(monthly) {
+    const jobs = domains.flatMap(domain => domain.jobs);
+    const format = value => value === null ? '—' : value.toLocaleString('th-TH',{maximumFractionDigits:2});
+    const rate = value => {
+      const text = String(value ?? '').trim();
+      return text.endsWith('%') ? numeric(text.slice(0,-1)) : null;
+    };
+    const aggregate = (values,parse,divisor) => {
+      const numbers = (values || []).map(parse);
+      return !monthly && numbers.length === 5 && numbers.every(value => value !== null)
+        ? numbers.reduce((sum,value) => sum + value,0) / divisor : null;
+    };
+    const difference = (actual,plan) => actual === null || plan === null ? null : actual-plan;
+    const pct = value => value === null ? '—' : format(value)+'%';
+    find('mou-all-title').textContent = 'ภาพรวม 5 กลุ่ม · งานตาม MOU '+jobs.length+' รายการ';
+    find('mou-all-note').textContent = monthly ? 'ยังไม่มีข้อมูลย้อนหลังสำหรับช่วงที่เลือก' : '';
+    const body = find('mou-all-rows');
+    body.replaceChildren();
+    jobs.forEach((job,i) => {
+      const countable = !/ร้อยละ|เปอร์เซ็นต์|%/.test(job.unit);
+      const plan = countable ? aggregate(job.plan,numeric,1) : null;
+      const actual = countable ? aggregate(job.actual,numeric,1) : null;
+      const planRate = aggregate(job.planRate,rate,5);
+      const actualRate = aggregate(job.actualRate,rate,5);
+      const row = body.insertRow();
+      row.insertCell().textContent = i+1;
+      const name = document.createElement('th');
+      name.scope = 'row';
+      name.style.textAlign = 'left';
+      name.textContent = job.name;
+      row.append(name);
+      [job.unit || '—',format(plan),pct(planRate),format(actual),pct(actualRate),
+        format(difference(actual,plan)),format(difference(actualRate,planRate))]
+        .forEach(value => { row.insertCell().textContent = value; });
+    });
+  }
   function render() {
+    const overview = selectedGroup < 0;
+    find('mou-all-jobs').hidden = !overview;
+    for (const id of ['mou-overview','mou-comparison','mou-selected-progress','mou-chart-types','mou-metrics']) {
+      find(id).hidden = overview;
+    }
+    if (overview) renderAllJobs(Boolean(year.value));
     const domain = domains[selected];
     [...find('mou-job-rows').children].forEach((button, index) => {
       button.setAttribute('aria-pressed', String(index === picker.selectedIndex));
@@ -284,7 +336,7 @@
     table.replaceChildren();
     const visible = i => metric === -1 || metric === i;
     root.querySelectorAll('.legend span').forEach((item,i) => { item.hidden = !visible(i); });
-    root.querySelectorAll('thead th').forEach((item,i) => { item.hidden = i > 0 && i <= 3 && !visible(i-1); });
+    find('mou-comparison').querySelectorAll('thead th').forEach((item,i) => { item.hidden = i > 0 && i <= 3 && !visible(i-1); });
     chart.replaceChildren();
     const allValues = [...job.plan, ...job.actual];
     const quantitative = !job.unit.startsWith('ร้') && allValues.some(v => numeric(v) !== null)
@@ -520,6 +572,8 @@
       const a = actual.get(key);
       job.plan = [1,3,5,7,9].map(i => p?.[i] ?? null);
       job.actual = [1,3,5,7,9].map(i => a?.[i] ?? null);
+      job.planRate = [2,4,6,8,10].map(i => p?.[i] ?? null);
+      job.actualRate = [2,4,6,8,10].map(i => a?.[i] ?? null);
       job.total = p?.[11] ?? null;
     }
     render();
