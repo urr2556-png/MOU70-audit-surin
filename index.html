@@ -1,1 +1,68 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CASHBORAD MOU70 | สตง. สุรินทร์</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font: 16px/1.6 system-ui, sans-serif;
+      color: #142b4a;
+      background: #eef4fc;
+    }
+    main {
+      width: min(100%, 760px);
+      padding: clamp(24px, 6vw, 56px);
+      border-top: 6px solid #d7a63a;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 12px 36px #142b4a18;
+    }
+    h1 { margin: 0; color: #0a315f; }
+    nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    nav a {
+      padding: 10px 18px;
+      border-radius: 8px;
+      background: #124b92;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:focus-visible { outline: 3px solid #d7a63a; outline-offset: 3px; }
+    #status { color: #714b13; }
+  </style>
+</head>
+<body>
+  <main>
+    <p>สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</p>
+    <h1>CASHBORAD MOU70</h1>
+    <p>ระบบติดตามงานตามข้อตกลงการปฏิบัติราชการ ปีงบประมาณ 2570</p>
+    <nav id="menu" aria-label="เมนูระบบบัญชี" hidden>
+      <a id="login">เข้าสู่ระบบ</a>
+      <a id="register">ลงทะเบียน</a>
+      <a id="admin">แอดมิน</a>
+    </nav>
+    <p id="status">รอผู้ดูแลตั้งค่าที่อยู่ระบบบัญชี</p>
+  </main>
 
+  <script>
+    // ใส่ URL แบบ HTTPS ของเซิร์ฟเวอร์ที่รัน server.mjs
+    const ACCOUNT_SERVER = '';
+
+    if (ACCOUNT_SERVER.startsWith('https://')) {
+      const origin = new URL(ACCOUNT_SERVER).origin;
+      document.getElementById('login').href = origin + '/';
+      document.getElementById('register').href = origin + '/register';
+      document.getElementById('admin').href = origin + '/#admin';
+      document.getElementById('menu').hidden = false;
+      document.getElementById('status').hidden = true;
+    }
+  </script>
+</body>
+</html>
