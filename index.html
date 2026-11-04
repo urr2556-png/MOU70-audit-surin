@@ -141,7 +141,6 @@
 <th scope="col">ส่วนต่าง</th><th scope="col">ส่วนต่าง (จุดร้อยละ)</th>
 </tr></thead><tbody id="mou-all-rows"></tbody></table></div>
 <p class="sub" id="mou-all-note"></p>
-<p class="sub">ยอดเชิงจำนวนรวมเมื่อข้อมูลครบ 5 กลุ่ม ร้อยละเป็นค่าเฉลี่ยของร้อยละที่บันทึกในชีตเมื่อครบ 5 กลุ่ม ส่วนต่าง = ผล − เป้าหมาย</p>
 </section><section id="mou-selected-progress" class="panel" style="grid-column:1/-1" aria-live="polite"><h3>ความคืบหน้าตามตัวกรอง</h3><p id="mou-live-summary"></p><progress id="mou-live-bar" max="100" style="width:100%" hidden></progress><p class="sub" id="mou-live-coverage"></p></section><div class="content" id="mou-comparison">
 <section class="panel"><small id="mou-chart-scope">เปรียบเทียบกลุ่มตรวจสอบ 1–5</small><h3 id="mou-title"></h3><div class="legend"><span><i></i>เป้าหมาย MOU</span><span><i></i>ผลปฏิบัติตาม MOU</span><span><i></i>ส่วนต่าง MOU</span></div><div class="chart" id="mou-chart"></div></section>
 <section class="panel"><h3>เป้าหมายและผลรายกลุ่มของงานที่เลือก</h3><p id="mou-group-job" class="sub"></p><div style="overflow-x:auto" tabindex="0" aria-label="ตารางเป้าหมายและผลรายกลุ่ม"><table style="min-width:540px"><thead><tr><th scope="col">กลุ่ม</th><th scope="col">เป้าหมาย</th><th scope="col">ผลปฏิบัติ</th><th scope="col">ส่วนต่าง</th><th scope="col">% เทียบเป้าหมาย</th><th scope="col">สัดส่วนเป้าหมาย</th><th scope="col">สัดส่วนผล</th></tr></thead><tbody id="mou-values"></tbody></table></div><p class="sub">— ไม่มีข้อมูลหรือคำนวณไม่ได้ · สัดส่วนคิดเทียบกับยอดรวม 5 กลุ่มของงานเดียวกัน</p><p class="note" id="mou-note"></p></section>
@@ -274,30 +273,38 @@
     find('mou-job-rows').replaceChildren(...rows);
     render();
   }
-  function renderAllJobs(monthly) {
+  function renderJobTable(monthly) {
     const jobs = domains.flatMap(domain => domain.jobs);
     const format = value => value === null ? '—' : value.toLocaleString('th-TH',{maximumFractionDigits:2});
     const rate = value => {
-      const text = String(value ?? '').trim();
-      return text.endsWith('%') ? numeric(text.slice(0,-1)) : null;
+      return numeric(String(value ?? '').trim().replace(/%$/, ''));
     };
-    const aggregate = (values,parse,divisor) => {
+    const overview = selectedGroup < 0;
+    const metricValue = (values, parse, divisor = 1) => {
+      if (monthly) return null;
+      if (!overview) return parse(values?.[selectedGroup]);
       const numbers = (values || []).map(parse);
-      return !monthly && numbers.length === 5 && numbers.every(value => value !== null)
+      return numbers.length === 5 && numbers.every(value => value !== null)
         ? numbers.reduce((sum,value) => sum + value,0) / divisor : null;
     };
     const difference = (actual,plan) => actual === null || plan === null ? null : actual-plan;
     const pct = value => value === null ? '—' : format(value)+'%';
-    find('mou-all-title').textContent = 'ภาพรวม 5 กลุ่ม · งานตาม MOU '+jobs.length+' รายการ';
-    find('mou-all-note').textContent = monthly ? 'ยังไม่มีข้อมูลย้อนหลังสำหรับช่วงที่เลือก' : '';
+    const scope = overview ? 'ภาพรวม 5 กลุ่ม' : 'กลุ่ม ' + (selectedGroup + 1);
+    find('mou-all-title').textContent = scope + ' · งานตาม MOU ' + jobs.length + ' รายการ';
+    find('mou-all-note').textContent = monthly ? 'ยังไม่มีข้อมูลย้อนหลังสำหรับช่วงที่เลือก'
+      : overview ? 'เป้าหมายและผลปฏิบัติรวมจาก 5 กลุ่ม ร้อยละเป็นค่าเฉลี่ย 5 กลุ่ม แสดง — เมื่อข้อมูลสำหรับคำนวณไม่ครบ'
+      : 'แสดงข้อมูลจาก Google Sheets ของ ' + scope + ' เครื่องหมาย — หมายถึงไม่มีข้อมูลสำหรับช่องนั้น';
     const body = find('mou-all-rows');
     body.replaceChildren();
     jobs.forEach((job,i) => {
       const countable = !/ร้อยละ|เปอร์เซ็นต์|%/.test(job.unit);
-      const plan = countable ? aggregate(job.plan,numeric,1) : null;
-      const actual = countable ? aggregate(job.actual,numeric,1) : null;
-      const planRate = aggregate(job.planRate,rate,5);
-      const actualRate = aggregate(job.actualRate,rate,5);
+      const plan = countable ? metricValue(job.plan,numeric) : null;
+      const actual = countable ? metricValue(job.actual,numeric) : null;
+      const planRate = metricValue(job.planRate,rate,5);
+      const actualRate = metricValue(job.actualRate,rate,5);
+      const sourceValue = values => shown(values?.[selectedGroup]);
+      const displayValue = (value, values) => !overview && !monthly && value === null
+        ? sourceValue(values) : format(value);
       const row = body.insertRow();
       row.insertCell().textContent = i+1;
       const name = document.createElement('th');
@@ -305,18 +312,17 @@
       name.style.textAlign = 'left';
       name.textContent = job.name;
       row.append(name);
-      [job.unit || '—',format(plan),pct(planRate),format(actual),pct(actualRate),
+      [job.unit || '—',displayValue(plan,job.plan),pct(planRate),displayValue(actual,job.actual),pct(actualRate),
         format(difference(actual,plan)),format(difference(actualRate,planRate))]
         .forEach(value => { row.insertCell().textContent = value; });
     });
   }
   function render() {
     const overview = selectedGroup < 0;
-    find('mou-all-jobs').hidden = !overview;
     for (const id of ['mou-overview','mou-comparison','mou-selected-progress','mou-chart-types','mou-metrics']) {
       find(id).hidden = overview;
     }
-    if (overview) renderAllJobs(Boolean(year.value));
+    renderJobTable(Boolean(year.value));
     const domain = domains[selected];
     [...find('mou-job-rows').children].forEach((button, index) => {
       button.setAttribute('aria-pressed', String(index === picker.selectedIndex));
