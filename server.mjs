@@ -56,7 +56,7 @@ if (origin.protocol !== 'https:' && !(local && origin.protocol === 'http:')) thr
 const secure = origin.protocol === 'https:';
 const cookie = secure ? '__Host-mou' : 'mou_local';
 const flags = '; Path=/; HttpOnly; SameSite=Strict' + (secure ? '; Secure' : '');
-const template = readFileSync(new URL('./index.html',import.meta.url),'utf8');
+const template = readFileSync(new URL('./dashboard.html', import.meta.url), 'utf8');
 const clientId = process.env.MOU_GOOGLE_CLIENT_ID || 'REPLACE_WITH_GOOGLE_OAUTH_CLIENT_ID';
 if (process.env.MOU_GOOGLE_CLIENT_ID && !/^[a-zA-Z0-9-]+\.apps\.googleusercontent\.com$/.test(clientId)) throw Error('Invalid OAuth Client ID');
 const dashboard = '<script src="https://accounts.google.com/gsi/client" async defer></script>' +
