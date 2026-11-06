@@ -261,11 +261,11 @@
 
         function getAreaIndexByRow(rowText) {
             if (!rowText) return 0;
-            if (rowText.startsWith('1.') || rowText.startsWith('FA') || rowText.startsWith('CA') || rowText.startsWith('PA')) return 0;
-            if (rowText.startsWith('2.') || rowText.includes('ประชาสัมพันธ์') || rowText.includes('KM') || rowText.includes('นวัตกรรม')) return 1;
-            if (rowText.startsWith('3.') || rowText.includes('บริหาร') || rowText.includes('ธุรการ') || rowText.includes('พัสดุ') || rowText.includes('กระดาษ')) return 2;
-            if (rowText.includes('ค้าง')) return 3;
-            if (rowText.includes('ติดตาม')) return 4;
+            if (rowText.includes('1.') || rowText.includes('FA') || rowText.includes('CA') || rowText.includes('PA')) return 0;
+            if (rowText.includes('2.') || rowText.includes('ประชาสัมพันธ์') || rowText.includes('KM') || rowText.includes('นวัตกรรม') || rowText.includes('20') || rowText.includes('21') || rowText.includes('22') || rowText.includes('23') || rowText.includes('24') || rowText.includes('25') || rowText.includes('26') || rowText.includes('27') || rowText.includes('28') || rowText.includes('29') || rowText.includes('30')) return 1;
+            if (rowText.includes('3.') || rowText.includes('บริหาร') || rowText.includes('ธุรการ') || rowText.includes('พัสดุ') || rowText.includes('กระดาษ')) return 2;
+            if (rowText.includes('4.') || rowText.includes('ค้าง')) return 3;
+            if (rowText.includes('5.') || rowText.includes('ติดตาม')) return 4;
             return 0;
         }
 
@@ -302,8 +302,8 @@
                 rowsResult.forEach((r, idx) => {
                     if (r.c && r.c[0] && r.c[0].v !== null && typeof r.c[0].v === 'string') {
                         let txt = r.c[0].v.trim();
-                        // นับเฉพาะแถวที่เป็น MOU จริงๆ (ขึ้นต้นด้วย mou หรือตัวเลขลำดับข้อที่ตรงกับ 50 รายการจริง)
-                        if (txt.toLowerCase().startsWith('mou') || (txt.length > 2 && txt[0].isdigit && txt.includes('.'))) {
+                        // นับเฉพาะแถวที่เริ่มต้นด้วยคำว่า "mou" เท่านั้น (ตรงกับ 50 รายการจริงแน่นอน)
+                        if (txt.toLowerCase().startsWith('mou')) {
                             totalMOUCount++;
                             const areaIdx = getAreaIndexByRow(txt);
 
