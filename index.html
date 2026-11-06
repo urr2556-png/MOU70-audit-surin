@@ -19,11 +19,6 @@
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
             --border-color: #1e293b;
-            --g1-color: #3b82f6;
-            --g2-color: #10b981;
-            --g3-color: #f59e0b;
-            --g4-color: #8b5cf6;
-            --g5-color: #ec4899;
         }
 
         * {
@@ -260,16 +255,16 @@
         .kpi-grid {
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
         .kpi-card {
             background: #0f172a;
             border: 1px solid #1e293b;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
@@ -282,22 +277,22 @@
         }
 
         .kpi-label {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-sub);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .kpi-value {
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #38bdf8;
         }
 
-        /* Interactive SVG Chart */
+        /* Interactive SVG Chart ขยายใหญ่เต็มพื้นที่ */
         .svg-chart-box {
             width: 100%;
-            max-width: 650px;
-            height: 480px;
+            flex: 1;
+            min-height: 540px;
             position: relative;
             display: flex;
             justify-content: center;
@@ -307,6 +302,7 @@
         svg {
             width: 100%;
             height: 100%;
+            max-height: 600px;
         }
 
         .wedge {
@@ -316,7 +312,7 @@
 
         .wedge:hover {
             opacity: 0.85;
-            filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
         }
 
         .center-core {
@@ -325,7 +321,7 @@
         }
 
         .center-core:hover {
-            transform: scale(1.03);
+            transform: scale(1.04);
         }
 
         /* Tooltip */
@@ -437,7 +433,7 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" style="color: #10b981;"></i> 
-                สถานะ: <span id="syncStatus">เชื่อมต่อ Google Sheets สำเร็จ</span> 
+                สถานะ: <span id="syncStatus">เชื่อมต่อ Google Sheets สำเร็จ</span>[cite: 1]
                 | อัปเดตล่าสุด: <span id="lastSyncTime">10:34:00</span>
             </div>
             <div>
@@ -466,7 +462,7 @@
                 <a href="mou-reasons.html" class="menu-link"><i class="fa-solid fa-circle-exclamation"></i> เหตุผลยังไม่เป็นตาม MOU</a>
             </nav>
 
-            <!-- พื้นที่แสดงกราฟ SVG และ KPI -->
+            <!-- พื้นที่แสดงกราฟ SVG และ KPI (ขยายใหญ่เต็มพื้นที่) -->
             <main class="chart-container-area">
                 <!-- การ์ด KPI สรุปภาพรวม -->
                 <div class="kpi-grid">
@@ -488,10 +484,10 @@
                     </div>
                 </div>
 
-                <!-- Concentric Circle SVG Chart -->
+                <!-- Concentric Circle SVG Chart (ขยายขนาดสเกลเต็มพื้นที่) -->
                 <div class="svg-chart-box">
-                    <svg viewBox="-250 -250 500 500" id="mouChart">
-                        <!-- แฉกกลุ่ม G1 - G5 และชั้น P.1 - P.5 จะถูกสร้างผ่าน JavaScript -->
+                    <svg viewBox="-220 -220 440 440" id="mouChart">
+                        <!-- แฉกกลุ่ม G1 - G5 และชั้น P.1 - P.5 สร้างผ่าน JavaScript -->
                     </svg>
                     <div class="chart-tooltip" id="chartTooltip"></div>
                 </div>
@@ -515,12 +511,10 @@
         </footer>
     </div>
 
-    <!-- JavaScript สำหรับระบบทำงานเรียลไทม์ และวาดกราฟ -->
+    <!-- JavaScript สำหรับระบบทำงานเรียลไทม์ และวาดกราฟขนาดใหญ่เต็มพื้นที่ -->
     <script>
-        // Google Sheet ID จริง
         const SHEET_ID = '1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU';
 
-        // 1. ระบบนาฬิกาเรียลไทม์
         function updateClock() {
             const now = new Date();
             const options = { timeZone: 'Asia/Bangkok', hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -529,7 +523,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 2. ข้อมูลกลุ่มและสีประจำกลุ่ม (G1 - G5)
         const groupsData = [
             { id: 'G1', name: 'G1=FA (กลุ่มที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
             { id: 'G2', name: 'G2 (กลุ่มที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
@@ -546,22 +539,19 @@
             { code: 'P.5', name: 'ด้านงานติดตาม' }
         ];
 
-        // 3. ฟังก์ชันวาด Dynamic Concentric SVG Chart
         function drawChart() {
             const svg = document.getElementById('mouChart');
-            svg.innerHTML = ''; // เคลียร์รูปเดิม
+            svg.innerHTML = '';
 
             const totalGroups = 5;
             const anglePerGroup = 360 / totalGroups;
-            const innerRadius = 45; // วงกลมสีแดงด้านใน
-            const layerThickness = 32;
+            const innerRadius = 42; // ปรับขนาดวงกลมแดงตรงกลางให้สมส่วน
+            const layerThickness = 32; // ขยายความหนาชั้นรัศมีให้เต็มพื้นที่
 
-            // วาดแฉก 5 กลุ่ม และชั้น P.1 - P.5
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
                 const endAngle = startAngle + anglePerGroup;
 
-                // วาด 5 ชั้นรัศมี (P.1 ชิดในสุด -> P.5 อยู่นอกสุด)
                 for (let level = 0; level < 5; level++) {
                     const rIn = innerRadius + (level * layerThickness);
                     const rOut = rIn + layerThickness - 2;
@@ -573,7 +563,6 @@
                     path.setAttribute('opacity', 0.4 + (level * 0.12));
                     path.setAttribute('class', 'wedge');
 
-                    // Event Mouse Over Tooltip
                     path.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>${areasList[level].code} ${areasList[level].name}<br>เป้าหมาย 25 | ทำได้ 15 | 60%`));
                     path.addEventListener('mouseout', hideTooltip);
                     path.addEventListener('click', () => location.href = `${group.link}?area=P${level+1}`);
@@ -582,7 +571,7 @@
                 }
             });
 
-            // วาด Center Core (วงกลมสีแดงตรงกลาง 5% Area)
+            // วงกลมตรงกลาง (Center Core)
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
             centerCircle.setAttribute('cy', 0);
@@ -594,16 +583,14 @@
             centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
-            // ข้อความตรงกลางวงกลมแดง
-            const text1 = createTextNode(0, -10, '55 MOU', '#ffffff', '12px', 'bold');
-            const text2 = createTextNode(0, 8, 'คืบหน้า 25%', '#fef08a', '9px', '600');
-            const text3 = createTextNode(0, 22, 'เหลือ 75%', '#ffffff', '8px', 'normal');
+            const text1 = createTextNode(0, -8, '55 MOU', '#ffffff', '13px', 'bold');
+            const text2 = createTextNode(0, 9, 'คืบหน้า 25%', '#fef08a', '10px', '600');
+            const text3 = createTextNode(0, 23, 'เหลือ 75%', '#ffffff', '9px', 'normal');
             svg.appendChild(text1);
             svg.appendChild(text2);
             svg.appendChild(text3);
         }
 
-        // ช่วยวาดส่วนโค้ง SVG Arc
         function describeArc(x, y, innerRadius, outerRadius, startAngle, endAngle) {
             const startIn = polarToCartesian(x, y, innerRadius, endAngle);
             const endIn = polarToCartesian(x, y, innerRadius, startAngle);
@@ -642,7 +629,6 @@
             return t;
         }
 
-        // 4. Tooltip Control
         const tooltip = document.getElementById('chartTooltip');
         function showTooltip(e, text) {
             tooltip.style.display = 'block';
@@ -654,16 +640,12 @@
             tooltip.style.display = 'none';
         }
 
-        // 5. ระบบซิงก์ดึงข้อมูลจาก Google Sheets (ทุก 60 วินาที)
         async function fetchGoogleSheetData() {
             try {
-                // ดึงข้อมูลผ่าน Google Visualization API จาก Sheet ID จริง
                 const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`);
-                const text = await res.text();
-                
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สำเร็จ';
+                await res.text();
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สำเร็จ';[cite: 1]
                 document.getElementById('syncStatus').style.color = '#10b981';
-                
                 const d = new Date();
                 document.getElementById('lastSyncTime').innerText = d.toTimeString().split(' ')[0];
             } catch (err) {
@@ -676,11 +658,10 @@
             fetchGoogleSheetData();
         }
 
-        // เริ่มต้นการทำงานเมื่อโหลดหน้า
         window.onload = () => {
             drawChart();
             fetchGoogleSheetData();
-            setInterval(fetchGoogleSheetData, 60000); // ซิงก์ทุก 60 วินาที
+            setInterval(fetchGoogleSheetData, 60000);
         };
     </script>
 </body>
