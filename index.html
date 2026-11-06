@@ -66,7 +66,6 @@
         .kpi-label { font-size: 0.72rem; color: var(--text-sub); margin-bottom: 2px; font-weight: 600; }
         .kpi-value { font-size: 1.05rem; font-weight: 700; color: #2563eb; }
 
-        /* ขยาย Grid กราฟให้เต็มพื้นที่พอดี จอใหญ่เต็มตา ไม่มีพื้นที่ว่าง */
         .dashboard-layout { width: 100%; flex: 1; display: grid; grid-template-columns: 1fr 1.5fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 8px; position: relative; min-height: 560px; }
         .chart-box-item { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .chart-box-item h3 { font-size: 0.78rem; color: #1e3a8a; margin-bottom: 1px; text-align: center; font-weight: 700; }
@@ -84,7 +83,13 @@
 
         .wedge { cursor: pointer; transition: opacity 0.2s; }
         .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(0,0,0,0.15)); }
-        .center-core { cursor: pointer; }
+
+        /* Tooltip รายละเอียด MOU เชิงลึกแบบเต็มหน้าต่าง */
+        .chart-tooltip {
+            position: absolute; background: rgba(15, 23, 42, 0.98); border: 1px solid var(--accent-gold);
+            padding: 12px 16px; border-radius: 8px; font-size: 0.78rem; color: #f8fafc; pointer-events: none;
+            display: none; z-index: 1000; box-shadow: 0 8px 24px rgba(0,0,0,0.3); max-width: 360px; line-height: 1.5;
+        }
 
         footer { background: #0f172a; border-top: 1px solid var(--border-color); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; color: #cbd5e1; }
         .footer-left { font-size: 0.75rem; line-height: 1.4; }
@@ -193,6 +198,8 @@
                         <svg class="svg-mini" viewBox="-95 -95 190 190" id="chartG5"></svg>
                     </div>
                 </div>
+
+                <div class="chart-tooltip" id="chartTooltip"></div>
             </main>
         </div>
 
@@ -226,7 +233,65 @@
             { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#db2777', link: 'group-5.html' }
         ];
 
-        // ข้อมูลสถิติจริงจาก Google Sheets ตรงตามที่คำนวณเป๊ะ
+        // รายละเอียด MOU ทั้ง 5 ด้านจาก Google Sheets
+        const sideDetails = [
+            {
+                title: "ด้านที่ 1: งานตรวจสอบ FA / CA / PA และเรื่องร้องเรียน",
+                mous: [
+                    "mou 1: FA เป็นผู้สอบทานรายงานการเงิน",
+                    "mou 2: FA เป้าหมายไตรมาส 1 ในชุดงานสอบทาน",
+                    "mou 3: FA เป้าหมายไตรมาส 2 ในชุดงานสอบทาน",
+                    "mou 4: FA เป็นผู้ออกรายงาน",
+                    "mou 5: FA เป็นผู้ร่วมตรวจสอบ/ร่วมออกรายงาน",
+                    "mou 6: FA สอบทานควบคุมคุณภาพงาน (EQR)",
+                    "mou 7-8: FA ควบคุมข้อผิดพลาดและส่งรายงานกำหนด",
+                    "mou 9-17: งานตรวจสอบ CA และเรื่องร้องเรียน",
+                    "mou 18-19: งานตรวจสอบและสอบทานรายงาน PA"
+                ]
+            },
+            {
+                title: "ด้านที่ 2: ประชาสัมพันธ์ / KM / นวัตกรรม / AI",
+                mous: [
+                    "mou 20: ประชาสัมพันธ์ผลงานตรวจสอบ/ลงพื้นที่",
+                    "mou 21: จัดทำอินโฟกราฟิกเปิดตรวจและกิจกรรม",
+                    "mou 22: เผยแพร่อินโฟกราฟิกภายในวันที่เข้าตรวจ",
+                    "mou 23-25: จัดการความรู้ (KM) และให้ความรู้หน่วยรับตรวจ",
+                    "mou 26-27: พัฒนาระบบศูนย์นวัตกรรมและเทคโนโลยี",
+                    "mou 28-30: ส่งเสริมการใช้ AI, Big Data และมอบโล่คุณภาพ"
+                ]
+            },
+            {
+                title: "ด้านที่ 3: งานบริหาร / ธุรการ / พัสดุ / สิ่งแวดล้อม",
+                mous: [
+                    "mou 31: สอบทานงานธุรการกลุ่มให้ทันกำหนด",
+                    "mou 32: ควบคุมข้อผิดพลาดงานธุรการกลุ่ม",
+                    "mou 33: ลดปริมาณการใช้กระดาษในกลุ่ม (99%)",
+                    "mou 34: ลดการใช้ไฟฟ้าจากช่วงเดียวกันของปีก่อน",
+                    "mou 35-38: จัดและส่งเสริมกิจกรรมกีฬาและ CSR",
+                    "mou 39-41: สอบทานงานพัสดุและเอกสารการเงินสำนักงาน"
+                ]
+            },
+            {
+                title: "ด้านที่ 4: งานตรวจสอบค้างดำเนินการจากปีก่อน",
+                mous: [
+                    "mou 42: กรรมการตรวจรับการเช่ารถยนต์",
+                    "mou 43: ผู้ช่วยนายทะเบียนข้อมูลข่าวสารลับ",
+                    "mou 44: คณะทำงานศูนย์นวัตกรรมและให้คำปรึกษา",
+                    "mou 45: งานตรวจสอบ PA แจ้งผล ไตรมาส 2",
+                    "mou 46: งานตรวจสอบ CA แจ้งผล ไตรมาส 2",
+                    "mou 47: งานตรวจสอบเรื่องร้องเรียน แจ้งผล ไตรมาส 2"
+                ]
+            },
+            {
+                title: "ด้านที่ 5: งานติดตามผลการตรวจสอบ (Follow-up)",
+                mous: [
+                    "mou 48: FA ติดตามให้เป็นไปตามระยะเวลาที่กำหนด",
+                    "mou 49: CA ติดตามให้เป็นไปตามระยะเวลาที่กำหนด",
+                    "mou 50: PA ติดตามให้เป็นไปตามระยะเวลาที่กำหนด"
+                ]
+            }
+        ];
+
         const summaryStats = {
             all: {
                 mouCount: "50 รายการ",
@@ -302,7 +367,6 @@
             drawConnectors();
         }
 
-        // วาดกราฟย่อย G1-G5 พร้อมปักตัวเลขจริงโชว์บนแฉกทันที
         function drawSmallGroupChart(svgId, gIdx) {
             const svg = document.getElementById(svgId);
             if (!svg) return;
@@ -326,9 +390,13 @@
                 path.setAttribute('fill', group.color);
                 path.setAttribute('opacity', 0.5 + (aIdx * 0.08));
                 path.setAttribute('class', 'wedge');
+
+                // เมื่อเอาเมาส์ไปชี้ แสดงรายละเอียด MOU ทั้งหมดในด้านนั้นๆ ทันที
+                path.addEventListener('mousemove', (e) => showTooltip(e, aIdx, group.name));
+                path.addEventListener('mouseout', hideTooltip);
+
                 svg.appendChild(path);
 
-                // คำนวณพิกัดปักตัวเลขบนแฉกทันทีโดยไม่ต้องชี้เมาส์
                 const textPos = polarToCartesian(0, 0, innerRadius + (ringWidth / 2), midAngle);
                 svg.appendChild(createTextNode(textPos.x, textPos.y + 3, val > 0 ? val : '', '#ffffff', '8.5px', 'bold'));
             });
@@ -344,7 +412,6 @@
             svg.appendChild(createTextNode(0, 8, `${gData.target}เป้า`, '#fef08a', '8px', 'normal'));
         }
 
-        // วาดกราฟวงกลมใหญ่ตรงกลาง (Overview) พร้อมปักตัวเลขข้อมูลจริงทุกแฉก/ชั้น
         function drawOverviewChart(svgId) {
             const svg = document.getElementById(svgId);
             if (!svg) return;
@@ -371,9 +438,13 @@
                     path.setAttribute('fill', group.color);
                     path.setAttribute('opacity', 0.5 + (level * 0.09));
                     path.setAttribute('class', 'wedge');
+
+                    // เมื่อเอาเมาส์ไปชี้ แสดงรายละเอียด MOU ทั้งหมดในด้านนั้นๆ ทันที
+                    path.addEventListener('mousemove', (e) => showTooltip(e, level, group.name));
+                    path.addEventListener('mouseout', hideTooltip);
+
                     svg.appendChild(path);
 
-                    // ปักตัวเลขสถิติจริงบนช่องตารางวงกลมตรงกลาง
                     const textPos = polarToCartesian(0, 0, rIn + (layerThickness / 2), midAngle);
                     svg.appendChild(createTextNode(textPos.x, textPos.y + 3, val > 0 ? val : '', '#ffffff', '8.5px', 'bold'));
                 });
@@ -449,6 +520,29 @@
             t.setAttribute('text-anchor', 'middle'); t.setAttribute('pointer-events', 'none');
             t.textContent = text;
             return t;
+        }
+
+        const tooltip = document.getElementById('chartTooltip');
+        function showTooltip(e, sideIdx, groupName) {
+            const side = sideDetails[sideIdx];
+            if (!side) return;
+
+            let html = `<strong style="color: #fde047; font-size: 0.85rem;">${side.title}</strong><br>`;
+            html += `<span style="color: #38bdf8;">กลุ่มผู้รับผิดชอบ: ${groupName}</span><hr style="border-color: #334155; margin: 5px 0;">`;
+            html += `<ul style="padding-left: 15px; margin: 0;">`;
+            side.mous.forEach(m => {
+                html += `<li style="margin-bottom: 2px;">${m}</li>`;
+            });
+            html += `</ul>`;
+
+            tooltip.style.display = 'block';
+            tooltip.innerHTML = html;
+            tooltip.style.left = (e.pageX - document.querySelector('.chart-container-area').offsetLeft + 15) + 'px';
+            tooltip.style.top = (e.pageY - document.querySelector('.chart-container-area').offsetTop - 30) + 'px';
+        }
+
+        function hideTooltip() {
+            tooltip.style.display = 'none';
         }
 
         window.onload = () => {
