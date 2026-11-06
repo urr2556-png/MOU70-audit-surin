@@ -9,13 +9,14 @@
     
     <style>
         :root {
-            --bg-dark: #f1f5f9;
+            --bg-dark: #f8fafc;
             --bg-card: #ffffff;
             --primary: #2563eb;
+            --primary-hover: #1d4ed8;
             --accent-gold: #d97706;
             --accent-orange: #ea580c;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
+            --text-main: #0f172a;
+            --text-sub: #475569;
             --border-color: #cbd5e1;
         }
 
@@ -25,71 +26,73 @@
         .container { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
         header {
-            background: linear-gradient(90deg, #1e3a8a 0%, #1d4ed8 100%);
+            background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
             border-bottom: 3px solid var(--accent-gold);
             padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         .header-left { display: flex; align-items: center; gap: 15px; }
         .logo-box {
-            width: 65px; height: 65px; background: radial-gradient(circle, #fbbf24 0%, #d97706 100%);
+            width: 60px; height: 60px; background: radial-gradient(circle, #fbbf24 0%, #d97706 100%);
             border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
-        .logo-box i { font-size: 32px; color: #ffffff; }
-        .office-title h1 { font-size: 1.25rem; font-weight: 700; color: #ffffff; }
-        .office-title .values { font-size: 0.85rem; color: #fde047; font-weight: 500; }
-        .office-title .system-name { font-size: 1rem; font-weight: 600; color: #93c5fd; margin-top: 2px; }
+        .logo-box i { font-size: 28px; color: #ffffff; }
+        .office-title h1 { font-size: 1.2rem; font-weight: 700; color: #ffffff; }
+        .office-title .values { font-size: 0.8rem; color: #fde047; font-weight: 500; }
+        .office-title .system-name { font-size: 0.95rem; font-weight: 600; color: #bfdbfe; margin-top: 2px; }
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .clock-box { background: #0f172a; border: 1px solid #334155; padding: 6px 14px; border-radius: 8px; font-family: monospace; font-size: 0.95rem; color: #38bdf8; }
+        .clock-box { background: #0f172a; border: 1px solid #334155; padding: 6px 14px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: #38bdf8; }
         .visitor-box { font-size: 0.8rem; color: #e2e8f0; }
-        .btn-mou-entry { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 6px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .btn-mou-entry { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 6px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
 
-        .sync-bar { background: #e2e8f0; padding: 6px 25px; font-size: 0.75rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
-        .sync-btn { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
+        .sync-bar { background: #e2e8f0; padding: 8px 25px; font-size: 0.8rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .filter-toggle { display: flex; gap: 8px; }
+        .btn-filter { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; }
+        .btn-filter.active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
 
         .main-content { flex: 1; display: flex; flex-direction: row; padding: 20px; gap: 20px; }
-        .sidebar { width: 260px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .sidebar-title { font-size: 0.85rem; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 8px; padding-left: 8px; font-weight: 700; letter-spacing: 0.5px; }
-        .menu-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #334155; text-decoration: none; border-radius: 8px; font-size: 0.9rem; transition: all 0.2s; font-weight: 500; }
-        .menu-link:hover, .menu-link.active { background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; border-left: 3px solid var(--accent-gold); box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3); }
-        .menu-link i { width: 18px; text-align: center; color: #2563eb; }
+        .sidebar { width: 260px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+        .sidebar-title { font-size: 0.8rem; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 6px; padding-left: 8px; font-weight: 700; letter-spacing: 0.5px; }
+        .menu-link { display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #334155; text-decoration: none; border-radius: 8px; font-size: 0.88rem; transition: all 0.2s; font-weight: 500; }
+        .menu-link:hover, .menu-link.active { background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; border-left: 3px solid var(--accent-gold); box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25); }
+        .menu-link i { width: 18px; text-anchor: middle; color: #2563eb; }
         .menu-link.active i { color: #fde047; }
         .menu-link:hover i { color: #ffffff; }
 
-        .chart-container-area { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .chart-container-area { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
         
         .kpi-grid { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 15px; }
-        .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .kpi-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
+        .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .kpi-card:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12); }
         .kpi-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 4px; font-weight: 600; }
-        .kpi-value { font-size: 1.25rem; font-weight: 700; color: #2563eb; }
+        .kpi-value { font-size: 1.2rem; font-weight: 700; color: #2563eb; }
 
-        .dashboard-layout { width: 100%; flex: 1; display: grid; grid-template-columns: 1fr 1.3fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 15px; position: relative; min-height: 580px; }
-        .chart-box-item { background: #fdfdfd; border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-        .chart-box-item h3 { font-size: 0.85rem; color: #1e3a8a; margin-bottom: 2px; text-align: center; font-weight: 700; }
+        .dashboard-layout { width: 100%; flex: 1; display: grid; grid-template-columns: 1fr 1.3fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 15px; position: relative; min-height: 560px; }
+        .chart-box-item { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .chart-box-item h3 { font-size: 0.85rem; color: #1e3a8a; margin-bottom: 4px; text-align: center; font-weight: 700; }
 
         .item-g1 { grid-column: 1; grid-row: 1; }
         .item-g2 { grid-column: 1; grid-row: 2; }
         .item-g3 { grid-column: 3; grid-row: 1; }
         .item-g4 { grid-column: 3; grid-row: 2; }
         .item-g5 { grid-column: 3; grid-row: 3; }
-        .item-overview { grid-column: 2; grid-row: 1 / span 3; border: 2px solid var(--primary); background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
+        .item-overview { grid-column: 2; grid-row: 1 / span 3; border: 2px solid var(--primary); background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08); }
 
-        .svg-mini { width: 100%; height: 150px; }
-        .svg-main { width: 100%; height: 280px; }
+        .svg-mini { width: 100%; height: 145px; }
+        .svg-main { width: 100%; height: 270px; }
         .connector-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
         .wedge { cursor: pointer; transition: opacity 0.2s; }
-        .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(0,0,0,0.2)); }
+        .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(0,0,0,0.15)); }
         .center-core { cursor: pointer; }
 
         .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-gold); padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.2); line-height: 1.5; }
 
-        footer { background: #1e293b; border-top: 1px solid var(--border-color); padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #cbd5e1; }
-        .footer-left { font-size: 0.85rem; line-height: 1.5; }
-        .footer-right { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-orange-square { background: var(--accent-orange); color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: background 0.2s; }
+        footer { background: #0f172a; border-top: 1px solid var(--border-color); padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #cbd5e1; }
+        .footer-left { font-size: 0.82rem; line-height: 1.5; }
+        .footer-right { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-orange-square { background: var(--accent-orange); color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.78rem; font-weight: 600; transition: background 0.2s; }
         .btn-orange-square:hover { background: #c2410c; }
 
         @media (max-width: 1000px) { .dashboard-layout { display: flex; flex-direction: column; } .connector-svg { display: none; } }
@@ -117,11 +120,11 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #10b981;"></i> 
-                สถานะ: <span id="syncStatus">เชื่อมต่อข้อมูลตรงกับ Google Sheets (50 รายการ) สำเร็จ</span>
-                | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
+                สถานะ: <span id="syncStatus">เชื่อมต่อข้อมูล Google Sheets 50 รายการ (แยกประเภทตัวชี้วัดถูกต้อง)</span>
             </div>
-            <div>
-                <button class="sync-btn" onclick="initDashboard()"><i class="fa-solid fa-rotate"></i> รีเฟรชหน้าจอ</button>
+            <div class="filter-toggle">
+                <button class="btn-filter active" id="btnCount" onclick="switchFilter('count')"><i class="fa-solid fa-list-check"></i> ตัวชี้วัดจำนวน (31 MOU)</button>
+                <button class="btn-filter" id="btnPercent" onclick="switchFilter('percent')"><i class="fa-solid fa-percent"></i> ตัวชี้วัดร้อยละ (19 MOU)</button>
             </div>
         </div>
 
@@ -146,21 +149,21 @@
 
             <main class="chart-container-area">
                 <div class="kpi-grid">
-                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
-                        <div class="kpi-label">เป้าหมาย MOU ทั้งหมด</div>
-                        <div class="kpi-value" id="kpiTotal">50 รายการ</div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">จำนวน MOU ในโหมดนี้</div>
+                        <div class="kpi-value" id="kpiMouCount">31 รายการ</div>
                     </div>
-                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
-                        <div class="kpi-label">ดำเนินการแล้วเสร็จ</div>
-                        <div class="kpi-value" style="color: #10b981;" id="kpiDone">0 รายการ (0%)</div>
+                    <div class="kpi-card">
+                        <div class="kpi-label" id="kpiTargetLabel">เป้าหมายรวม (ทุกกลุ่ม)</div>
+                        <div class="kpi-value" style="color: #059669;" id="kpiTargetValue">692 งาน</div>
                     </div>
-                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
-                        <div class="kpi-label">อยู่ระหว่างดำเนินการ</div>
-                        <div class="kpi-value" style="color: #d97706;" id="kpiPending">50 รายการ (100%)</div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">กลุ่มที่ผลงานสูงสุด</div>
+                        <div class="kpi-value" style="color: #d97706;" id="kpiTopGroup">G1 (7.1%)</div>
                     </div>
-                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
+                    <div class="kpi-card">
                         <div class="kpi-label">ความคืบหน้าเฉลี่ยรวม</div>
-                        <div class="kpi-value" style="color: #ec4899;" id="kpiRate">3.3%</div>
+                        <div class="kpi-value" style="color: #ec4899;" id="kpiAvgProgress">1.97%</div>
                     </div>
                 </div>
 
@@ -176,7 +179,7 @@
                         <svg class="svg-mini" viewBox="-100 -100 200 200" id="chartG2"></svg>
                     </div>
                     <div class="chart-box-item item-overview" id="boxOverview">
-                        <h3>ภาพรวมทุกกลุ่ม (All Groups Overview)</h3>
+                        <h3 id="overviewTitle">ภาพรวมตัวชี้วัดเชิงจำนวน (All Groups)</h3>
                         <svg class="svg-main" viewBox="-140 -140 280 280" id="chartOverview"></svg>
                     </div>
                     <div class="chart-box-item item-g3" id="boxG3">
@@ -200,15 +203,12 @@
         <footer>
             <div class="footer-left">
                 <strong>สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</strong><br>
-                ที่อยู่: ศูนย์ราชการจังหวัดสุรินทร์ ถนนสุรินทร์-ปราสาท ต.เสม็ด อ.เมืองสุรินทร์ จ.สุรินทร์ 32000<br>
-                อีเมล: surin@oag.go.th | โทรศัพท์: 044-511-284
+                ศูนย์ราชการจังหวัดสุรินทร์ ถนนสุรินทร์-ปราสาท ต.เสม็ด อ.เมืองสุรินทร์ จ.สุรินทร์ 32000 | โทรศัพท์: 044-511-284
             </div>
             <div class="footer-right">
                 <a href="admin.html" class="btn-orange-square">Admin</a>
                 <a href="register.html" class="btn-orange-square">ลงทะเบียน</a>
                 <a href="login.html" class="btn-orange-square">เข้าระบบ</a>
-                <a href="change-password.html" class="btn-orange-square">แก้ไขรหัสผ่าน</a>
-                <a href="forgot-password.html" class="btn-orange-square">ลืมรหัส</a>
             </div>
         </footer>
     </div>
@@ -230,63 +230,56 @@
             { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#db2777', link: 'group-5.html' }
         ];
 
-        const areasList = [
-            { code: 'P.1', name: 'ด้านตรวจสอบ' },
-            { code: 'P.2', name: 'ด้านประชาสัมพันธ์/KM/นวัตกรรม' },
-            { code: 'P.3', name: 'ด้านบริหาร/ธุรการ/พัสดุ/กิจกรรม' },
-            { code: 'P.4', name: 'ด้านงานค้างระหว่างตรวจ' },
-            { code: 'P.5', name: 'ด้านงานติดตามผล' }
-        ];
-
-        // ข้อมูลจริงตรงตาม Google Sheets (แยกตามกลุ่มและด้าน P.1 - P.5 อย่างแม่นยำ)
-        let realData = {
-            totalMOU: 50,
-            completedCount: 0,
-            pendingCount: 50,
-            progressRate: 3.3,
-            groupAreaStats: {
-                0: {
-                    0: { targetCount: 48.0, doneRatesSum: 10.0, totalItems: 19 },
-                    1: { targetCount: 30.0, doneRatesSum: 80.0, totalItems: 11 },
-                    2: { targetCount: 15.0, doneRatesSum: 0.0, totalItems: 14 },
-                    3: { targetCount: 3.0, doneRatesSum: 60.0, totalItems: 3 },
-                    4: { targetCount: 2.0, doneRatesSum: 0.0, totalItems: 3 }
-                },
-                1: {
-                    0: { targetCount: 89.0, doneRatesSum: 10.0, totalItems: 19 },
-                    1: { targetCount: 47.0, doneRatesSum: 0.0, totalItems: 11 },
-                    2: { targetCount: 10.0, doneRatesSum: 0.0, totalItems: 14 },
-                    3: { targetCount: 0.0, doneRatesSum: 0.0, totalItems: 3 },
-                    4: { targetCount: 0.0, doneRatesSum: 0.0, totalItems: 3 }
-                },
-                2: {
-                    0: { targetCount: 94.0, doneRatesSum: 10.0, totalItems: 19 },
-                    1: { targetCount: 49.0, doneRatesSum: 0.0, totalItems: 11 },
-                    2: { targetCount: 10.0, doneRatesSum: 0.0, totalItems: 14 },
-                    3: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 },
-                    4: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 }
-                },
-                3: {
-                    0: { targetCount: 107.0, doneRatesSum: 10.0, totalItems: 19 },
-                    1: { targetCount: 49.0, doneRatesSum: 0.0, totalItems: 11 },
-                    2: { targetCount: 16.0, doneRatesSum: 0.0, totalItems: 14 },
-                    3: { targetCount: 2.0, doneRatesSum: 0.0, totalItems: 3 },
-                    4: { targetCount: 0.0, doneRatesSum: 0.0, totalItems: 3 }
-                },
-                4: {
-                    0: { targetCount: 74.0, doneRatesSum: 10.0, totalItems: 19 },
-                    1: { targetCount: 35.0, doneRatesSum: 0.0, totalItems: 11 },
-                    2: { targetCount: 10.0, doneRatesSum: 0.0, totalItems: 14 },
-                    3: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 },
-                    4: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 }
-                }
+        // สถิติตัวเลขจริงจากการประมวลผล Python Script (แยกเด็ดขาดระหว่าง จำนวน และ ร้อยละ)
+        const summaryStats = {
+            count: {
+                mouCount: "31 รายการ",
+                targetLabel: "เป้าหมายรวม (5 กลุ่ม)",
+                targetVal: "692 งาน",
+                topGroup: "G1 (7.1%)",
+                avgProgress: "1.97%",
+                overviewTitle: "ภาพรวมตัวชี้วัดเชิงจำนวน (All Groups)",
+                groups: [
+                    { target: 98, avgProgress: 7.14, items: 21 },  // G1
+                    { target: 145, avgProgress: 0.71, items: 14 }, // G2
+                    { target: 155, avgProgress: 0.71, items: 14 }, // G3
+                    { target: 174, avgProgress: 0.59, items: 17 }, // G4
+                    { target: 121, avgProgress: 0.71, items: 14 }  // G5
+                ]
+            },
+            percent: {
+                mouCount: "19 รายการ",
+                targetLabel: "เป้าหมายร้อยละเฉลี่ย",
+                targetVal: "49.8%",
+                topGroup: "G1-G5 (ตามเกณฑ์)",
+                avgProgress: "0.00%",
+                overviewTitle: "ภาพรวมตัวชี้วัดเชิงร้อยละ (All Groups)",
+                groups: [
+                    { target: 45.9, avgProgress: 0.0, items: 10 }, // G1
+                    { target: 50.0, avgProgress: 0.0, items: 11 }, // G2
+                    { target: 45.6, avgProgress: 0.0, items: 15 }, // G3
+                    { target: 43.6, avgProgress: 0.0, items: 8 },  // G4
+                    { target: 63.9, avgProgress: 0.0, items: 10 }  // G5
+                ]
             }
         };
 
-        function initDashboard() {
-            document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
+        let currentFilter = 'count';
+
+        function switchFilter(type) {
+            currentFilter = type;
+            document.getElementById('btnCount').classList.toggle('active', type === 'count');
+            document.getElementById('btnPercent').classList.toggle('active', type === 'percent');
+
+            const st = summaryStats[type];
+            document.getElementById('kpiMouCount').innerText = st.mouCount;
+            document.getElementById('kpiTargetLabel').innerText = st.targetLabel;
+            document.getElementById('kpiTargetValue').innerText = st.targetVal;
+            document.getElementById('kpiTopGroup').innerText = st.topGroup;
+            document.getElementById('kpiAvgProgress').innerText = st.avgProgress;
+            document.getElementById('overviewTitle').innerText = st.overviewTitle;
+
             drawAllCharts();
-            drawConnectors();
         }
 
         function drawAllCharts() {
@@ -294,6 +287,7 @@
                 drawSmallGroupChart(`chartG${gIdx + 1}`, gIdx);
             });
             drawOverviewChart('chartOverview');
+            drawConnectors();
         }
 
         function drawSmallGroupChart(svgId, gIdx) {
@@ -301,51 +295,28 @@
             if (!svg) return;
             svg.innerHTML = '';
             const group = groupsData[gIdx];
+            const gData = summaryStats[currentFilter].groups[gIdx];
 
-            const totalAreas = 5;
-            const anglePerArea = 360 / totalAreas;
             const innerRadius = 22;
             const ringWidth = 24;
 
-            let gTargetSum = 0;
-            let gDoneSum = 0;
-            for (let a = 0; a < 5; a++) {
-                let st = realData.groupAreaStats[gIdx][a];
-                gTargetSum += st.targetCount;
-                gDoneSum += (st.doneRatesSum / st.totalItems);
-            }
-            let gAvgProgress = (gDoneSum / 5).toFixed(1);
+            // วาดวงแหวนเป้าหมาย
+            const pathData = describeArc(0, 0, innerRadius, innerRadius + ringWidth, 0, 359.9);
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathData);
+            path.setAttribute('fill', group.color);
+            path.setAttribute('opacity', '0.7');
+            path.setAttribute('class', 'wedge');
 
-            areasList.forEach((area, aIdx) => {
-                const startAngle = aIdx * anglePerArea - 90;
-                const endAngle = startAngle + anglePerArea;
-
-                let st = realData.groupAreaStats[gIdx][aIdx];
-                let targetCount = st.targetCount;
-                let donePercent = (st.doneRatesSum / st.totalItems).toFixed(1);
-                if (donePercent > 100) donePercent = 100;
-                let notDonePercent = (100 - donePercent).toFixed(1);
-
-                const rIn = innerRadius;
-                const rOut = innerRadius + ringWidth;
-
-                const pathData = describeArc(0, 0, rIn, rOut, startAngle + 1, endAngle - 1);
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                path.setAttribute('d', pathData);
-                path.setAttribute('fill', group.color);
-                path.setAttribute('opacity', 0.6 + (aIdx * 0.08));
-                path.setAttribute('class', 'wedge');
-
-                path.addEventListener('mousemove', (e) => showTooltip(e, `
-                    <strong>${group.name}</strong><br>
-                    <u>${area.code} ${area.name}</u><br>
-                    - ผลรวมเป้าหมาย: ${targetCount}<br>
-                    - คืบหน้าเฉลี่ย: ${donePercent}%
-                `));
-                path.addEventListener('mouseout', hideTooltip);
-                path.addEventListener('click', () => location.href = `${group.link}?area=P${aIdx+1}`);
-                svg.appendChild(path);
-            });
+            const unitLabel = currentFilter === 'count' ? 'งาน' : '%';
+            path.addEventListener('mousemove', (e) => showTooltip(e, `
+                <strong>${group.name}</strong><br>
+                - จำนวน MOU: ${gData.items} รายการ<br>
+                - เป้าหมาย: ${gData.target}${unitLabel}<br>
+                - คืบหน้าเฉลี่ย: ${gData.avgProgress.toFixed(1)}%
+            `));
+            path.addEventListener('mouseout', hideTooltip);
+            svg.appendChild(path);
 
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
@@ -353,13 +324,10 @@
             centerCircle.setAttribute('r', innerRadius - 2);
             centerCircle.setAttribute('fill', group.color);
             centerCircle.setAttribute('class', 'center-core');
-            centerCircle.addEventListener('click', () => location.href = group.link);
-            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>คืบหน้าเฉลี่ย ${gAvgProgress}%<br>เป้าหมายรวม ${gTargetSum}`));
-            centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
-            svg.appendChild(createTextNode(0, -3, `${gAvgProgress}%`, '#ffffff', '8.5px', 'bold'));
-            svg.appendChild(createTextNode(0, 7, `${gTargetSum} เป้า`, '#fef08a', '7.5px', 'normal'));
+            svg.appendChild(createTextNode(0, -3, `${gData.avgProgress.toFixed(1)}%`, '#ffffff', '8.5px', 'bold'));
+            svg.appendChild(createTextNode(0, 7, `${gData.target}${unitLabel}`, '#fef08a', '7.5px', 'normal'));
         }
 
         function drawOverviewChart(svgId) {
@@ -375,6 +343,7 @@
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
                 const endAngle = startAngle + anglePerGroup;
+                const gData = summaryStats[currentFilter].groups[gIdx];
 
                 for (let level = 0; level < 5; level++) {
                     const rIn = innerRadius + (level * layerThickness);
@@ -387,36 +356,27 @@
                     path.setAttribute('opacity', 0.55 + (level * 0.08));
                     path.setAttribute('class', 'wedge');
 
-                    const areaInfo = areasList[level];
-                    let st = realData.groupAreaStats[gIdx][level];
-                    let targetCount = st.targetCount;
-                    let donePercent = (st.doneRatesSum / st.totalItems).toFixed(1);
-                    if (donePercent > 100) donePercent = 100;
-
                     path.addEventListener('mousemove', (e) => showTooltip(e, `
-                        <strong>${group.name}</strong><br>
-                        <u>${areaInfo.code} ${areaInfo.name}</u><br>
-                        - ผลรวมเป้าหมาย: ${targetCount}<br>
-                        - คืบหน้าเฉลี่ย: ${donePercent}%
+                        <strong>${group.name} (ด้านที่ ${level + 1})</strong><br>
+                        - เป้าหมายกลุ่ม: ${gData.target}<br>
+                        - คืบหน้าเฉลี่ย: ${gData.avgProgress.toFixed(1)}%
                     `));
                     path.addEventListener('mouseout', hideTooltip);
                     svg.appendChild(path);
                 }
             });
 
+            const st = summaryStats[currentFilter];
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
             centerCircle.setAttribute('cy', 0);
             centerCircle.setAttribute('r', innerRadius);
             centerCircle.setAttribute('fill', '#2563eb');
             centerCircle.setAttribute('class', 'center-core');
-            centerCircle.addEventListener('click', () => location.href = 'chart-summary.html');
-            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `50 MOU ทั้งหมด<br>คืบหน้าภาพรวม ${realData.progressRate}%`));
-            centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
-            svg.appendChild(createTextNode(0, -5, `${realData.progressRate}%`, '#ffffff', '12px', 'bold'));
-            svg.appendChild(createTextNode(0, 10, `50 MOU`, '#fef08a', '10px', 'normal'));
+            svg.appendChild(createTextNode(0, -5, st.avgProgress, '#ffffff', '12px', 'bold'));
+            svg.appendChild(createTextNode(0, 10, st.mouCount, '#fef08a', '9px', 'normal'));
         }
 
         function drawConnectors() {
@@ -489,7 +449,7 @@
         function hideTooltip() { tooltip.style.display = 'none'; }
 
         window.onload = () => {
-            initDashboard();
+            drawAllCharts();
         };
         window.onresize = () => {
             drawConnectors();
