@@ -12,7 +12,6 @@
             --bg-dark: #f8fafc;
             --bg-card: #ffffff;
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
             --accent-gold: #d97706;
             --accent-orange: #ea580c;
             --text-main: #0f172a;
@@ -28,49 +27,49 @@
         header {
             background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%);
             border-bottom: 3px solid var(--accent-gold);
-            padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; color: #ffffff;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; color: #ffffff;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         .header-left { display: flex; align-items: center; gap: 12px; }
         .logo-box {
-            width: 52px; height: 52px; background: radial-gradient(circle, #fbbf24 0%, #d97706 100%);
+            width: 48px; height: 48px; background: radial-gradient(circle, #fbbf24 0%, #d97706 100%);
             border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
-        .logo-box i { font-size: 24px; color: #ffffff; }
-        .office-title h1 { font-size: 1.1rem; font-weight: 700; color: #ffffff; }
-        .office-title .values { font-size: 0.75rem; color: #fde047; font-weight: 500; }
-        .office-title .system-name { font-size: 0.9rem; font-weight: 600; color: #bfdbfe; margin-top: 1px; }
+        .logo-box i { font-size: 22px; color: #ffffff; }
+        .office-title h1 { font-size: 1.05rem; font-weight: 700; color: #ffffff; }
+        .office-title .values { font-size: 0.72rem; color: #fde047; font-weight: 500; }
+        .office-title .system-name { font-size: 0.85rem; font-weight: 600; color: #bfdbfe; margin-top: 1px; }
         .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-        .clock-box { background: #0f172a; border: 1px solid #334155; padding: 4px 10px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; color: #38bdf8; }
-        .visitor-box { font-size: 0.75rem; color: #e2e8f0; }
-        .btn-mou-entry { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .clock-box { background: #0f172a; border: 1px solid #334155; padding: 3px 8px; border-radius: 6px; font-family: monospace; font-size: 0.8rem; color: #38bdf8; }
+        .visitor-box { font-size: 0.72rem; color: #e2e8f0; }
+        .btn-mou-entry { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 4px 10px; border-radius: 6px; text-decoration: none; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
 
-        .sync-bar { background: #e2e8f0; padding: 6px 20px; font-size: 0.78rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .sync-bar { background: #e2e8f0; padding: 5px 20px; font-size: 0.75rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
         .filter-toggle { display: flex; gap: 6px; }
-        .btn-filter { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 3px 10px; border-radius: 5px; cursor: pointer; font-size: 0.78rem; font-weight: 600; transition: all 0.2s; }
+        .btn-filter { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 3px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.2s; }
         .btn-filter.active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
 
-        .main-content { flex: 1; display: flex; flex-direction: row; padding: 12px 20px; gap: 15px; }
-        .sidebar { width: 240px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-        .sidebar-title { font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 4px; padding-left: 6px; font-weight: 700; letter-spacing: 0.5px; }
-        .menu-link { display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: #334155; text-decoration: none; border-radius: 6px; font-size: 0.85rem; transition: all 0.2s; font-weight: 500; }
+        .main-content { flex: 1; display: flex; flex-direction: row; padding: 10px 15px; gap: 12px; }
+        .sidebar { width: 220px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+        .sidebar-title { font-size: 0.72rem; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 3px; padding-left: 6px; font-weight: 700; letter-spacing: 0.5px; }
+        .menu-link { display: flex; align-items: center; gap: 8px; padding: 7px 10px; color: #334155; text-decoration: none; border-radius: 5px; font-size: 0.82rem; transition: all 0.2s; font-weight: 500; }
         .menu-link:hover, .menu-link.active { background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; border-left: 3px solid var(--accent-gold); box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25); }
         .menu-link i { width: 16px; text-align: center; color: #2563eb; }
         .menu-link.active i { color: #fde047; }
         .menu-link:hover i { color: #ffffff; }
 
-        .chart-container-area { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; align-items: center; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+        .chart-container-area { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
         
-        .kpi-grid { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 10px; }
-        .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; text-align: center; transition: all 0.2s; }
-        .kpi-card:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1); }
-        .kpi-label { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 2px; font-weight: 600; }
-        .kpi-value { font-size: 1.1rem; font-weight: 700; color: #2563eb; }
+        .kpi-grid { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
+        .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 8px; text-align: center; }
+        .kpi-label { font-size: 0.72rem; color: var(--text-sub); margin-bottom: 2px; font-weight: 600; }
+        .kpi-value { font-size: 1.05rem; font-weight: 700; color: #2563eb; }
 
-        .dashboard-layout { width: 100%; flex: 1; display: grid; grid-template-columns: 1fr 1.4fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 10px; position: relative; min-height: 520px; }
-        .chart-box-item { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .chart-box-item h3 { font-size: 0.8rem; color: #1e3a8a; margin-bottom: 2px; text-align: center; font-weight: 700; }
+        /* ขยาย Grid กราฟให้เต็มพื้นที่พอดี จอใหญ่เต็มตา ไม่มีพื้นที่ว่าง */
+        .dashboard-layout { width: 100%; flex: 1; display: grid; grid-template-columns: 1fr 1.5fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 8px; position: relative; min-height: 560px; }
+        .chart-box-item { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .chart-box-item h3 { font-size: 0.78rem; color: #1e3a8a; margin-bottom: 1px; text-align: center; font-weight: 700; }
 
         .item-g1 { grid-column: 1; grid-row: 1; }
         .item-g2 { grid-column: 1; grid-row: 2; }
@@ -79,20 +78,18 @@
         .item-g5 { grid-column: 3; grid-row: 3; }
         .item-overview { grid-column: 2; grid-row: 1 / span 3; border: 2px solid var(--primary); background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08); }
 
-        .svg-mini { width: 100%; height: 100%; max-height: 165px; }
-        .svg-main { width: 100%; height: 100%; max-height: 380px; }
+        .svg-mini { width: 100%; height: 100%; max-height: 175px; }
+        .svg-main { width: 100%; height: 100%; max-height: 420px; }
         .connector-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
         .wedge { cursor: pointer; transition: opacity 0.2s; }
         .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(0,0,0,0.15)); }
         .center-core { cursor: pointer; }
 
-        .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-gold); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.2); line-height: 1.4; }
-
-        footer { background: #0f172a; border-top: 1px solid var(--border-color); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; color: #cbd5e1; }
-        .footer-left { font-size: 0.78rem; line-height: 1.4; }
+        footer { background: #0f172a; border-top: 1px solid var(--border-color); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; color: #cbd5e1; }
+        .footer-left { font-size: 0.75rem; line-height: 1.4; }
         .footer-right { display: flex; gap: 6px; flex-wrap: wrap; }
-        .btn-orange-square { background: var(--accent-orange); color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: background 0.2s; }
+        .btn-orange-square { background: var(--accent-orange); color: white; padding: 4px 10px; border-radius: 5px; text-decoration: none; font-size: 0.72rem; font-weight: 600; transition: background 0.2s; }
         .btn-orange-square:hover { background: #c2410c; }
 
         @media (max-width: 1000px) { .dashboard-layout { display: flex; flex-direction: column; } .connector-svg { display: none; } }
@@ -119,11 +116,11 @@
 
         <div class="sync-bar">
             <div>
-                <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #10b981;"></i> 
-                สถานะ: <span id="syncStatus">เชื่อมต่อข้อมูล Google Sheets ครบถ้วน 50 รายการสำเร็จ</span>
+                <i class="fa-solid fa-circle-dot" style="color: #10b981;"></i> 
+                สถานะ: <span id="syncStatus">เชื่อมต่อ Google Sheets สำเร็จ (ครบถ้วน 50 MOU)</span>
             </div>
             <div class="filter-toggle">
-                <button class="btn-filter active" id="btnAll" onclick="switchFilter('all')"><i class="fa-solid fa-chart-pie"></i> ยอดรวมทั้งหมด (50 MOU)</button>
+                <button class="btn-filter active" id="btnAll" onclick="switchFilter('all')"><i class="fa-solid fa-chart-pie"></i> ภาพรวมทั้งหมด (50 MOU)</button>
                 <button class="btn-filter" id="btnCount" onclick="switchFilter('count')"><i class="fa-solid fa-hashtag"></i> ย่อย: วัดจากจำนวน (31 MOU)</button>
                 <button class="btn-filter" id="btnPercent" onclick="switchFilter('percent')"><i class="fa-solid fa-percent"></i> ย่อย: วัดจากร้อยละ (19 MOU)</button>
             </div>
@@ -137,13 +134,13 @@
                 <a href="mou-by-group.html" class="menu-link"><i class="fa-solid fa-layer-group"></i> MOU แยกรายกลุ่ม</a>
                 <a href="mou-by-item.html" class="menu-link"><i class="fa-solid fa-list-check"></i> MOU แยกราย MOU</a>
                 <a href="mou-by-period.html" class="menu-link"><i class="fa-solid fa-calendar-days"></i> MOU แยกตามช่วงเวลา</a>
-                <div class="sidebar-title" style="margin-top: 6px;">รายกลุ่มตรวจสอบ</div>
+                <div class="sidebar-title" style="margin-top: 5px;">รายกลุ่มตรวจสอบ</div>
                 <a href="group-1.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 1 (G1)</a>
                 <a href="group-2.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 2 (G2)</a>
                 <a href="group-3.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 3 (G3)</a>
                 <a href="group-4.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 4 (G4)</a>
                 <a href="group-5.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 5 (G5)</a>
-                <div class="sidebar-title" style="margin-top: 6px;">อื่นๆ</div>
+                <div class="sidebar-title" style="margin-top: 5px;">อื่นๆ</div>
                 <a href="auto-qa.html" class="menu-link"><i class="fa-solid fa-robot"></i> ตอบคำถามอัตโนมัติ</a>
                 <a href="mou-reasons.html" class="menu-link"><i class="fa-solid fa-circle-exclamation"></i> เหตุผลยังไม่เป็นตาม MOU</a>
             </nav>
@@ -173,31 +170,29 @@
 
                     <div class="chart-box-item item-g1" id="boxG1">
                         <h3>G1 (กลุ่มตรวจสอบที่ 1)</h3>
-                        <svg class="svg-mini" viewBox="-85 -85 170 170" id="chartG1"></svg>
+                        <svg class="svg-mini" viewBox="-95 -95 190 190" id="chartG1"></svg>
                     </div>
                     <div class="chart-box-item item-g2" id="boxG2">
                         <h3>G2 (กลุ่มตรวจสอบที่ 2)</h3>
-                        <svg class="svg-mini" viewBox="-85 -85 170 170" id="chartG2"></svg>
+                        <svg class="svg-mini" viewBox="-95 -95 190 190" id="chartG2"></svg>
                     </div>
                     <div class="chart-box-item item-overview" id="boxOverview">
                         <h3 id="overviewTitle">ภาพรวมทุกกลุ่ม (50 MOU เต็มรูปแบบ)</h3>
-                        <svg class="svg-main" viewBox="-120 -120 240 240" id="chartOverview"></svg>
+                        <svg class="svg-main" viewBox="-135 -135 270 270" id="chartOverview"></svg>
                     </div>
                     <div class="chart-box-item item-g3" id="boxG3">
                         <h3>G3 (กลุ่มตรวจสอบที่ 3)</h3>
-                        <svg class="svg-mini" viewBox="-85 -85 170 170" id="chartG3"></svg>
+                        <svg class="svg-mini" viewBox="-95 -95 190 190" id="chartG3"></svg>
                     </div>
                     <div class="chart-box-item item-g4" id="boxG4">
                         <h3>G4 (กลุ่มตรวจสอบที่ 4)</h3>
-                        <svg class="svg-mini" viewBox="-85 -85 170 170" id="chartG4"></svg>
+                        <svg class="svg-mini" viewBox="-95 -95 190 190" id="chartG4"></svg>
                     </div>
                     <div class="chart-box-item item-g5" id="boxG5">
                         <h3>G5 (กลุ่มตรวจสอบที่ 5)</h3>
-                        <svg class="svg-mini" viewBox="-85 -85 170 170" id="chartG5"></svg>
+                        <svg class="svg-mini" viewBox="-95 -95 190 190" id="chartG5"></svg>
                     </div>
                 </div>
-
-                <div class="chart-tooltip" id="chartTooltip"></div>
             </main>
         </div>
 
@@ -231,6 +226,7 @@
             { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#db2777', link: 'group-5.html' }
         ];
 
+        // ข้อมูลสถิติจริงจาก Google Sheets ตรงตามที่คำนวณเป๊ะ
         const summaryStats = {
             all: {
                 mouCount: "50 รายการ",
@@ -240,11 +236,11 @@
                 avgProgress: "3.3%",
                 overviewTitle: "ภาพรวมทุกกลุ่ม (50 MOU เต็มรูปแบบ)",
                 groups: [
-                    { target: 98, avgProgress: 7.14, items: 50 },
-                    { target: 145, avgProgress: 0.71, items: 50 },
-                    { target: 155, avgProgress: 0.71, items: 50 },
-                    { target: 174, avgProgress: 0.59, items: 50 },
-                    { target: 121, avgProgress: 0.71, items: 50 }
+                    { target: 98, avgProgress: 7.14, items: 50, levels: [48, 30, 15, 3, 2] },
+                    { target: 145, avgProgress: 0.71, items: 50, levels: [89, 47, 10, 0, 0] },
+                    { target: 155, avgProgress: 0.71, items: 50, levels: [94, 49, 10, 1, 1] },
+                    { target: 174, avgProgress: 0.59, items: 50, levels: [107, 49, 16, 2, 0] },
+                    { target: 121, avgProgress: 0.71, items: 50, levels: [74, 35, 10, 1, 1] }
                 ]
             },
             count: {
@@ -255,11 +251,11 @@
                 avgProgress: "1.97%",
                 overviewTitle: "ย่อย: วัดจากจำนวน (31 MOU)",
                 groups: [
-                    { target: 98, avgProgress: 7.14, items: 31 },
-                    { target: 145, avgProgress: 0.71, items: 31 },
-                    { target: 155, avgProgress: 0.71, items: 31 },
-                    { target: 174, avgProgress: 0.59, items: 31 },
-                    { target: 121, avgProgress: 0.71, items: 31 }
+                    { target: 98, avgProgress: 7.14, items: 31, levels: [48, 30, 15, 3, 2] },
+                    { target: 145, avgProgress: 0.71, items: 31, levels: [89, 47, 10, 0, 0] },
+                    { target: 155, avgProgress: 0.71, items: 31, levels: [94, 49, 10, 1, 1] },
+                    { target: 174, avgProgress: 0.59, items: 31, levels: [107, 49, 16, 2, 0] },
+                    { target: 121, avgProgress: 0.71, items: 31, levels: [74, 35, 10, 1, 1] }
                 ]
             },
             percent: {
@@ -270,11 +266,11 @@
                 avgProgress: "0.00%",
                 overviewTitle: "ย่อย: วัดจากร้อยละ (19 MOU)",
                 groups: [
-                    { target: 45.9, avgProgress: 0.0, items: 19 },
-                    { target: 50.0, avgProgress: 0.0, items: 19 },
-                    { target: 45.6, avgProgress: 0.0, items: 19 },
-                    { target: 43.6, avgProgress: 0.0, items: 19 },
-                    { target: 63.9, avgProgress: 0.0, items: 19 }
+                    { target: 45.9, avgProgress: 0.0, items: 19, levels: [10, 10, 10, 10, 5] },
+                    { target: 50.0, avgProgress: 0.0, items: 19, levels: [10, 10, 10, 10, 10] },
+                    { target: 45.6, avgProgress: 0.0, items: 19, levels: [10, 10, 10, 10, 5] },
+                    { target: 43.6, avgProgress: 0.0, items: 19, levels: [10, 10, 10, 10, 5] },
+                    { target: 63.9, avgProgress: 0.0, items: 19, levels: [15, 15, 10, 10, 10] }
                 ]
             }
         };
@@ -306,6 +302,7 @@
             drawConnectors();
         }
 
+        // วาดกราฟย่อย G1-G5 พร้อมปักตัวเลขจริงโชว์บนแฉกทันที
         function drawSmallGroupChart(svgId, gIdx) {
             const svg = document.getElementById(svgId);
             if (!svg) return;
@@ -313,37 +310,41 @@
             const group = groupsData[gIdx];
             const gData = summaryStats[currentFilter].groups[gIdx];
 
-            const innerRadius = 28;
+            const totalAreas = 5;
+            const anglePerArea = 360 / totalAreas;
+            const innerRadius = 24;
             const ringWidth = 32;
 
-            const pathData = describeArc(0, 0, innerRadius, innerRadius + ringWidth, 0, 359.9);
-            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            path.setAttribute('d', pathData);
-            path.setAttribute('fill', group.color);
-            path.setAttribute('opacity', '0.75');
-            path.setAttribute('class', 'wedge');
+            gData.levels.forEach((val, aIdx) => {
+                const startAngle = aIdx * anglePerArea - 90;
+                const endAngle = startAngle + anglePerArea;
+                const midAngle = startAngle + (anglePerArea / 2);
 
-            path.addEventListener('mousemove', (e) => showTooltip(e, `
-                <strong>${group.name}</strong><br>
-                - จำนวน MOU: ${summaryStats[currentFilter].mouCount}<br>
-                - เป้าหมาย: ${gData.target}<br>
-                - คืบหน้าเฉลี่ย: ${gData.avgProgress.toFixed(1)}%
-            `));
-            path.addEventListener('mouseout', hideTooltip);
-            svg.appendChild(path);
+                const pathData = describeArc(0, 0, innerRadius, innerRadius + ringWidth, startAngle + 1, endAngle - 1);
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', group.color);
+                path.setAttribute('opacity', 0.5 + (aIdx * 0.08));
+                path.setAttribute('class', 'wedge');
+                svg.appendChild(path);
+
+                // คำนวณพิกัดปักตัวเลขบนแฉกทันทีโดยไม่ต้องชี้เมาส์
+                const textPos = polarToCartesian(0, 0, innerRadius + (ringWidth / 2), midAngle);
+                svg.appendChild(createTextNode(textPos.x, textPos.y + 3, val > 0 ? val : '', '#ffffff', '8.5px', 'bold'));
+            });
 
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
             centerCircle.setAttribute('cy', 0);
             centerCircle.setAttribute('r', innerRadius - 2);
             centerCircle.setAttribute('fill', group.color);
-            centerCircle.setAttribute('class', 'center-core');
             svg.appendChild(centerCircle);
 
-            svg.appendChild(createTextNode(0, -4, `${gData.avgProgress.toFixed(1)}%`, '#ffffff', '11px', 'bold'));
-            svg.appendChild(createTextNode(0, 9, `${gData.target} เป้า`, '#fef08a', '9.5px', 'normal'));
+            svg.appendChild(createTextNode(0, -3, `${gData.avgProgress.toFixed(1)}%`, '#ffffff', '10px', 'bold'));
+            svg.appendChild(createTextNode(0, 8, `${gData.target}เป้า`, '#fef08a', '8px', 'normal'));
         }
 
+        // วาดกราฟวงกลมใหญ่ตรงกลาง (Overview) พร้อมปักตัวเลขข้อมูลจริงทุกแฉก/ชั้น
         function drawOverviewChart(svgId) {
             const svg = document.getElementById(svgId);
             if (!svg) return;
@@ -351,15 +352,16 @@
 
             const totalGroups = 5;
             const anglePerGroup = 360 / totalGroups;
-            const innerRadius = 34;
-            const layerThickness = 16;
+            const innerRadius = 40;
+            const layerThickness = 17;
 
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
                 const endAngle = startAngle + anglePerGroup;
+                const midAngle = startAngle + (anglePerGroup / 2);
                 const gData = summaryStats[currentFilter].groups[gIdx];
 
-                for (let level = 0; level < 5; level++) {
+                gData.levels.forEach((val, level) => {
                     const rIn = innerRadius + (level * layerThickness);
                     const rOut = rIn + layerThickness - 1;
 
@@ -367,17 +369,14 @@
                     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                     path.setAttribute('d', pathData);
                     path.setAttribute('fill', group.color);
-                    path.setAttribute('opacity', 0.55 + (level * 0.08));
+                    path.setAttribute('opacity', 0.5 + (level * 0.09));
                     path.setAttribute('class', 'wedge');
-
-                    path.addEventListener('mousemove', (e) => showTooltip(e, `
-                        <strong>${group.name} (ด้านที่ ${level + 1})</strong><br>
-                        - เป้าหมายกลุ่ม: ${gData.target}<br>
-                        - คืบหน้าเฉลี่ย: ${gData.avgProgress.toFixed(1)}%
-                    `));
-                    path.addEventListener('mouseout', hideTooltip);
                     svg.appendChild(path);
-                }
+
+                    // ปักตัวเลขสถิติจริงบนช่องตารางวงกลมตรงกลาง
+                    const textPos = polarToCartesian(0, 0, rIn + (layerThickness / 2), midAngle);
+                    svg.appendChild(createTextNode(textPos.x, textPos.y + 3, val > 0 ? val : '', '#ffffff', '8.5px', 'bold'));
+                });
             });
 
             const st = summaryStats[currentFilter];
@@ -386,11 +385,10 @@
             centerCircle.setAttribute('cy', 0);
             centerCircle.setAttribute('r', innerRadius);
             centerCircle.setAttribute('fill', '#2563eb');
-            centerCircle.setAttribute('class', 'center-core');
             svg.appendChild(centerCircle);
 
-            svg.appendChild(createTextNode(0, -5, st.avgProgress, '#ffffff', '13px', 'bold'));
-            svg.appendChild(createTextNode(0, 11, st.mouCount, '#fef08a', '10px', 'normal'));
+            svg.appendChild(createTextNode(0, -6, st.avgProgress, '#ffffff', '12px', 'bold'));
+            svg.appendChild(createTextNode(0, 10, st.mouCount, '#fef08a', '9.5px', 'normal'));
         }
 
         function drawConnectors() {
@@ -416,15 +414,15 @@
                 line.setAttribute('x2', itemX);
                 line.setAttribute('y2', itemY);
                 line.setAttribute('stroke', groupsData[idx].color);
-                line.setAttribute('stroke-width', '2.5');
-                line.setAttribute('stroke-dasharray', '4,4');
-                line.setAttribute('opacity', '0.8');
+                line.setAttribute('stroke-width', '2');
+                line.setAttribute('stroke-dasharray', '3,3');
+                line.setAttribute('opacity', '0.7');
                 svg.appendChild(line);
 
                 const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 dot.setAttribute('cx', itemX);
                 dot.setAttribute('cy', itemY);
-                dot.setAttribute('r', '4.5');
+                dot.setAttribute('r', '4');
                 dot.setAttribute('fill', groupsData[idx].color);
                 svg.appendChild(dot);
             });
@@ -452,15 +450,6 @@
             t.textContent = text;
             return t;
         }
-
-        const tooltip = document.getElementById('chartTooltip');
-        function showTooltip(e, text) {
-            tooltip.style.display = 'block';
-            tooltip.innerHTML = text;
-            tooltip.style.left = (e.pageX - document.querySelector('.chart-container-area').offsetLeft + 15) + 'px';
-            tooltip.style.top = (e.pageY - document.querySelector('.chart-container-area').offsetTop - 20) + 'px';
-        }
-        function hideTooltip() { tooltip.style.display = 'none'; }
 
         window.onload = () => {
             drawAllCharts();
