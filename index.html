@@ -68,14 +68,13 @@
         .kpi-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 4px; }
         .kpi-value { font-size: 1.25rem; font-weight: 700; color: #38bdf8; }
 
-        .chart-nav-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem; color: var(--accent-gold); }
-        .back-btn { background: #1e3a8a; border: none; color: #fff; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: none; }
-        .back-btn:hover { background: #2563eb; }
+        .charts-grid-6 { width: 100%; flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; min-height: 550px; }
+        .chart-card-item { background: #0b172c; border: 1px solid #1e3a8a; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; min-height: 260px; }
+        .chart-card-item h3 { font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 5px; text-align: center; }
 
-        .svg-chart-box { width: 100%; flex: 1; min-height: 520px; position: relative; display: flex; justify-content: center; align-items: center; }
-        svg { width: 100%; height: 100%; max-height: 600px; }
+        .svg-mini { width: 100%; height: 220px; }
         .wedge { cursor: pointer; transition: opacity 0.2s; }
-        .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+        .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)); }
         .center-core { cursor: pointer; }
 
         .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-gold); padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.5); line-height: 1.5; }
@@ -86,7 +85,8 @@
         .btn-orange-square { background: var(--accent-orange); color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: background 0.2s; }
         .btn-orange-square:hover { background: #ea580c; }
 
-        @media (max-width: 900px) { .main-content { flex-direction: column; } .sidebar { width: 100%; } header, footer { flex-direction: column; align-items: flex-start; } }
+        @media (max-width: 1100px) { .charts-grid-6 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 700px) { .charts-grid-6 { grid-template-columns: 1fr; } .main-content { flex-direction: column; } .sidebar { width: 100%; } header, footer { flex-direction: column; align-items: flex-start; } }
     </style>
 </head>
 <body>
@@ -113,7 +113,7 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #f59e0b;"></i> 
-                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>
+                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>[cite: 1]
                 | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
@@ -160,15 +160,41 @@
                     </div>
                 </div>
 
-                <div class="chart-nav-bar">
-                    <span id="chartInstructionMsg">💡 เคล็ดลับ: คลิกที่วงกลมกลุ่ม G1-G5 เพื่อเจาะลึกดูรายละเอียดทั้ง 5 ด้าน</span>
-                    <button class="back-btn" id="backToMainBtn" onclick="resetToMainView()"><i class="fa-solid fa-arrow-left"></i> กลับสู่ภาพรวมทั้งหมด</button>
+                <!-- พื้นที่แสดงกราฟ 6 กราฟ (ซ้าย 2, ขวา 3 และตรงกลางรวม 6 กราฟ) -->
+                <div class="charts-grid-6">
+                    <!-- กราฟที่ 1: G1 (กลุ่มตรวจสอบที่ 1) -->
+                    <div class="chart-card-item">
+                        <h3>G1 (กลุ่มตรวจสอบที่ 1)</h3>
+                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG1"></svg>
+                    </div>
+                    <!-- กราฟที่ 2: G2 (กลุ่มตรวจสอบที่ 2) -->
+                    <div class="chart-card-item">
+                        <h3>G2 (กลุ่มตรวจสอบที่ 2)</h3>
+                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG2"></svg>
+                    </div>
+                    <!-- กราฟที่ 3: G3 (กลุ่มตรวจสอบที่ 3) -->
+                    <div class="chart-card-item">
+                        <h3>G3 (กลุ่มตรวจสอบที่ 3)</h3>
+                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG3"></svg>
+                    </div>
+                    <!-- กราฟที่ 4: G4 (กลุ่มตรวจสอบที่ 4) -->
+                    <div class="chart-card-item">
+                        <h3>G4 (กลุ่มตรวจสอบที่ 4)</h3>
+                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG4"></svg>
+                    </div>
+                    <!-- กราฟที่ 5: G5 (กลุ่มตรวจสอบที่ 5) -->
+                    <div class="chart-card-item">
+                        <h3>G5 (กลุ่มตรวจสอบที่ 5)</h3>
+                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG5"></svg>
+                    </div>
+                    <!-- กราฟที่ 6: ภาพรวมทั้งหมด (Overview) -->
+                    <div class="chart-card-item" style="border-color: var(--accent-gold);">
+                        <h3>ภาพรวมทุกกลุ่ม (All Groups)</h3>
+                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartAll"></svg>
+                    </div>
                 </div>
 
-                <div class="svg-chart-box">
-                    <svg viewBox="-340 -250 680 500" id="mouChart"></svg>
-                    <div class="chart-tooltip" id="chartTooltip"></div>
-                </div>
+                <div class="chart-tooltip" id="chartTooltip"></div>
             </main>
         </div>
 
@@ -200,11 +226,11 @@
         updateClock();
 
         const groupsData = [
-            { id: 'G1', name: 'G1 (กลุ่มตรวจสอบที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
-            { id: 'G2', name: 'G2 (กลุ่มตรวจสอบที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
-            { id: 'G3', name: 'G3 (กลุ่มตรวจสอบที่ 3)', color: '#f59e0b', link: 'chart-group-3.html' },
-            { id: 'G4', name: 'G4 (กลุ่มตรวจสอบที่ 4)', color: '#8b5cf6', link: 'chart-group-4.html' },
-            { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#ec4899', link: 'chart-group-5.html' }
+            { id: 'G1', name: 'G1 (กลุ่มตรวจสอบที่ 1)', color: '#3b82f6', link: 'group-1.html' },
+            { id: 'G2', name: 'G2 (กลุ่มตรวจสอบที่ 2)', color: '#10b981', link: 'group-2.html' },
+            { id: 'G3', name: 'G3 (กลุ่มตรวจสอบที่ 3)', color: '#f59e0b', link: 'group-3.html' },
+            { id: 'G4', name: 'G4 (กลุ่มตรวจสอบที่ 4)', color: '#8b5cf6', link: 'group-4.html' },
+            { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#ec4899', link: 'group-5.html' }
         ];
 
         const areasList = [
@@ -216,7 +242,6 @@
         ];
 
         let realData = { totalMOU: 55, completedCount: 0, pendingCount: 55, progressRate: 0, groupAreaStats: {} };
-        let selectedGroupIdx = null; // null หมายถึงแสดงภาพรวมทั้งหมด, 0-4 หมายถึงเจาะลึกกลุ่ม G1-G5
 
         function getAreaIndexByRow(rowText) {
             if (!rowText) return 0;
@@ -230,7 +255,7 @@
 
         async function fetchRealGoogleSheetData() {
             try {
-                document.getElementById('syncStatus').innerText = 'กำลังซิงก์ข้อมูล Google Sheets...';
+                document.getElementById('syncStatus').innerText = 'กำลังซิงก์ข้อมูล Google Sheets...';[cite: 1]
                 document.getElementById('syncDot').style.color = '#f59e0b';
 
                 const resPlan = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=สรุป MOU กลุ่ม 1-5`);
@@ -303,11 +328,11 @@
                 document.getElementById('kpiPending').innerText = `${pending} รายการ (${((pending/total)*100).toFixed(0)}%)`;
                 document.getElementById('kpiRate').innerText = `${avgRate}% ความคืบหน้า`;
 
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';[cite: 1]
                 document.getElementById('syncDot').style.color = '#34d399';
                 document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
 
-                drawChart();
+                drawAllCharts();
 
             } catch (err) {
                 console.error(err);
@@ -316,229 +341,143 @@
             }
         }
 
-        function drawChart() {
-            const svg = document.getElementById('mouChart');
+        function drawAllCharts() {
+            // วาดกราฟ G1 ถึง G5
+            groupsData.forEach((group, gIdx) => {
+                drawGroupChart(`chartG${gIdx + 1}`, gIdx);
+            });
+            // วาดกราฟภาพรวมทั้งหมด (All Groups)
+            drawOverviewChart('chartAll');
+        }
+
+        // ฟังก์ชันวาดกราฟวงกลมแยกรายกลุ่ม (มี 5 แฉกตาม 5 ด้าน พร้อมตรงกลางแสดง MOU คืบหน้า... จำนวน...งาน)
+        function drawGroupChart(svgId, gIdx) {
+            const svg = document.getElementById(svgId);
+            svg.innerHTML = '';
+            const group = groupsData[gIdx];
+
+            const totalAreas = 5;
+            const anglePerArea = 360 / totalAreas;
+            const innerRadius = 25;
+            const ringWidth = 28;
+
+            let gTargetSum = 0;
+            let gDoneSum = 0;
+            for (let a = 0; a < 5; a++) {
+                let st = realData.groupAreaStats[gIdx] ? realData.groupAreaStats[gIdx][a] : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
+                gTargetSum += (st.targetCount || 10);
+                gDoneSum += (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0);
+            }
+            let gAvgProgress = (gDoneSum / 5).toFixed(1);
+
+            areasList.forEach((area, aIdx) => {
+                const startAngle = aIdx * anglePerArea - 90;
+                const endAngle = startAngle + anglePerArea;
+
+                let st = realData.groupAreaStats[gIdx] && realData.groupAreaStats[gIdx][aIdx] ? realData.groupAreaStats[gIdx][aIdx] : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
+                let targetCount = Math.round(st.targetCount) || 10;
+                let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
+                if (donePercent > 100) donePercent = 100;
+                let notDonePercent = (100 - donePercent).toFixed(1);
+
+                const rIn = innerRadius;
+                const rOut = innerRadius + ringWidth;
+
+                const pathData = describeArc(0, 0, rIn, rOut, startAngle + 1, endAngle - 1);
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', group.color);
+                path.setAttribute('opacity', 0.5 + (aIdx * 0.1));
+                path.setAttribute('class', 'wedge');
+
+                path.addEventListener('mousemove', (e) => showTooltip(e, `
+                    <strong>${group.name}</strong><br>
+                    <u>${aIdx + 1}. ${area.name}</u><br>
+                    - เป้าหมายทั้งหมด: ${targetCount} งาน<br>
+                    - ผลดำเนินการ: ${donePercent}%<br>
+                    - ไม่ดำเนินการ: ${notDonePercent}%
+                `));
+                path.addEventListener('mouseout', hideTooltip);
+                path.addEventListener('click', () => location.href = `${group.link}?area=P${aIdx+1}`);
+                svg.appendChild(path);
+            });
+
+            // วงกลมตรงกลางแสดงภารรวมของกลุ่ม
+            const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            centerCircle.setAttribute('cx', 0);
+            centerCircle.setAttribute('cy', 0);
+            centerCircle.setAttribute('r', innerRadius - 2);
+            centerCircle.setAttribute('fill', group.color);
+            centerCircle.setAttribute('class', 'center-core');
+            centerCircle.addEventListener('click', () => location.href = group.link);
+            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>MOU คืบหน้า ${gAvgProgress}%<br>จำนวน ${Math.round(gTargetSum)} งาน`));
+            centerCircle.addEventListener('mouseout', hideTooltip);
+            svg.appendChild(centerCircle);
+
+            svg.appendChild(createTextNode(0, -4, `${gAvgProgress}%`, '#ffffff', '9.5px', 'bold'));
+            svg.appendChild(createTextNode(0, 7, `${Math.round(gTargetSum)} งาน`, '#fef08a', '8.5px', 'normal'));
+        }
+
+        // ฟังก์ชันวาดกราฟภาพรวมทั้งหมด (All Groups)
+        function drawOverviewChart(svgId) {
+            const svg = document.getElementById(svgId);
             svg.innerHTML = '';
 
-            if (selectedGroupIdx === null) {
-                // --- โหมดภาพรวมทั้งหมด (5 กลุ่ม G1 - G5) ---
-                document.getElementById('chartInstructionMsg').style.display = 'block';
-                document.getElementById('backToMainBtn').style.display = 'none';
+            const totalGroups = 5;
+            const anglePerGroup = 360 / totalGroups;
+            const innerRadius = 25;
+            const layerThickness = 11;
 
-                const totalGroups = 5;
-                const anglePerGroup = 360 / totalGroups;
-                const innerRadius = 45;
-                const layerThickness = 26;
+            groupsData.forEach((group, gIdx) => {
+                const startAngle = gIdx * anglePerGroup - 90;
+                const endAngle = startAngle + anglePerGroup;
 
-                groupsData.forEach((group, gIdx) => {
-                    const startAngle = gIdx * anglePerGroup - 90;
-                    const endAngle = startAngle + anglePerGroup;
-                    const midAngle = startAngle + (anglePerGroup / 2);
-
-                    for (let level = 0; level < 5; level++) {
-                        const rIn = innerRadius + (level * layerThickness);
-                        const rOut = rIn + layerThickness - 2;
-
-                        const pathData = describeArc(0, 0, rIn, rOut, startAngle + 1, endAngle - 1);
-                        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                        path.setAttribute('d', pathData);
-                        path.setAttribute('fill', group.color);
-                        path.setAttribute('opacity', 0.45 + (level * 0.12));
-                        path.setAttribute('class', 'wedge');
-
-                        const areaInfo = areasList[level];
-                        let st = (realData.groupAreaStats && realData.groupAreaStats[gIdx] && realData.groupAreaStats[gIdx][level]) 
-                                 ? realData.groupAreaStats[gIdx][level] 
-                                 : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
-
-                        let targetCount = Math.round(st.targetCount) || 1;
-                        let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
-                        if (donePercent > 100) donePercent = 100;
-                        let notDonePercent = (100 - donePercent).toFixed(1);
-
-                        path.addEventListener('mousemove', (e) => showTooltip(e, `
-                            <strong>${group.name}</strong><br>
-                            <u>${areaInfo.code} ${areaInfo.name}</u><br>
-                            - เป้าหมายทั้งหมด: ${targetCount} งาน<br>
-                            - ผลดำเนินการ: ${donePercent}%<br>
-                            - ไม่ดำเนินการ: ${notDonePercent}%
-                        `));
-                        path.addEventListener('mouseout', hideTooltip);
-                        
-                        // คลิกที่ช่องแฉกของภาพรวมเพื่อเข้าสู่โหมดเจาะลึกเฉพาะกลุ่ม
-                        path.addEventListener('click', () => {
-                            selectedGroupIdx = gIdx;
-                            drawChart();
-                        });
-
-                        svg.appendChild(path);
-                    }
-
-                    // เส้นโยงป้ายชื่อกลุ่มออกด้านข้าง
-                    const outerRadius = innerRadius + (5 * layerThickness);
-                    const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
-                    
-                    const isRight = Math.cos(midAngle * Math.PI / 180) >= 0;
-                    const targetX = isRight ? 220 : -220;
-                    const midX = isRight ? startPoint.x + 30 : startPoint.x - 30;
-
-                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-                    line.setAttribute('points', `${startPoint.x},${startPoint.y} ${midX},${startPoint.y} ${targetX},${startPoint.y}`);
-                    line.setAttribute('stroke', group.color);
-                    line.setAttribute('stroke-width', '1.5');
-                    line.setAttribute('fill', 'none');
-                    line.setAttribute('opacity', '0.85');
-                    svg.appendChild(line);
-
-                    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    dot.setAttribute('cx', startPoint.x);
-                    dot.setAttribute('cy', startPoint.y);
-                    dot.setAttribute('r', '3');
-                    dot.setAttribute('fill', group.color);
-                    svg.appendChild(dot);
-
-                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    text.setAttribute('x', isRight ? targetX + 8 : targetX - 8);
-                    text.setAttribute('y', startPoint.y + 4);
-                    text.setAttribute('fill', '#ffffff');
-                    text.setAttribute('font-size', '11px');
-                    text.setAttribute('font-weight', '600');
-                    text.setAttribute('text-anchor', isRight ? 'start' : 'end');
-                    text.textContent = group.name;
-                    svg.appendChild(text);
-                });
-
-                // วงกลมสีแดงตรงกลางสำหรับภาพรวมทั้งหมด
-                const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                centerCircle.setAttribute('cx', 0);
-                centerCircle.setAttribute('cy', 0);
-                centerCircle.setAttribute('r', innerRadius);
-                centerCircle.setAttribute('fill', '#ef4444');
-                centerCircle.setAttribute('class', 'center-core');
-                centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${realData.totalMOU} MOU ทั้งหมด<br>คืบหน้าเฉลี่ย ${realData.progressRate}%<br>สำเร็จแล้ว ${realData.completedCount} รายการ`));
-                centerCircle.addEventListener('mouseout', hideTooltip);
-                svg.appendChild(centerCircle);
-
-                svg.appendChild(createTextNode(0, -8, `${realData.totalMOU} MOU`, '#ffffff', '13px', 'bold'));
-                svg.appendChild(createTextNode(0, 8, `คืบหน้า ${realData.progressRate}%`, '#fef08a', '10px', '600'));
-                svg.appendChild(createTextNode(0, 22, `เสร็จ ${realData.completedCount} งาน`, '#ffffff', '8.5px', 'normal'));
-
-            } else {
-                // --- โหมดเจาะลึกเฉพาะกลุ่มที่เลือก (G1 - G5) แบ่งออกเป็น 5 ด้าน ---
-                const group = groupsData[selectedGroupIdx];
-                document.getElementById('chartInstructionMsg').innerText = `📊 กำลังแสดงรายละเอียดของ ${group.name} (คลิกวงกลมตรงกลางเพื่อกลับสู่ภาพรวม)`;
-                document.getElementById('backToMainBtn').style.display = 'block';
-
-                const totalAreas = 5;
-                const anglePerArea = 360 / totalAreas;
-                const innerRadius = 55;
-                const ringWidth = 35;
-
-                let gTargetSum = 0;
-                let gDoneSum = 0;
-                for (let a = 0; a < 5; a++) {
-                    let st = realData.groupAreaStats[selectedGroupIdx][a];
-                    gTargetSum += (st.targetCount || 10);
-                    gDoneSum += (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0);
-                }
-                let gAvgProgress = (gDoneSum / 5).toFixed(1);
-
-                areasList.forEach((area, aIdx) => {
-                    const startAngle = aIdx * anglePerArea - 90;
-                    const endAngle = startAngle + anglePerArea;
-                    const midAngle = startAngle + (anglePerArea / 2);
-
-                    let st = realData.groupAreaStats[selectedGroupIdx][aIdx] || { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
-                    let targetCount = Math.round(st.targetCount) || 10;
-                    let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
-                    if (donePercent > 100) donePercent = 100;
-                    let notDonePercent = (100 - donePercent).toFixed(1);
-
-                    const rIn = innerRadius;
-                    const rOut = innerRadius + ringWidth;
+                for (let level = 0; level < 5; level++) {
+                    const rIn = innerRadius + (level * layerThickness);
+                    const rOut = rIn + layerThickness - 1;
 
                     const pathData = describeArc(0, 0, rIn, rOut, startAngle + 1, endAngle - 1);
                     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                     path.setAttribute('d', pathData);
                     path.setAttribute('fill', group.color);
-                    path.setAttribute('opacity', 0.5 + (aIdx * 0.1));
+                    path.setAttribute('opacity', 0.45 + (level * 0.12));
                     path.setAttribute('class', 'wedge');
+
+                    const areaInfo = areasList[level];
+                    let st = realData.groupAreaStats && realData.groupAreaStats[gIdx] && realData.groupAreaStats[gIdx][level] 
+                             ? realData.groupAreaStats[gIdx][level] 
+                             : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
+
+                    let targetCount = Math.round(st.targetCount) || 1;
+                    let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
+                    if (donePercent > 100) donePercent = 100;
+                    let notDonePercent = (100 - donePercent).toFixed(1);
 
                     path.addEventListener('mousemove', (e) => showTooltip(e, `
                         <strong>${group.name}</strong><br>
-                        <u>${area.code} ${area.name}</u><br>
+                        <u>${areaInfo.code} ${areaInfo.name}</u><br>
                         - เป้าหมายทั้งหมด: ${targetCount} งาน<br>
                         - ผลดำเนินการ: ${donePercent}%<br>
                         - ไม่ดำเนินการ: ${notDonePercent}%
                     `));
                     path.addEventListener('mouseout', hideTooltip);
                     svg.appendChild(path);
+                }
+            });
 
-                    // เส้นโยงข้อมูลด้านข้าง 5 ด้าน
-                    const outerRadius = rOut;
-                    const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
-                    
-                    const isRight = Math.cos(midAngle * Math.PI / 180) >= 0;
-                    const targetX = isRight ? 210 : -210;
-                    const midX = isRight ? startPoint.x + 25 : startPoint.x - 25;
+            const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            centerCircle.setAttribute('cx', 0);
+            centerCircle.setAttribute('cy', 0);
+            centerCircle.setAttribute('r', innerRadius);
+            centerCircle.setAttribute('fill', '#ef4444');
+            centerCircle.setAttribute('class', 'center-core');
+            centerCircle.addEventListener('click', () => location.href = 'chart-summary.html');
+            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${realData.totalMOU} MOU ทั้งหมด<br>คืบหน้า ${realData.progressRate}%<br>สำเร็จ ${realData.completedCount} งาน`));
+            centerCircle.addEventListener('mouseout', hideTooltip);
+            svg.appendChild(centerCircle);
 
-                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-                    line.setAttribute('points', `${startPoint.x},${startPoint.y} ${midX},${startPoint.y} ${targetX},${startPoint.y}`);
-                    line.setAttribute('stroke', group.color);
-                    line.setAttribute('stroke-width', '1.5');
-                    line.setAttribute('fill', 'none');
-                    svg.appendChild(line);
-
-                    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    dot.setAttribute('cx', startPoint.x);
-                    dot.setAttribute('cy', startPoint.y);
-                    dot.setAttribute('r', '3');
-                    dot.setAttribute('fill', group.color);
-                    svg.appendChild(dot);
-
-                    const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    textNode.setAttribute('x', isRight ? targetX + 8 : targetX - 8);
-                    textNode.setAttribute('y', startPoint.y - 4);
-                    textNode.setAttribute('fill', '#ffffff');
-                    textNode.setAttribute('font-size', '10px');
-                    textNode.setAttribute('font-weight', 'bold');
-                    textNode.setAttribute('text-anchor', isRight ? 'start' : 'end');
-                    textNode.textContent = `${aIdx + 1}.${area.name}`;
-                    svg.appendChild(textNode);
-
-                    const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    subText.setAttribute('x', isRight ? targetX + 8 : targetX - 8);
-                    subText.setAttribute('y', startPoint.y + 9);
-                    subText.setAttribute('fill', '#cbd5e1');
-                    subText.setAttribute('font-size', '9px');
-                    subText.setAttribute('text-anchor', isRight ? 'start' : 'end');
-                    subText.textContent = `เป้าหมาย ${targetCount} งาน | ทำ ${donePercent}% | ไม่ทำ ${notDonePercent}%`;
-                    svg.appendChild(subText);
-                });
-
-                // วงกลมตรงกลางแสดงภาพรวมเฉพาะกลุ่มที่เลือก
-                const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                centerCircle.setAttribute('cx', 0);
-                centerCircle.setAttribute('cy', 0);
-                centerCircle.setAttribute('r', innerRadius - 5);
-                centerCircle.setAttribute('fill', group.color);
-                centerCircle.setAttribute('class', 'center-core');
-                centerCircle.addEventListener('click', resetToMainView);
-                centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `คลิกเพื่อกลับสู่ภาพรวมทั้งหมด`));
-                centerCircle.addEventListener('mouseout', hideTooltip);
-                svg.appendChild(centerCircle);
-
-                svg.appendChild(createTextNode(0, -10, `${group.id}`, '#ffffff', '14px', 'bold'));
-                svg.appendChild(createTextNode(0, 5, `คืบหน้า ${gAvgProgress}%`, '#fef08a', '10.5px', '600'));
-                svg.appendChild(createTextNode(0, 20, `รวม ${Math.round(gTargetSum)} งาน`, '#ffffff', '9px', 'normal'));
-            }
-        }
-
-        function resetToMainView() {
-            selectedGroupIdx = null;
-            document.getElementById('backToMainBtn').style.display = 'none';
-            document.getElementById('chartInstructionMsg').innerText = '💡 เคล็ดลับ: คลิกที่วงกลมกลุ่ม G1-G5 เพื่อเจาะลึกดูรายละเอียดทั้ง 5 ด้าน';
-            drawChart();
+            svg.appendChild(createTextNode(0, -4, `${realData.progressRate}%`, '#ffffff', '9.5px', 'bold'));
+            svg.appendChild(createTextNode(0, 7, `${realData.totalMOU} MOU`, '#fef08a', '8.5px', 'normal'));
         }
 
         function describeArc(x, y, innerRadius, outerRadius, startAngle, endAngle) {
