@@ -216,7 +216,7 @@
         ];
 
         let realData = { totalMOU: 55, completedCount: 0, pendingCount: 55, progressRate: 0, groupAreaStats: {} };
-        let selectedGroupIdx = null; // null คือภาพรวมทั้งหมด, 0-4 คือเจาะลึกกลุ่ม G1-G5
+        let selectedGroupIdx = null;
 
         function getAreaIndexByRow(rowText) {
             if (!rowText) return 0;
@@ -303,7 +303,7 @@
                 document.getElementById('kpiPending').innerText = `${pending} รายการ (${((pending/total)*100).toFixed(0)}%)`;
                 document.getElementById('kpiRate').innerText = `${avgRate}% ความคืบหน้า`;
 
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';[cite: 1]
                 document.getElementById('syncDot').style.color = '#34d399';
                 document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
 
@@ -321,8 +321,7 @@
             svg.innerHTML = '';
 
             if (selectedGroupIdx === null) {
-                // โหมดภาพรวมทั้งหมด 5 กลุ่ม G1 - G5
-                document.getElementById('chartInstructionMsgstyle').display = 'block';
+                document.getElementById('chartInstructionMsg').style.display = 'block';
                 document.getElementById('backToMainBtn').style.display = 'none';
 
                 const totalGroups = 5;
@@ -365,7 +364,6 @@
                         `));
                         path.addEventListener('mouseout', hideTooltip);
                         
-                        // คลิกที่ช่องเพื่อเจาะลึกกลุ่มนั้นๆ ทันที
                         path.addEventListener('click', () => {
                             selectedGroupIdx = gIdx;
                             drawChart();
@@ -374,7 +372,6 @@
                         svg.appendChild(path);
                     }
 
-                    // เส้นโยงป้ายชื่อกลุ่มออกด้านข้าง
                     const outerRadius = innerRadius + (5 * layerThickness);
                     const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
                     
@@ -408,7 +405,6 @@
                     svg.appendChild(text);
                 });
 
-                // วงกลมสีแดงตรงกลางภาพรวม
                 const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 centerCircle.setAttribute('cx', 0);
                 centerCircle.setAttribute('cy', 0);
@@ -424,7 +420,6 @@
                 svg.appendChild(createTextNode(0, 22, `เสร็จ ${realData.completedCount} งาน`, '#ffffff', '8.5px', 'normal'));
 
             } else {
-                // โหมดเจาะลึกเฉพาะกลุ่มที่เลือก (G1 - G5) แบ่งเป็น 5 แฉกตาม 5 ด้าน
                 const group = groupsData[selectedGroupIdx];
                 document.getElementById('chartInstructionMsg').innerText = `📊 กำลังแสดงรายละเอียดของ ${group.name} (คลิกวงกลมตรงกลางเพื่อกลับภาพรวม)`;
                 document.getElementById('backToMainBtn').style.display = 'block';
@@ -434,7 +429,6 @@
                 const innerRadius = 55;
                 const ringWidth = 35;
 
-                // คำนวณสรุปเฉพาะกลุ่มนี้
                 let gTargetSum = 0;
                 let gDoneSum = 0;
                 for (let a = 0; a < 5; a++) {
@@ -455,7 +449,6 @@
                     if (donePercent > 100) donePercent = 100;
                     let notDonePercent = (100 - donePercent).toFixed(1);
 
-                    // วาดช่องวงกลมแฉกตามด้าน
                     const rIn = innerRadius;
                     const rOut = innerRadius + ringWidth;
 
@@ -476,7 +469,6 @@
                     path.addEventListener('mouseout', hideTooltip);
                     svg.appendChild(path);
 
-                    // เส้นโยงออกด้านข้างแสดงข้อมูลทั้ง 5 ด้านตามสั่ง
                     const outerRadius = rOut;
                     const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
                     
@@ -498,7 +490,6 @@
                     dot.setAttribute('fill', group.color);
                     svg.appendChild(dot);
 
-                    // ข้อความแสดงรายละเอียดตามรูปแบบที่กำหนด
                     const textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                     textNode.setAttribute('x', isRight ? targetX + 8 : targetX - 8);
                     textNode.setAttribute('y', startPoint.y - 4);
@@ -519,7 +510,6 @@
                     svg.appendChild(subText);
                 });
 
-                // วงกลมตรงกลางแสดงภารรวมของกลุ่มนั้นๆ
                 const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 centerCircle.setAttribute('cx', 0);
                 centerCircle.setAttribute('cy', 0);
