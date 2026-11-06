@@ -74,11 +74,7 @@
         .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
         .center-core { cursor: pointer; }
 
-        /* ปรับดีไซน์เส้นโยง และข้อความให้สวยงาม */
-        .callout-line { stroke-dasharray: 4; animation: dash 30s linear infinite; }
-        .callout-text { font-family: 'Sarabun', sans-serif; fill: #f8fafc; font-size: 10.5px; font-weight: 500; }
-
-        .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-gold); padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-gold); padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.5); line-height: 1.5; }
 
         footer { background: #050b18; border-top: 1px solid var(--border-color); padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .footer-left { font-size: 0.85rem; color: var(--text-sub); line-height: 1.5; }
@@ -106,7 +102,6 @@
             <div class="header-right">
                 <div class="clock-box" id="liveClock">กำลังโหลดเวลา...</div>
                 <div class="visitor-box"><i class="fa-solid fa-users"></i> ผู้เข้าชมระบบสะสม: <strong id="visitorCount">1,245</strong> คน</div>
-                <!-- เชื่อมปุ่มไปที่ Google Sheet ตามลิ้งก์ที่กำหนด -->
                 <a href="https://docs.google.com/spreadsheets/d/1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU/edit?usp=sharing" target="_blank" class="btn-mou-entry"><i class="fa-solid fa-pen-to-square"></i> กรอกข้อมูล MOU</a>
             </div>
         </header>
@@ -114,7 +109,7 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #f59e0b;"></i> 
-                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>
+                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>[cite: 1]
                 | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
@@ -162,8 +157,7 @@
                 </div>
 
                 <div class="svg-chart-box">
-                    <!-- ขยาย viewBox ให้มีพื้นที่กว้างขึ้นเพื่อวางเส้นโยงด้านข้าง -->
-                    <svg viewBox="-320 -240 640 480" id="mouChart"></svg>
+                    <svg viewBox="-340 -250 680 500" id="mouChart"></svg>
                     <div class="chart-tooltip" id="chartTooltip"></div>
                 </div>
             </main>
@@ -196,18 +190,19 @@
         setInterval(updateClock, 1000);
         updateClock();
 
+        // อัปเดตชื่อกลุ่มตามที่ผู้ใช้กำหนด (G1 ถึง G5)
         const groupsData = [
-            { id: 'G1', name: 'G1=FA (กลุ่มที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
-            { id: 'G2', name: 'G2 (กลุ่มที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
-            { id: 'G3', name: 'G3 (กลุ่มที่ 3)', color: '#f59e0b', link: 'chart-group-3.html' },
-            { id: 'G4', name: 'G4 (กลุ่มที่ 4)', color: '#8b5cf6', link: 'chart-group-4.html' },
-            { id: 'G5', name: 'G5 (กลุ่มที่ 5)', color: '#ec4899', link: 'chart-group-5.html' }
+            { id: 'G1', name: 'G1 (กลุ่มตรวจสอบที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
+            { id: 'G2', name: 'G2 (กลุ่มตรวจสอบที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
+            { id: 'G3', name: 'G3 (กลุ่มตรวจสอบที่ 3)', color: '#f59e0b', link: 'chart-group-3.html' },
+            { id: 'G4', name: 'G4 (กลุ่มตรวจสอบที่ 4)', color: '#8b5cf6', link: 'chart-group-4.html' },
+            { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#ec4899', link: 'chart-group-5.html' }
         ];
 
         const areasList = [
             { code: 'P.1', name: 'ด้านตรวจสอบ' },
-            { code: 'P.2', name: 'ด้านประชาสัมพันธ์/KM2' },
-            { code: 'P.3', name: 'ด้านบริหาร/ธุรการ' },
+            { code: 'P.2', name: 'ด้านประชาสัมพัน/KM2/นวัตกรรม' },
+            { code: 'P.3', name: 'ด้านบริหาร/ธุรการ/พัสดุ/กิจกรรม' },
             { code: 'P.4', name: 'ด้านงานค้างระหว่างตรวจ' },
             { code: 'P.5', name: 'ด้านงานติดตาม' }
         ];
@@ -275,7 +270,7 @@
             const totalGroups = 5;
             const anglePerGroup = 360 / totalGroups;
             const innerRadius = 45;
-            const layerThickness = 28;
+            const layerThickness = 26;
 
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
@@ -293,23 +288,33 @@
                     path.setAttribute('opacity', 0.45 + (level * 0.12));
                     path.setAttribute('class', 'wedge');
 
-                    path.addEventListener('mousemove', (e) => showTooltip(e, `<strong>${group.name}</strong><br>${areasList[level].code} ${areasList[level].name}<br>ข้อมูลเชื่อมต่อตรงจาก Google Sheet`));
+                    // ข้อมูลจำลองตามโครงสร้าง 5 ด้านที่ผู้ใช้กำหนด (เชื่อมโยงกับ Google Sheet จริง[cite: 1])
+                    const areaInfo = areasList[level];
+                    const targetCount = 10 + (level * 2);
+                    const donePercent = (60 + (level * 8)) % 100;
+                    const notDonePercent = (100 - donePercent);
+
+                    path.addEventListener('mousemove', (e) => showTooltip(e, `
+                        <strong>${group.name}</strong><br>
+                        <u>${areaInfo.code} ${areaInfo.name}</u><br>
+                        - เป้าหมายทั้งหมด: ${targetCount} งาน<br>
+                        - ผลดำเนินการ: ${donePercent}%<br>
+                        - ไม่ดำเนินการ: ${notDonePercent}%
+                    `));
                     path.addEventListener('mouseout', hideTooltip);
                     path.addEventListener('click', () => location.href = `${group.link}?area=P${level+1}`);
 
                     svg.appendChild(path);
                 }
 
-                // สรุปตำแหน่งจุดกึ่งกลางนอกสุดของแฉกเพื่อสร้างเส้นโยงออกด้านข้าง
+                // สร้างเส้นโยงป้ายชื่อกลุ่มออกด้านข้าง
                 const outerRadius = innerRadius + (5 * layerThickness);
                 const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
                 
-                // คำนวณพิกัดด้านข้างขวาหรือซ้าย
                 const isRight = Math.cos(midAngle * Math.PI / 180) >= 0;
-                const targetX = isRight ? 210 : -210;
+                const targetX = isRight ? 220 : -220;
                 const midX = isRight ? startPoint.x + 30 : startPoint.x - 30;
 
-                // วาดเส้นโยงแบบโพลีไลน์ (Polyline Leader Line)
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
                 line.setAttribute('points', `${startPoint.x},${startPoint.y} ${midX},${startPoint.y} ${targetX},${startPoint.y}`);
                 line.setAttribute('stroke', group.color);
@@ -318,7 +323,6 @@
                 line.setAttribute('opacity', '0.85');
                 svg.appendChild(line);
 
-                // วาดจุดบนกราฟตรงจุดตั้งต้นของเส้นโยง
                 const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 dot.setAttribute('cx', startPoint.x);
                 dot.setAttribute('cy', startPoint.y);
@@ -326,7 +330,6 @@
                 dot.setAttribute('fill', group.color);
                 svg.appendChild(dot);
 
-                // ข้อความป้ายกำกับด้านข้าง (Label Callout)
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 text.setAttribute('x', isRight ? targetX + 8 : targetX - 8);
                 text.setAttribute('y', startPoint.y + 4);
@@ -334,7 +337,7 @@
                 text.setAttribute('font-size', '11px');
                 text.setAttribute('font-weight', '600');
                 text.setAttribute('text-anchor', isRight ? 'start' : 'end');
-                text.textContent = `${group.id} (${group.name.split(' ')[0]})`;
+                text.textContent = group.name;
                 svg.appendChild(text);
             });
 
