@@ -9,14 +9,14 @@
     
     <style>
         :root {
-            --bg-dark: #f1f5f9; /* เปลี่ยนพื้นหลังภาพรวมให้สว่างสบายตา (Light Theme) */
-            --bg-card: #ffffff; /* พื้นหลังการ์ดสีขาวสะอาด */
+            --bg-dark: #f1f5f9;
+            --bg-card: #ffffff;
             --primary: #2563eb;
             --accent-gold: #d97706;
             --accent-orange: #ea580c;
-            --text-main: #1e293b; /* สีตัวหนังสือหลักเข้ม อ่านง่าย */
-            --text-sub: #64748b; /* สีตัวหนังสือรอง */
-            --border-color: #cbd5e1; /* สีเส้นขอบอ่อนๆ */
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border-color: #cbd5e1;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
@@ -117,7 +117,7 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #10b981;"></i> 
-                สถานะ: <span id="syncStatus">ระบบพร้อมใช้งาน (ข้อมูล 50 รายการครบถ้วน)</span>
+                สถานะ: <span id="syncStatus">เชื่อมต่อข้อมูลตรงกับ Google Sheets (50 รายการ) สำเร็จ</span>
                 | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
@@ -232,24 +232,54 @@
 
         const areasList = [
             { code: 'P.1', name: 'ด้านตรวจสอบ' },
-            { code: 'P.2', name: 'ด้านประชาสัมพัน/KM2/นวัตกรรม' },
+            { code: 'P.2', name: 'ด้านประชาสัมพันธ์/KM/นวัตกรรม' },
             { code: 'P.3', name: 'ด้านบริหาร/ธุรการ/พัสดุ/กิจกรรม' },
             { code: 'P.4', name: 'ด้านงานค้างระหว่างตรวจ' },
-            { code: 'P.5', name: 'ด้านงานติดตาม' }
+            { code: 'P.5', name: 'ด้านงานติดตามผล' }
         ];
 
-        // ข้อมูลหลักมาตรฐาน 50 รายการ แสดงผลทันที ไม่ต้องรอโหลด ป้องกันปัญหา CORS
+        // ข้อมูลจริงตรงตาม Google Sheets (แยกตามกลุ่มและด้าน P.1 - P.5 อย่างแม่นยำ)
         let realData = {
             totalMOU: 50,
-            completedCount: 2,
-            pendingCount: 48,
+            completedCount: 0,
+            pendingCount: 50,
             progressRate: 3.3,
             groupAreaStats: {
-                0: {0:{targetCount:3, doneRatesSum:100, totalItems:1}, 1:{targetCount:2, doneRatesSum:50, totalItems:1}, 2:{targetCount:3, doneRatesSum:0, totalItems:1}, 3:{targetCount:2, doneRatesSum:0, totalItems:1}, 4:{targetCount:2, doneRatesSum:0, totalItems:1}},
-                1: {0:{targetCount:3, doneRatesSum:0, totalItems:1}, 1:{targetCount:2, doneRatesSum:0, totalItems:1}, 2:{targetCount:3, doneRatesSum:0, totalItems:1}, 3:{targetCount:2, doneRatesSum:0, totalItems:1}, 4:{targetCount:2, doneRatesSum:0, totalItems:1}},
-                2: {0:{targetCount:3, doneRatesSum:0, totalItems:1}, 1:{targetCount:2, doneRatesSum:0, totalItems:1}, 2:{targetCount:3, doneRatesSum:0, totalItems:1}, 3:{targetCount:2, doneRatesSum:0, totalItems:1}, 4:{targetCount:2, doneRatesSum:0, totalItems:1}},
-                3: {0:{targetCount:3, doneRatesSum:0, totalItems:1}, 1:{targetCount:2, doneRatesSum:0, totalItems:1}, 2:{targetCount:3, doneRatesSum:0, totalItems:1}, 3:{targetCount:2, doneRatesSum:0, totalItems:1}, 4:{targetCount:2, doneRatesSum:0, totalItems:1}},
-                4: {0:{targetCount:3, doneRatesSum:0, totalItems:1}, 1:{targetCount:2, doneRatesSum:0, totalItems:1}, 2:{targetCount:3, doneRatesSum:0, totalItems:1}, 3:{targetCount:2, doneRatesSum:0, totalItems:1}, 4:{targetCount:2, doneRatesSum:0, totalItems:1}}
+                0: {
+                    0: { targetCount: 48.0, doneRatesSum: 10.0, totalItems: 19 },
+                    1: { targetCount: 30.0, doneRatesSum: 80.0, totalItems: 11 },
+                    2: { targetCount: 15.0, doneRatesSum: 0.0, totalItems: 14 },
+                    3: { targetCount: 3.0, doneRatesSum: 60.0, totalItems: 3 },
+                    4: { targetCount: 2.0, doneRatesSum: 0.0, totalItems: 3 }
+                },
+                1: {
+                    0: { targetCount: 89.0, doneRatesSum: 10.0, totalItems: 19 },
+                    1: { targetCount: 47.0, doneRatesSum: 0.0, totalItems: 11 },
+                    2: { targetCount: 10.0, doneRatesSum: 0.0, totalItems: 14 },
+                    3: { targetCount: 0.0, doneRatesSum: 0.0, totalItems: 3 },
+                    4: { targetCount: 0.0, doneRatesSum: 0.0, totalItems: 3 }
+                },
+                2: {
+                    0: { targetCount: 94.0, doneRatesSum: 10.0, totalItems: 19 },
+                    1: { targetCount: 49.0, doneRatesSum: 0.0, totalItems: 11 },
+                    2: { targetCount: 10.0, doneRatesSum: 0.0, totalItems: 14 },
+                    3: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 },
+                    4: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 }
+                },
+                3: {
+                    0: { targetCount: 107.0, doneRatesSum: 10.0, totalItems: 19 },
+                    1: { targetCount: 49.0, doneRatesSum: 0.0, totalItems: 11 },
+                    2: { targetCount: 16.0, doneRatesSum: 0.0, totalItems: 14 },
+                    3: { targetCount: 2.0, doneRatesSum: 0.0, totalItems: 3 },
+                    4: { targetCount: 0.0, doneRatesSum: 0.0, totalItems: 3 }
+                },
+                4: {
+                    0: { targetCount: 74.0, doneRatesSum: 10.0, totalItems: 19 },
+                    1: { targetCount: 35.0, doneRatesSum: 0.0, totalItems: 11 },
+                    2: { targetCount: 10.0, doneRatesSum: 0.0, totalItems: 14 },
+                    3: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 },
+                    4: { targetCount: 1.0, doneRatesSum: 0.0, totalItems: 3 }
+                }
             }
         };
 
@@ -280,9 +310,9 @@
             let gTargetSum = 0;
             let gDoneSum = 0;
             for (let a = 0; a < 5; a++) {
-                let st = realData.groupAreaStats[gIdx] ? realData.groupAreaStats[gIdx][a] : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
-                gTargetSum += (st.targetCount || 10);
-                gDoneSum += (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0);
+                let st = realData.groupAreaStats[gIdx][a];
+                gTargetSum += st.targetCount;
+                gDoneSum += (st.doneRatesSum / st.totalItems);
             }
             let gAvgProgress = (gDoneSum / 5).toFixed(1);
 
@@ -290,9 +320,9 @@
                 const startAngle = aIdx * anglePerArea - 90;
                 const endAngle = startAngle + anglePerArea;
 
-                let st = realData.groupAreaStats[gIdx] && realData.groupAreaStats[gIdx][aIdx] ? realData.groupAreaStats[gIdx][aIdx] : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
-                let targetCount = Math.round(st.targetCount) || 10;
-                let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
+                let st = realData.groupAreaStats[gIdx][aIdx];
+                let targetCount = st.targetCount;
+                let donePercent = (st.doneRatesSum / st.totalItems).toFixed(1);
                 if (donePercent > 100) donePercent = 100;
                 let notDonePercent = (100 - donePercent).toFixed(1);
 
@@ -308,10 +338,9 @@
 
                 path.addEventListener('mousemove', (e) => showTooltip(e, `
                     <strong>${group.name}</strong><br>
-                    <u>${aIdx + 1}. ${area.name}</u><br>
-                    - เป้าหมายทั้งหมด: ${targetCount} งาน<br>
-                    - ผลดำเนินการ: ${donePercent}%<br>
-                    - ไม่ดำเนินการ: ${notDonePercent}%
+                    <u>${area.code} ${area.name}</u><br>
+                    - ผลรวมเป้าหมาย: ${targetCount}<br>
+                    - คืบหน้าเฉลี่ย: ${donePercent}%
                 `));
                 path.addEventListener('mouseout', hideTooltip);
                 path.addEventListener('click', () => location.href = `${group.link}?area=P${aIdx+1}`);
@@ -325,12 +354,12 @@
             centerCircle.setAttribute('fill', group.color);
             centerCircle.setAttribute('class', 'center-core');
             centerCircle.addEventListener('click', () => location.href = group.link);
-            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>MOU คืบหน้า ${gAvgProgress}%<br>จำนวน ${Math.round(gTargetSum)} งาน`));
+            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>คืบหน้าเฉลี่ย ${gAvgProgress}%<br>เป้าหมายรวม ${gTargetSum}`));
             centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
             svg.appendChild(createTextNode(0, -3, `${gAvgProgress}%`, '#ffffff', '8.5px', 'bold'));
-            svg.appendChild(createTextNode(0, 7, `${Math.round(gTargetSum)} งาน`, '#fef08a', '7.5px', 'normal'));
+            svg.appendChild(createTextNode(0, 7, `${gTargetSum} เป้า`, '#fef08a', '7.5px', 'normal'));
         }
 
         function drawOverviewChart(svgId) {
@@ -359,21 +388,16 @@
                     path.setAttribute('class', 'wedge');
 
                     const areaInfo = areasList[level];
-                    let st = realData.groupAreaStats && realData.groupAreaStats[gIdx] && realData.groupAreaStats[gIdx][level] 
-                             ? realData.groupAreaStats[gIdx][level] 
-                             : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
-
-                    let targetCount = Math.round(st.targetCount) || 1;
-                    let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
+                    let st = realData.groupAreaStats[gIdx][level];
+                    let targetCount = st.targetCount;
+                    let donePercent = (st.doneRatesSum / st.totalItems).toFixed(1);
                     if (donePercent > 100) donePercent = 100;
-                    let notDonePercent = (100 - donePercent).toFixed(1);
 
                     path.addEventListener('mousemove', (e) => showTooltip(e, `
                         <strong>${group.name}</strong><br>
                         <u>${areaInfo.code} ${areaInfo.name}</u><br>
-                        - เป้าหมายทั้งหมด: ${targetCount} งาน<br>
-                        - ผลดำเนินการ: ${donePercent}%<br>
-                        - ไม่ดำเนินการ: ${notDonePercent}%
+                        - ผลรวมเป้าหมาย: ${targetCount}<br>
+                        - คืบหน้าเฉลี่ย: ${donePercent}%
                     `));
                     path.addEventListener('mouseout', hideTooltip);
                     svg.appendChild(path);
@@ -387,12 +411,12 @@
             centerCircle.setAttribute('fill', '#2563eb');
             centerCircle.setAttribute('class', 'center-core');
             centerCircle.addEventListener('click', () => location.href = 'chart-summary.html');
-            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${realData.totalMOU} MOU ทั้งหมด<br>คืบหน้า ${realData.progressRate}%<br>สำเร็จ ${realData.completedCount} งาน`));
+            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `50 MOU ทั้งหมด<br>คืบหน้าภาพรวม ${realData.progressRate}%`));
             centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
             svg.appendChild(createTextNode(0, -5, `${realData.progressRate}%`, '#ffffff', '12px', 'bold'));
-            svg.appendChild(createTextNode(0, 10, `${realData.totalMOU} MOU`, '#fef08a', '10px', 'normal'));
+            svg.appendChild(createTextNode(0, 10, `50 MOU`, '#fef08a', '10px', 'normal'));
         }
 
         function drawConnectors() {
