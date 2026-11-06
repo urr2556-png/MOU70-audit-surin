@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CASHBOARD MOU70 - สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</title>
-    <!-- Google Fonts: Sarabun -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -21,387 +19,60 @@
             --border-color: #1e293b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Sarabun', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Dynamic AI Background Watermark */
         .ai-watermark {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.08;
-            background-image: 
-                radial-gradient(circle at 20% 30%, #3b82f6 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, #f97316 0%, transparent 40%);
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; opacity: 0.08;
+            background-image: radial-gradient(circle at 20% 30%, #3b82f6 0%, transparent 40%), radial-gradient(circle at 80% 70%, #f97316 0%, transparent 40%);
         }
 
-        .container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* ZONE 1: Header Zone */
         header {
-            background: rgba(17, 34, 64, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            background: rgba(17, 34, 64, 0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;
         }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .logo-box { width: 65px; height: 65px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--accent-orange); }
+        .logo-box i { font-size: 32px; color: var(--accent-orange); }
+        .office-title h1 { font-size: 1.25rem; font-weight: 700; color: #ffffff; }
+        .office-title .values { font-size: 0.85rem; color: var(--accent-orange); font-weight: 500; }
+        .office-title .system-name { font-size: 1rem; font-weight: 600; color: #60a5fa; margin-top: 2px; }
+        .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .clock-box { background: #020617; border: 1px solid #334155; padding: 6px 14px; border-radius: 8px; font-family: monospace; font-size: 0.95rem; color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+        .visitor-box { font-size: 0.8rem; color: var(--text-sub); }
+        .btn-mou-entry { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 6px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .sync-bar { background: #0f172a; padding: 6px 25px; font-size: 0.75rem; color: var(--text-sub); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .sync-btn { background: transparent; border: 1px solid #334155; color: #94a3b8; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
 
-        .logo-box {
-            width: 65px;
-            height: 65px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--accent-orange);
-        }
+        .main-content { flex: 1; display: flex; flex-direction: row; padding: 20px; gap: 20px; }
+        .sidebar { width: 260px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+        .sidebar-title { font-size: 0.85rem; text-transform: uppercase; color: var(--text-sub); margin-bottom: 8px; padding-left: 8px; font-weight: 600; }
+        .menu-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #cbd5e1; text-decoration: none; border-radius: 8px; font-size: 0.9rem; }
+        .menu-link:hover, .menu-link.active { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-left: 3px solid #3b82f6; }
 
-        .logo-box i {
-            font-size: 32px;
-            color: var(--accent-orange);
-        }
+        .chart-container-area { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .kpi-grid { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .kpi-card { background: #0f172a; border: 1px solid #1e293b; border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; }
+        .kpi-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 4px; }
+        .kpi-value { font-size: 1.25rem; font-weight: 700; color: #38bdf8; }
 
-        .office-title h1 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #ffffff;
-        }
+        .svg-chart-box { width: 100%; flex: 1; min-height: 520px; position: relative; display: flex; justify-content: center; align-items: center; }
+        svg { width: 100%; height: 100%; max-height: 580px; }
+        .wedge { cursor: pointer; transition: opacity 0.2s; }
+        .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+        .center-core { cursor: pointer; }
 
-        .office-title .values {
-            font-size: 0.85rem;
-            color: var(--accent-orange);
-            font-weight: 500;
-        }
+        .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid #38bdf8; padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; }
 
-        .office-title .system-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #60a5fa;
-            margin-top: 2px;
-        }
+        footer { background: #070f1e; border-top: 1px solid var(--border-color); padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .footer-left { font-size: 0.85rem; color: var(--text-sub); line-height: 1.5; }
+        .footer-right { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-orange-square { background: var(--accent-orange); color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; }
 
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 6px;
-        }
-
-        .clock-box {
-            background: #020617;
-            border: 1px solid #334155;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.95rem;
-            color: #38bdf8;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
-        }
-
-        .visitor-box {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-        }
-
-        .btn-mou-entry {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .btn-mou-entry:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
-        }
-
-        /* Sync Status Bar */
-        .sync-bar {
-            background: #0f172a;
-            padding: 6px 25px;
-            font-size: 0.75rem;
-            color: var(--text-sub);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .sync-btn {
-            background: transparent;
-            border: 1px solid #334155;
-            color: #94a3b8;
-            padding: 2px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-
-        .sync-btn:hover {
-            color: white;
-            border-color: #64748b;
-        }
-
-        /* ZONE 2: Main Body Zone */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        /* Sidebar Navigation Column */
-        .sidebar {
-            width: 260px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: var(--text-sub);
-            margin-bottom: 8px;
-            padding-left: 8px;
-            font-weight: 600;
-        }
-
-        .menu-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            color: #cbd5e1;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .menu-link:hover, .menu-link.active {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-            border-left: 3px solid #3b82f6;
-        }
-
-        .menu-link i {
-            width: 18px;
-            text-align: center;
-        }
-
-        /* Chart & KPI Area */
-        .chart-container-area {
-            flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        /* KPI Cards Grid */
-        .kpi-grid {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .kpi-card {
-            background: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-3px);
-            border-color: #3b82f6;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-        }
-
-        .kpi-label {
-            font-size: 0.78rem;
-            color: var(--text-sub);
-            margin-bottom: 4px;
-        }
-
-        .kpi-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #38bdf8;
-        }
-
-        /* Interactive SVG Chart ขยายใหญ่เต็มพื้นที่ */
-        .svg-chart-box {
-            width: 100%;
-            flex: 1;
-            min-height: 540px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        svg {
-            width: 100%;
-            height: 100%;
-            max-height: 600px;
-        }
-
-        .wedge {
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .wedge:hover {
-            opacity: 0.85;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
-        }
-
-        .center-core {
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .center-core:hover {
-            transform: scale(1.04);
-        }
-
-        /* Tooltip */
-        .chart-tooltip {
-            position: absolute;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid #38bdf8;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            color: #f8fafc;
-            pointer-events: none;
-            display: none;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-
-        /* ZONE 3: Footer Zone */
-        footer {
-            background: #070f1e;
-            border-top: 1px solid var(--border-color);
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .footer-left {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            line-height: 1.5;
-        }
-
-        .footer-left strong {
-            color: #f8fafc;
-        }
-
-        .footer-right {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn-orange-square {
-            background: var(--accent-orange);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn-orange-square:hover {
-            background: #ea580c;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 900px) {
-            .main-content {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-            }
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .header-right {
-                align-items: flex-start;
-            }
-            footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
+        @media (max-width: 900px) { .main-content { flex-direction: column; } .sidebar { width: 100%; } header, footer { flex-direction: column; align-items: flex-start; } }
     </style>
 </head>
 <body>
@@ -409,19 +80,15 @@
     <div class="ai-watermark"></div>
 
     <div class="container">
-        <!-- โซนที่ 1 — ส่วนหัว (Header Zone) -->
         <header>
             <div class="header-left">
-                <div class="logo-box">
-                    <i class="fa-solid fa-building-columns"></i>
-                </div>
+                <div class="logo-box"><i class="fa-solid fa-building-columns"></i></div>
                 <div class="office-title">
                     <h1>สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</h1>
                     <div class="values">สตง สัตย์ซื่อ มืออาชีพ อิสระและเป็นกลาง</div>
                     <div class="system-name">CASHBOARD MOU70 (ปี 2570 รอบที่ 1)</div>
                 </div>
             </div>
-
             <div class="header-right">
                 <div class="clock-box" id="liveClock">กำลังโหลดเวลา...</div>
                 <div class="visitor-box"><i class="fa-solid fa-users"></i> ผู้เข้าชมระบบสะสม: <strong id="visitorCount">1,245</strong> คน</div>
@@ -429,21 +96,18 @@
             </div>
         </header>
 
-        <!-- Status Bar ซิงก์ Google Sheets -->
         <div class="sync-bar">
             <div>
-                <i class="fa-solid fa-circle-dot" style="color: #10b981;"></i> 
-                สถานะ: <span id="syncStatus">เชื่อมต่อ Google Sheets สำเร็จ</span>[cite: 1]
-                | อัปเดตล่าสุด: <span id="lastSyncTime">10:34:00</span>
+                <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #f59e0b;"></i> 
+                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span> 
+                | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
-                <button class="sync-btn" onclick="refreshData()"><i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล</button>
+                <button class="sync-btn" onclick="fetchRealGoogleSheetData()"><i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล</button>
             </div>
         </div>
 
-        <!-- โซนที่ 2 — เมนูด้านซ้ายและกราฟหลักด้านขวา (Main Body Zone) -->
         <div class="main-content">
-            <!-- เมนูด้านซ้าย -->
             <nav class="sidebar">
                 <div class="sidebar-title">เมนูหลัก</div>
                 <a href="index.html" class="menu-link active"><i class="fa-solid fa-house"></i> หน้าแรก</a>
@@ -462,39 +126,33 @@
                 <a href="mou-reasons.html" class="menu-link"><i class="fa-solid fa-circle-exclamation"></i> เหตุผลยังไม่เป็นตาม MOU</a>
             </nav>
 
-            <!-- พื้นที่แสดงกราฟ SVG และ KPI (ขยายใหญ่เต็มพื้นที่) -->
             <main class="chart-container-area">
-                <!-- การ์ด KPI สรุปภาพรวม -->
                 <div class="kpi-grid">
                     <div class="kpi-card" onclick="location.href='chart-summary.html'">
                         <div class="kpi-label">เป้าหมาย MOU ทั้งหมด</div>
-                        <div class="kpi-value" id="kpiTotal">55 รายการ</div>
+                        <div class="kpi-value" id="kpiTotal">กำลังโหลด...</div>
                     </div>
                     <div class="kpi-card" onclick="location.href='chart-summary.html'">
                         <div class="kpi-label">ดำเนินการแล้วเสร็จ</div>
-                        <div class="kpi-value" style="color: #10b981;" id="kpiDone">14 รายการ (25%)</div>
+                        <div class="kpi-value" style="color: #10b981;" id="kpiDone">กำลังโหลด...</div>
                     </div>
                     <div class="kpi-card" onclick="location.href='chart-summary.html'">
                         <div class="kpi-label">อยู่ระหว่างดำเนินการ</div>
-                        <div class="kpi-value" style="color: #f59e0b;" id="kpiPending">41 รายการ (75%)</div>
+                        <div class="kpi-value" style="color: #f59e0b;" id="kpiPending">กำลังโหลด...</div>
                     </div>
                     <div class="kpi-card" onclick="location.href='chart-summary.html'">
-                        <div class="kpi-label">ประเมินผลสำเร็จรวม</div>
-                        <div class="kpi-value" style="color: #ec4899;" id="kpiRate">68.4% Average</div>
+                        <div class="kpi-label">ความคืบหน้าเฉลี่ยรวม</div>
+                        <div class="kpi-value" style="color: #ec4899;" id="kpiRate">กำลังโหลด...</div>
                     </div>
                 </div>
 
-                <!-- Concentric Circle SVG Chart (ขยายขนาดสเกลเต็มพื้นที่) -->
                 <div class="svg-chart-box">
-                    <svg viewBox="-220 -220 440 440" id="mouChart">
-                        <!-- แฉกกลุ่ม G1 - G5 และชั้น P.1 - P.5 สร้างผ่าน JavaScript -->
-                    </svg>
+                    <svg viewBox="-220 -220 440 440" id="mouChart"></svg>
                     <div class="chart-tooltip" id="chartTooltip"></div>
                 </div>
             </main>
         </div>
 
-        <!-- โซนที่ 3 — ส่วนท้าย (Footer Zone) -->
         <footer>
             <div class="footer-left">
                 <strong>สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</strong><br>
@@ -511,7 +169,6 @@
         </footer>
     </div>
 
-    <!-- JavaScript สำหรับระบบทำงานเรียลไทม์ และวาดกราฟขนาดใหญ่เต็มพื้นที่ -->
     <script>
         const SHEET_ID = '1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU';
 
@@ -539,14 +196,80 @@
             { code: 'P.5', name: 'ด้านงานติดตาม' }
         ];
 
+        // ตัวแปรเก็บข้อมูลชีตจริง
+        let realData = { totalMOU: 55, completedCount: 0, pendingCount: 55, progressRate: 0, groupStats: [] };
+
+        // 1. อ่านข้อมูลจาก Google Sheet แท็บแผน และ แท็บผล
+        async function fetchRealGoogleSheetData() {
+            try {
+                document.getElementById('syncStatus').innerText = 'กำลังซิงก์ข้อมูล Google Sheets...';
+                document.getElementById('syncDot').style.color = '#f59e0b';
+
+                // ดึงข้อมูลแท็บผล (สรุปผล MOU 1-5)
+                const resResult = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=สรุปผล MOU 1-5`);
+                const textResult = await resResult.text();
+                const jsonResultText = textResult.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/)[1];
+                const jsonResult = JSON.parse(jsonResultText);
+                const rows = jsonResult.table.rows;
+
+                let totalMOUCount = 0;
+                let doneCount = 0;
+                let sumRate = 0;
+                let validRates = 0;
+
+                // คำนวณผลสรุปจริงจากแถวข้อมูลในชีต
+                rows.forEach((r, idx) => {
+                    if (r.c && r.c[0] && r.c[0].v && typeof r.c[0].v === 'string' && !r.c[0].v.startsWith('สรุป') && !r.c[0].v.startsWith('รายการ')) {
+                        totalMOUCount++;
+                        let rateVal = 0;
+                        if (r.c[13] && r.c[13].v !== null) {
+                            let raw = r.c[13].v;
+                            rateVal = typeof raw === 'number' ? (raw <= 1 ? raw * 100 : raw) : parseFloat(raw) || 0;
+                        }
+                        if (rateVal >= 100) doneCount++;
+                        sumRate += rateVal;
+                        validRates++;
+                    }
+                });
+
+                const avgRate = validRates > 0 ? (sumRate / validRates).toFixed(1) : 0;
+                const total = totalMOUCount > 0 ? totalMOUCount : 55;
+                const pending = total - doneCount;
+
+                realData = {
+                    totalMOU: total,
+                    completedCount: doneCount,
+                    pendingCount: pending,
+                    progressRate: avgRate
+                };
+
+                // อัปเดต UI KPI Cards
+                document.getElementById('kpiTotal').innerText = `${total} รายการ`;
+                document.getElementById('kpiDone').innerText = `${doneCount} รายการ (${((doneCount/total)*100).toFixed(0)}%)`;
+                document.getElementById('kpiPending').innerText = `${pending} รายการ (${((pending/total)*100).toFixed(0)}%)`;
+                document.getElementById('kpiRate').innerText = `${avgRate}% ความคืบหน้า`;
+
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สรุปผลเรียบร้อย';
+                document.getElementById('syncDot').style.color = '#10b981';
+                document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
+
+                drawChart();
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('syncStatus').innerText = 'ซิงก์ข้อมูลล้มเหลว (ใช้ออฟไลน์มอด)';
+                document.getElementById('syncDot').style.color = '#ef4444';
+            }
+        }
+
         function drawChart() {
             const svg = document.getElementById('mouChart');
             svg.innerHTML = '';
 
             const totalGroups = 5;
             const anglePerGroup = 360 / totalGroups;
-            const innerRadius = 42; // ปรับขนาดวงกลมแดงตรงกลางให้สมส่วน
-            const layerThickness = 32; // ขยายความหนาชั้นรัศมีให้เต็มพื้นที่
+            const innerRadius = 45;
+            const layerThickness = 32;
 
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
@@ -560,10 +283,10 @@
                     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                     path.setAttribute('d', pathData);
                     path.setAttribute('fill', group.color);
-                    path.setAttribute('opacity', 0.4 + (level * 0.12));
+                    path.setAttribute('opacity', 0.45 + (level * 0.12));
                     path.setAttribute('class', 'wedge');
 
-                    path.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>${areasList[level].code} ${areasList[level].name}<br>เป้าหมาย 25 | ทำได้ 15 | 60%`));
+                    path.addEventListener('mousemove', (e) => showTooltip(e, `<strong>${group.name}</strong><br>${areasList[level].code} ${areasList[level].name}<br>ข้อมูลเชื่อมต่อตรงจาก Google Sheet`));
                     path.addEventListener('mouseout', hideTooltip);
                     path.addEventListener('click', () => location.href = `${group.link}?area=P${level+1}`);
 
@@ -571,7 +294,7 @@
                 }
             });
 
-            // วงกลมตรงกลาง (Center Core)
+            // Center Core วงกลมสีแดงตรงกลาง แสดงผลจาก Google Sheet จริง
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
             centerCircle.setAttribute('cy', 0);
@@ -579,13 +302,13 @@
             centerCircle.setAttribute('fill', '#ef4444');
             centerCircle.setAttribute('class', 'center-core');
             centerCircle.addEventListener('click', () => location.href = 'chart-summary.html');
-            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, '55 MOU<br>คืบหน้า 25%<br>เหลือ 75%<br>(คลิกเพื่อดูสรุปภาพรวม)'));
+            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `${realData.totalMOU} MOU ทั้งหมด<br>คืบหน้าเฉลี่ย ${realData.progressRate}%<br>สำเร็จแล้ว ${realData.completedCount} รายการ<br>(คลิกดูสรุปภาพรวมทั้งหมด)`));
             centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
-            const text1 = createTextNode(0, -8, '55 MOU', '#ffffff', '13px', 'bold');
-            const text2 = createTextNode(0, 9, 'คืบหน้า 25%', '#fef08a', '10px', '600');
-            const text3 = createTextNode(0, 23, 'เหลือ 75%', '#ffffff', '9px', 'normal');
+            const text1 = createTextNode(0, -8, `${realData.totalMOU} MOU`, '#ffffff', '13px', 'bold');
+            const text2 = createTextNode(0, 8, `คืบหน้า ${realData.progressRate}%`, '#fef08a', '10px', '600');
+            const text3 = createTextNode(0, 22, `เสร็จ ${realData.completedCount} งาน`, '#ffffff', '8.5px', 'normal');
             svg.appendChild(text1);
             svg.appendChild(text2);
             svg.appendChild(text3);
@@ -636,32 +359,11 @@
             tooltip.style.left = (e.pageX - document.querySelector('.chart-container-area').offsetLeft + 15) + 'px';
             tooltip.style.top = (e.pageY - document.querySelector('.chart-container-area').offsetTop - 20) + 'px';
         }
-        function hideTooltip() {
-            tooltip.style.display = 'none';
-        }
-
-        async function fetchGoogleSheetData() {
-            try {
-                const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`);
-                await res.text();
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สำเร็จ';[cite: 1]
-                document.getElementById('syncStatus').style.color = '#10b981';
-                const d = new Date();
-                document.getElementById('lastSyncTime').innerText = d.toTimeString().split(' ')[0];
-            } catch (err) {
-                document.getElementById('syncStatus').innerText = 'ซิงก์ล้มเหลว (ใช้ข้อมูลแคช)';
-                document.getElementById('syncStatus').style.color = '#ef4444';
-            }
-        }
-
-        function refreshData() {
-            fetchGoogleSheetData();
-        }
+        function hideTooltip() { tooltip.style.display = 'none'; }
 
         window.onload = () => {
-            drawChart();
-            fetchGoogleSheetData();
-            setInterval(fetchGoogleSheetData, 60000);
+            fetchRealGoogleSheetData();
+            setInterval(fetchRealGoogleSheetData, 30000); // ซิงก์ข้อมูลอัตโนมัติทุก 30 วินาทีตามข้อกำหนดชีต
         };
     </script>
 </body>
