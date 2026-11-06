@@ -113,7 +113,7 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #f59e0b;"></i> 
-                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>[cite: 1]
+                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>
                 | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
@@ -200,11 +200,11 @@
         updateClock();
 
         const groupsData = [
-            { id: 'G1', name: 'G1 (กลุ่มตรวจสอบที่ 1)', color: '#3b82f6' },
-            { id: 'G2', name: 'G2 (กลุ่มตรวจสอบที่ 2)', color: '#10b981' },
-            { id: 'G3', name: 'G3 (กลุ่มตรวจสอบที่ 3)', color: '#f59e0b' },
-            { id: 'G4', name: 'G4 (กลุ่มตรวจสอบที่ 4)', color: '#8b5cf6' },
-            { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#ec4899' }
+            { id: 'G1', name: 'G1 (กลุ่มตรวจสอบที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
+            { id: 'G2', name: 'G2 (กลุ่มตรวจสอบที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
+            { id: 'G3', name: 'G3 (กลุ่มตรวจสอบที่ 3)', color: '#f59e0b', link: 'chart-group-3.html' },
+            { id: 'G4', name: 'G4 (กลุ่มตรวจสอบที่ 4)', color: '#8b5cf6', link: 'chart-group-4.html' },
+            { id: 'G5', name: 'G5 (กลุ่มตรวจสอบที่ 5)', color: '#ec4899', link: 'chart-group-5.html' }
         ];
 
         const areasList = [
@@ -216,7 +216,7 @@
         ];
 
         let realData = { totalMOU: 55, completedCount: 0, pendingCount: 55, progressRate: 0, groupAreaStats: {} };
-        let selectedGroupIdx = null;
+        let selectedGroupIdx = null; // null หมายถึงแสดงภาพรวมทั้งหมด, 0-4 หมายถึงเจาะลึกกลุ่ม G1-G5
 
         function getAreaIndexByRow(rowText) {
             if (!rowText) return 0;
@@ -303,7 +303,7 @@
                 document.getElementById('kpiPending').innerText = `${pending} รายการ (${((pending/total)*100).toFixed(0)}%)`;
                 document.getElementById('kpiRate').innerText = `${avgRate}% ความคืบหน้า`;
 
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';[cite: 1]
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';
                 document.getElementById('syncDot').style.color = '#34d399';
                 document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
 
@@ -321,6 +321,7 @@
             svg.innerHTML = '';
 
             if (selectedGroupIdx === null) {
+                // --- โหมดภาพรวมทั้งหมด (5 กลุ่ม G1 - G5) ---
                 document.getElementById('chartInstructionMsg').style.display = 'block';
                 document.getElementById('backToMainBtn').style.display = 'none';
 
@@ -364,6 +365,7 @@
                         `));
                         path.addEventListener('mouseout', hideTooltip);
                         
+                        // คลิกที่ช่องแฉกของภาพรวมเพื่อเข้าสู่โหมดเจาะลึกเฉพาะกลุ่ม
                         path.addEventListener('click', () => {
                             selectedGroupIdx = gIdx;
                             drawChart();
@@ -372,6 +374,7 @@
                         svg.appendChild(path);
                     }
 
+                    // เส้นโยงป้ายชื่อกลุ่มออกด้านข้าง
                     const outerRadius = innerRadius + (5 * layerThickness);
                     const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
                     
@@ -405,6 +408,7 @@
                     svg.appendChild(text);
                 });
 
+                // วงกลมสีแดงตรงกลางสำหรับภาพรวมทั้งหมด
                 const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 centerCircle.setAttribute('cx', 0);
                 centerCircle.setAttribute('cy', 0);
@@ -420,8 +424,9 @@
                 svg.appendChild(createTextNode(0, 22, `เสร็จ ${realData.completedCount} งาน`, '#ffffff', '8.5px', 'normal'));
 
             } else {
+                // --- โหมดเจาะลึกเฉพาะกลุ่มที่เลือก (G1 - G5) แบ่งออกเป็น 5 ด้าน ---
                 const group = groupsData[selectedGroupIdx];
-                document.getElementById('chartInstructionMsg').innerText = `📊 กำลังแสดงรายละเอียดของ ${group.name} (คลิกวงกลมตรงกลางเพื่อกลับภาพรวม)`;
+                document.getElementById('chartInstructionMsg').innerText = `📊 กำลังแสดงรายละเอียดของ ${group.name} (คลิกวงกลมตรงกลางเพื่อกลับสู่ภาพรวม)`;
                 document.getElementById('backToMainBtn').style.display = 'block';
 
                 const totalAreas = 5;
@@ -469,6 +474,7 @@
                     path.addEventListener('mouseout', hideTooltip);
                     svg.appendChild(path);
 
+                    // เส้นโยงข้อมูลด้านข้าง 5 ด้าน
                     const outerRadius = rOut;
                     const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
                     
@@ -510,6 +516,7 @@
                     svg.appendChild(subText);
                 });
 
+                // วงกลมตรงกลางแสดงภาพรวมเฉพาะกลุ่มที่เลือก
                 const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 centerCircle.setAttribute('cx', 0);
                 centerCircle.setAttribute('cy', 0);
@@ -517,7 +524,7 @@
                 centerCircle.setAttribute('fill', group.color);
                 centerCircle.setAttribute('class', 'center-core');
                 centerCircle.addEventListener('click', resetToMainView);
-                centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `คลิกเพื่อกลับภาพรวมทั้งหมด`));
+                centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `คลิกเพื่อกลับสู่ภาพรวมทั้งหมด`));
                 centerCircle.addEventListener('mouseout', hideTooltip);
                 svg.appendChild(centerCircle);
 
