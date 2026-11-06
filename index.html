@@ -69,10 +69,14 @@
         .kpi-value { font-size: 1.25rem; font-weight: 700; color: #38bdf8; }
 
         .svg-chart-box { width: 100%; flex: 1; min-height: 520px; position: relative; display: flex; justify-content: center; align-items: center; }
-        svg { width: 100%; height: 100%; max-height: 580px; }
+        svg { width: 100%; height: 100%; max-height: 600px; }
         .wedge { cursor: pointer; transition: opacity 0.2s; }
         .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
         .center-core { cursor: pointer; }
+
+        /* ปรับดีไซน์เส้นโยง และข้อความให้สวยงาม */
+        .callout-line { stroke-dasharray: 4; animation: dash 30s linear infinite; }
+        .callout-text { font-family: 'Sarabun', sans-serif; fill: #f8fafc; font-size: 10.5px; font-weight: 500; }
 
         .chart-tooltip { position: absolute; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--accent-gold); padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; color: #f8fafc; pointer-events: none; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
 
@@ -102,14 +106,15 @@
             <div class="header-right">
                 <div class="clock-box" id="liveClock">กำลังโหลดเวลา...</div>
                 <div class="visitor-box"><i class="fa-solid fa-users"></i> ผู้เข้าชมระบบสะสม: <strong id="visitorCount">1,245</strong> คน</div>
-                <a href="mou-entry.html" class="btn-mou-entry"><i class="fa-solid fa-pen-to-square"></i> กรอกข้อมูล MOU</a>
+                <!-- เชื่อมปุ่มไปที่ Google Sheet ตามลิ้งก์ที่กำหนด -->
+                <a href="https://docs.google.com/spreadsheets/d/1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU/edit?usp=sharing" target="_blank" class="btn-mou-entry"><i class="fa-solid fa-pen-to-square"></i> กรอกข้อมูล MOU</a>
             </div>
         </header>
 
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #f59e0b;"></i> 
-                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>[cite: 1]
+                สถานะ: <span id="syncStatus">กำลังดึงข้อมูลจาก Google Sheets...</span>
                 | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
@@ -157,7 +162,8 @@
                 </div>
 
                 <div class="svg-chart-box">
-                    <svg viewBox="-220 -220 440 440" id="mouChart"></svg>
+                    <!-- ขยาย viewBox ให้มีพื้นที่กว้างขึ้นเพื่อวางเส้นโยงด้านข้าง -->
+                    <svg viewBox="-320 -240 640 480" id="mouChart"></svg>
                     <div class="chart-tooltip" id="chartTooltip"></div>
                 </div>
             </main>
@@ -200,8 +206,8 @@
 
         const areasList = [
             { code: 'P.1', name: 'ด้านตรวจสอบ' },
-            { code: 'P.2', name: 'ด้านประชาสัมพันธ์/KM2/นวัตกรรม' },
-            { code: 'P.3', name: 'ด้านบริหาร/ธุรการ/พัสดุ/กิจกรรม' },
+            { code: 'P.2', name: 'ด้านประชาสัมพันธ์/KM2' },
+            { code: 'P.3', name: 'ด้านบริหาร/ธุรการ' },
             { code: 'P.4', name: 'ด้านงานค้างระหว่างตรวจ' },
             { code: 'P.5', name: 'ด้านงานติดตาม' }
         ];
@@ -269,11 +275,12 @@
             const totalGroups = 5;
             const anglePerGroup = 360 / totalGroups;
             const innerRadius = 45;
-            const layerThickness = 32;
+            const layerThickness = 28;
 
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
                 const endAngle = startAngle + anglePerGroup;
+                const midAngle = startAngle + (anglePerGroup / 2);
 
                 for (let level = 0; level < 5; level++) {
                     const rIn = innerRadius + (level * layerThickness);
@@ -286,14 +293,52 @@
                     path.setAttribute('opacity', 0.45 + (level * 0.12));
                     path.setAttribute('class', 'wedge');
 
-                    path.addEventListener('mousemove', (e) => showTooltip(e, `<strong>${group.name}</strong><br>${areasList[level].code} ${areasList[level].name}<br>ข้อมูลเชื่อมต่อตรงจาก Google Sheet[cite: 1]`));
+                    path.addEventListener('mousemove', (e) => showTooltip(e, `<strong>${group.name}</strong><br>${areasList[level].code} ${areasList[level].name}<br>ข้อมูลเชื่อมต่อตรงจาก Google Sheet`));
                     path.addEventListener('mouseout', hideTooltip);
                     path.addEventListener('click', () => location.href = `${group.link}?area=P${level+1}`);
 
                     svg.appendChild(path);
                 }
+
+                // สรุปตำแหน่งจุดกึ่งกลางนอกสุดของแฉกเพื่อสร้างเส้นโยงออกด้านข้าง
+                const outerRadius = innerRadius + (5 * layerThickness);
+                const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
+                
+                // คำนวณพิกัดด้านข้างขวาหรือซ้าย
+                const isRight = Math.cos(midAngle * Math.PI / 180) >= 0;
+                const targetX = isRight ? 210 : -210;
+                const midX = isRight ? startPoint.x + 30 : startPoint.x - 30;
+
+                // วาดเส้นโยงแบบโพลีไลน์ (Polyline Leader Line)
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+                line.setAttribute('points', `${startPoint.x},${startPoint.y} ${midX},${startPoint.y} ${targetX},${startPoint.y}`);
+                line.setAttribute('stroke', group.color);
+                line.setAttribute('stroke-width', '1.5');
+                line.setAttribute('fill', 'none');
+                line.setAttribute('opacity', '0.85');
+                svg.appendChild(line);
+
+                // วาดจุดบนกราฟตรงจุดตั้งต้นของเส้นโยง
+                const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dot.setAttribute('cx', startPoint.x);
+                dot.setAttribute('cy', startPoint.y);
+                dot.setAttribute('r', '3');
+                dot.setAttribute('fill', group.color);
+                svg.appendChild(dot);
+
+                // ข้อความป้ายกำกับด้านข้าง (Label Callout)
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', isRight ? targetX + 8 : targetX - 8);
+                text.setAttribute('y', startPoint.y + 4);
+                text.setAttribute('fill', '#ffffff');
+                text.setAttribute('font-size', '11px');
+                text.setAttribute('font-weight', '600');
+                text.setAttribute('text-anchor', isRight ? 'start' : 'end');
+                text.textContent = `${group.id} (${group.name.split(' ')[0]})`;
+                svg.appendChild(text);
             });
 
+            // วงกลมสีแดงตรงกลาง (Center Core)
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
             centerCircle.setAttribute('cy', 0);
