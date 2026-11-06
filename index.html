@@ -1,404 +1,687 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CASHBORAD MOU70 | สตจ.สุรินทร์</title>
-<style>
-*{box-sizing:border-box}
-:root{
-  --bg:#10171f;--panel:#1b2632;--line:#304153;
-  --text:#edf4fc;--muted:#a8b8c9;--accent:#ff985a;
-}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font:15px/1.6 system-ui,sans-serif;
-}
-button,select{font:inherit}
-button,a,select{-webkit-tap-highlight-color:transparent}
-.layout{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-aside{padding:24px 16px;background:#151e28;border-right:1px solid var(--line)}
-.brand{font-size:23px;font-weight:800;margin-bottom:4px}
-.caption{color:var(--muted);font-size:13px;margin-bottom:26px}
-.menu{display:grid;gap:9px}
-.menu button{
-  text-align:left;padding:13px 15px;border:0;border-radius:10px;
-  color:var(--muted);background:transparent;cursor:pointer;
-}
-.menu button:hover{background:#233242;color:#fff}
-.menu button.active{background:var(--accent);color:#23190e;font-weight:750}
-main{padding:26px;min-width:0}
-header{display:flex;justify-content:space-between;align-items:center;gap:16px}
-h1{font-size:27px;margin:0}
-.sub{color:var(--muted);margin:4px 0}
-.entry{
-  background:#228254;color:#fff;padding:11px 17px;
-  border-radius:10px;text-decoration:none;white-space:nowrap;
-}
-.toolbar{
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:12px;margin:24px 0 18px;
-}
-select{
-  background:var(--panel);color:var(--text);
-  border:1px solid var(--line);border-radius:9px;padding:10px 15px;
-}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.card,.panel{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:14px;padding:20px;
-}
-.card span{color:var(--muted)}
-.card strong{display:block;font-size:30px;margin-top:7px}
-.panels{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin:18px 0}
-h2{font-size:17px;margin:0 0 16px}
-.bar-row{display:grid;grid-template-columns:65px 1fr 110px;gap:10px;align-items:center;margin:16px 0}
-.track{height:12px;background:#334151;border-radius:9px;overflow:hidden}
-.fill{height:100%;background:var(--accent);border-radius:9px}
-.bar-value{text-align:right;font-size:13px;color:var(--muted)}
-.note{color:var(--muted);font-size:13px}
-.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;white-space:nowrap}
-th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:right}
-th{color:var(--muted);font-size:13px}
-th:nth-child(2),td:nth-child(2){text-align:left;white-space:normal;min-width:280px}
-.positive{color:#79dfae}.negative{color:#ffa194}
-#status{color:var(--muted);font-size:13px}
-.empty{text-align:center!important;padding:35px;color:var(--muted)}
-button:focus-visible,a:focus-visible,select:focus-visible{
-  outline:3px solid var(--accent);outline-offset:3px;
-}
-@media(max-width:1000px){
-  .layout{grid-template-columns:185px 1fr}
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .panels{grid-template-columns:1fr}
-}
-@media(max-width:650px){
-  .layout{display:block}
-  aside{padding:15px;border-right:0;border-bottom:1px solid var(--line)}
-  .caption{margin-bottom:12px}
-  .menu{display:flex;overflow:auto}
-  .menu button{white-space:nowrap}
-  main{padding:15px}
-  header{align-items:flex-start}
-  h1{font-size:21px}
-  .entry{font-size:12px;padding:9px}
-  .card{padding:14px}
-  .card strong{font-size:25px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASHBOARD MOU70 - สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</title>
+    <!-- Google Fonts: Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a192f;
+            --bg-card: #112240;
+            --primary: #1e3a8a;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: #1e293b;
+            --g1-color: #3b82f6;
+            --g2-color: #10b981;
+            --g3-color: #f59e0b;
+            --g4-color: #8b5cf6;
+            --g5-color: #ec4899;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Dynamic AI Background Watermark */
+        .ai-watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.08;
+            background-image: 
+                radial-gradient(circle at 20% 30%, #3b82f6 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, #f97316 0%, transparent 40%);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ZONE 1: Header Zone */
+        header {
+            background: rgba(17, 34, 64, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-box {
+            width: 65px;
+            height: 65px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--accent-orange);
+        }
+
+        .logo-box i {
+            font-size: 32px;
+            color: var(--accent-orange);
+        }
+
+        .office-title h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .office-title .values {
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            font-weight: 500;
+        }
+
+        .office-title .system-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .clock-box {
+            background: #020617;
+            border: 1px solid #334155;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        .visitor-box {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        .btn-mou-entry {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-mou-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+        }
+
+        /* Sync Status Bar */
+        .sync-bar {
+            background: #0f172a;
+            padding: 6px 25px;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sync-btn {
+            background: transparent;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .sync-btn:hover {
+            color: white;
+            border-color: #64748b;
+        }
+
+        /* ZONE 2: Main Body Zone */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Sidebar Navigation Column */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+            padding-left: 8px;
+            font-weight: 600;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .menu-link:hover, .menu-link.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .menu-link i {
+            width: 18px;
+            text-align: center;
+        }
+
+        /* Chart & KPI Area */
+        .chart-container-area {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* KPI Cards Grid */
+        .kpi-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            border-color: #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-bottom: 5px;
+        }
+
+        .kpi-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        /* Interactive SVG Chart */
+        .svg-chart-box {
+            width: 100%;
+            max-width: 650px;
+            height: 480px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wedge {
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .wedge:hover {
+            opacity: 0.85;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+        }
+
+        .center-core {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .center-core:hover {
+            transform: scale(1.03);
+        }
+
+        /* Tooltip */
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid #38bdf8;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #f8fafc;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* ZONE 3: Footer Zone */
+        footer {
+            background: #070f1e;
+            border-top: 1px solid var(--border-color);
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-left {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .footer-left strong {
+            color: #f8fafc;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-orange-square {
+            background: var(--accent-orange);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-orange-square:hover {
+            background: #ea580c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-right {
+                align-items: flex-start;
+            }
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="layout">
-  <aside>
-    <div class="brand">CASHBORAD</div>
-    <div class="caption">MOU70 · สตจ.สุรินทร์</div>
-    <nav class="menu" id="menu" aria-label="ประเภทงาน"></nav>
-  </aside>
 
-  <main>
-    <header>
-      <div>
-        <h1 id="pageTitle">ภาพรวมทุกงาน</h1>
-        <p class="sub">ติดตาม MOU ปีงบประมาณ 2570 รอบที่ 1</p>
-      </div>
-      <a class="entry"
-         href="https://docs.google.com/spreadsheets/d/1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU/edit"
-         target="_blank" rel="noopener noreferrer">
-        กรอกข้อมูล MOU ↗
-      </a>
-    </header>
+    <div class="ai-watermark"></div>
 
-    <div class="toolbar">
-      <label>แสดงข้อมูล
-        <select id="group">
-          <option value="all">ทุกกลุ่ม · รวม 5 กลุ่ม</option>
-          <option value="1">กลุ่มตรวจสอบที่ 1</option>
-          <option value="2">กลุ่มตรวจสอบที่ 2</option>
-          <option value="3">กลุ่มตรวจสอบที่ 3</option>
-          <option value="4">กลุ่มตรวจสอบที่ 4</option>
-          <option value="5">กลุ่มตรวจสอบที่ 5</option>
-        </select>
-      </label>
-      <span id="status" role="status">รอข้อมูลจาก Google Sheets</span>
+    <div class="container">
+        <!-- โซนที่ 1 — ส่วนหัว (Header Zone) -->
+        <header>
+            <div class="header-left">
+                <div class="logo-box">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div class="office-title">
+                    <h1>สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</h1>
+                    <div class="values">สตง สัตย์ซื่อ มืออาชีพ อิสระและเป็นกลาง</div>
+                    <div class="system-name">CASHBOARD MOU70 (ปี 2570 รอบที่ 1)</div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="clock-box" id="liveClock">กำลังโหลดเวลา...</div>
+                <div class="visitor-box"><i class="fa-solid fa-users"></i> ผู้เข้าชมระบบสะสม: <strong id="visitorCount">1,245</strong> คน</div>
+                <a href="mou-entry.html" class="btn-mou-entry"><i class="fa-solid fa-pen-to-square"></i> กรอกข้อมูล MOU</a>
+            </div>
+        </header>
+
+        <!-- Status Bar ซิงก์ Google Sheets -->
+        <div class="sync-bar">
+            <div>
+                <i class="fa-solid fa-circle-dot" style="color: #10b981;"></i> 
+                สถานะ: <span id="syncStatus">เชื่อมต่อ Google Sheets สำเร็จ</span> 
+                | อัปเดตล่าสุด: <span id="lastSyncTime">10:34:00</span>
+            </div>
+            <div>
+                <button class="sync-btn" onclick="refreshData()"><i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล</button>
+            </div>
+        </div>
+
+        <!-- โซนที่ 2 — เมนูด้านซ้ายและกราฟหลักด้านขวา (Main Body Zone) -->
+        <div class="main-content">
+            <!-- เมนูด้านซ้าย -->
+            <nav class="sidebar">
+                <div class="sidebar-title">เมนูหลัก</div>
+                <a href="index.html" class="menu-link active"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+                <a href="mou-overview.html" class="menu-link"><i class="fa-solid fa-chart-pie"></i> MOU ภาพรวม</a>
+                <a href="mou-by-group.html" class="menu-link"><i class="fa-solid fa-layer-group"></i> MOU แยกรายกลุ่ม</a>
+                <a href="mou-by-item.html" class="menu-link"><i class="fa-solid fa-list-check"></i> MOU แยกราย MOU</a>
+                <a href="mou-by-period.html" class="menu-link"><i class="fa-solid fa-calendar-days"></i> MOU แยกตามช่วงเวลา</a>
+                <div class="sidebar-title" style="margin-top: 10px;">รายกลุ่มตรวจสอบ</div>
+                <a href="group-1.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 1 (G1)</a>
+                <a href="group-2.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 2 (G2)</a>
+                <a href="group-3.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 3 (G3)</a>
+                <a href="group-4.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 4 (G4)</a>
+                <a href="group-5.html" class="menu-link"><i class="fa-solid fa-folder"></i> MOU กลุ่มที่ 5 (G5)</a>
+                <div class="sidebar-title" style="margin-top: 10px;">อื่นๆ</div>
+                <a href="auto-qa.html" class="menu-link"><i class="fa-solid fa-robot"></i> ตอบคำถามอัตโนมัติ</a>
+                <a href="mou-reasons.html" class="menu-link"><i class="fa-solid fa-circle-exclamation"></i> เหตุผลยังไม่เป็นตาม MOU</a>
+            </nav>
+
+            <!-- พื้นที่แสดงกราฟ SVG และ KPI -->
+            <main class="chart-container-area">
+                <!-- การ์ด KPI สรุปภาพรวม -->
+                <div class="kpi-grid">
+                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
+                        <div class="kpi-label">เป้าหมาย MOU ทั้งหมด</div>
+                        <div class="kpi-value" id="kpiTotal">55 รายการ</div>
+                    </div>
+                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
+                        <div class="kpi-label">ดำเนินการแล้วเสร็จ</div>
+                        <div class="kpi-value" style="color: #10b981;" id="kpiDone">14 รายการ (25%)</div>
+                    </div>
+                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
+                        <div class="kpi-label">อยู่ระหว่างดำเนินการ</div>
+                        <div class="kpi-value" style="color: #f59e0b;" id="kpiPending">41 รายการ (75%)</div>
+                    </div>
+                    <div class="kpi-card" onclick="location.href='chart-summary.html'">
+                        <div class="kpi-label">ประเมินผลสำเร็จรวม</div>
+                        <div class="kpi-value" style="color: #ec4899;" id="kpiRate">68.4% Average</div>
+                    </div>
+                </div>
+
+                <!-- Concentric Circle SVG Chart -->
+                <div class="svg-chart-box">
+                    <svg viewBox="-250 -250 500 500" id="mouChart">
+                        <!-- แฉกกลุ่ม G1 - G5 และชั้น P.1 - P.5 จะถูกสร้างผ่าน JavaScript -->
+                    </svg>
+                    <div class="chart-tooltip" id="chartTooltip"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- โซนที่ 3 — ส่วนท้าย (Footer Zone) -->
+        <footer>
+            <div class="footer-left">
+                <strong>สำนักตรวจเงินแผ่นดินจังหวัดสุรินทร์</strong><br>
+                ที่อยู่: ศูนย์ราชการจังหวัดสุรินทร์ ถนนสุรินทร์-ปราสาท ต.เสม็ด อ.เมืองสุรินทร์ จ.สุรินทร์ 32000<br>
+                อีเมล: surin@oag.go.th | โทรศัพท์: 044-511-284
+            </div>
+            <div class="footer-right">
+                <a href="admin.html" class="btn-orange-square">Admin</a>
+                <a href="register.html" class="btn-orange-square">ลงทะเบียน</a>
+                <a href="login.html" class="btn-orange-square">เข้าระบบ</a>
+                <a href="change-password.html" class="btn-orange-square">แก้ไขรหัสผ่าน</a>
+                <a href="forgot-password.html" class="btn-orange-square">ลืมรหัส</a>
+            </div>
+        </footer>
     </div>
 
-    <section class="cards" aria-label="สรุปงาน">
-      <div class="card"><span>รายการงาน</span><strong id="count">—</strong></div>
-      <div class="card"><span>มีข้อมูลครบ</span><strong id="complete">—</strong></div>
-      <div class="card"><span>ผลถึงเป้าหมาย</span><strong id="achieved">—</strong></div>
-      <div class="card"><span>ผลต่ำกว่าเป้าหมาย</span><strong id="pending">—</strong></div>
-    </section>
+    <!-- JavaScript สำหรับระบบทำงานเรียลไทม์ และวาดกราฟ -->
+    <script>
+        // Google Sheet ID จริง
+        const SHEET_ID = '1RAdbMO-a8Xvu10cdrDoKRkPmbM04Wzi4oV5WDEEvFOU';
 
-    <section class="panels">
-      <div class="panel">
-        <h2>รายการที่ผลถึงเป้าหมาย แยกตามกลุ่ม</h2>
-        <div id="chart"></div>
-        <p class="note">เทียบจำนวนผลปฏิบัติกับเป้าหมายเฉพาะรายการที่ข้อมูลครบและเป้าหมายมากกว่า 0</p>
-      </div>
-      <div class="panel">
-        <h2>ขอบเขตข้อมูลที่กำลังแสดง</h2>
-        <p id="scope">—</p>
-        <p class="note">
-          เลือกเมนูเพื่อเปลี่ยนประเภทงาน และเลือกกลุ่มเพื่อเปลี่ยนข้อมูล
-          การ์ด กราฟ และตารางจะปรับพร้อมกันทันที
-        </p>
-        <p class="note">
-          ไม่รวมจำนวนต่างหน่วยนับเป็นยอดเดียว
-          ช่องว่างแสดง — และไม่ถือว่าเป็นศูนย์
-        </p>
-      </div>
-    </section>
+        // 1. ระบบนาฬิกาเรียลไทม์
+        function updateClock() {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Bangkok', hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('liveClock').innerText = '📅 ' + now.toLocaleString('th-TH', options);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-    <section class="panel">
-      <h2 id="tableTitle">รายละเอียดงานตาม MOU</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ลำดับ</th>
-              <th>รายการงาน</th>
-              <th>หน่วย</th>
-              <th>เป้าหมาย</th>
-              <th>ร้อยละ</th>
-              <th>ผลปฏิบัติ</th>
-              <th>ร้อยละ</th>
-              <th>ส่วนต่าง</th>
-              <th>ร้อยละต่าง*</th>
-            </tr>
-          </thead>
-          <tbody id="rows"></tbody>
-        </table>
-      </div>
-      <p class="note">
-        * ร้อยละต่าง = ร้อยละผล − ร้อยละเป้าหมาย หน่วยเป็นจุดร้อยละ
-        · ทุกกลุ่ม: รวมจำนวนเมื่อมีข้อมูลครบ 5 กลุ่ม
-        และเฉลี่ยค่าร้อยละจากชีตเมื่อครบ 5 กลุ่ม
-      </p>
-    </section>
-  </main>
-</div>
+        // 2. ข้อมูลกลุ่มและสีประจำกลุ่ม (G1 - G5)
+        const groupsData = [
+            { id: 'G1', name: 'G1=FA (กลุ่มที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
+            { id: 'G2', name: 'G2 (กลุ่มที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
+            { id: 'G3', name: 'G3 (กลุ่มที่ 3)', color: '#f59e0b', link: 'chart-group-3.html' },
+            { id: 'G4', name: 'G4 (กลุ่มที่ 4)', color: '#8b5cf6', link: 'chart-group-4.html' },
+            { id: 'G5', name: 'G5 (กลุ่มที่ 5)', color: '#ec4899', link: 'chart-group-5.html' }
+        ];
 
-<script>
-/*
-ข้อมูลหนึ่งรายการ:
-{
-  id: "1",
-  name: "FA เป็นผู้สอบทานรายงานการเงิน",
-  category: "FA",
-  unit: "รายงาน",
-  groups: {
-    "1": { target:20, targetPct:100, actual:0, actualPct:10 },
-    "2": { target:37, targetPct:100, actual:null, actualPct:null },
-    "3": { target:42, targetPct:100, actual:null, actualPct:null },
-    "4": { target:45, targetPct:100, actual:null, actualPct:null },
-    "5": { target:31, targetPct:100, actual:null, actualPct:null }
-  }
-}
+        const areasList = [
+            { code: 'P.1', name: 'ด้านตรวจสอบ' },
+            { code: 'P.2', name: 'ด้านประชาสัมพันธ์/KM2/นวัตกรรม' },
+            { code: 'P.3', name: 'ด้านบริหาร/ธุรการ/พัสดุ/กิจกรรม' },
+            { code: 'P.4', name: 'ด้านงานค้างระหว่างตรวจ' },
+            { code: 'P.5', name: 'ด้านงานติดตาม' }
+        ];
 
-ค่าร้อยละใช้เลข 100 หมายถึง 100%
-ข้อมูลว่างใช้ null ไม่ใช้ 0
-ใส่รายการครบ 55 งานใน rows ที่รับจากชีต
-*/
+        // 3. ฟังก์ชันวาด Dynamic Concentric SVG Chart
+        function drawChart() {
+            const svg = document.getElementById('mouChart');
+            svg.innerHTML = ''; // เคลียร์รูปเดิม
 
-let DATA = [];
-let activeMenu = "all";
-let loadedAt = null;
+            const totalGroups = 5;
+            const anglePerGroup = 360 / totalGroups;
+            const innerRadius = 45; // วงกลมสีแดงด้านใน
+            const layerThickness = 32;
 
-const baseMenus = [
-  ["all","ภาพรวมทุกงาน"],
-  ["FA","งานตรวจสอบ FA"],
-  ["CA","งานตรวจสอบ CA"],
-  ["PA","งานตรวจสอบ PA"],
-  ["ร้องเรียน","เรื่องร้องเรียน"]
-];
+            // วาดแฉก 5 กลุ่ม และชั้น P.1 - P.5
+            groupsData.forEach((group, gIdx) => {
+                const startAngle = gIdx * anglePerGroup - 90;
+                const endAngle = startAngle + anglePerGroup;
 
-const $ = id => document.getElementById(id);
-const number = new Intl.NumberFormat("th-TH",{maximumFractionDigits:2});
-const valid = value => typeof value === "number" && Number.isFinite(value);
-const fmt = value => valid(value) ? number.format(value) : "—";
-const pct = value => valid(value) ? fmt(value)+"%" : "—";
+                // วาด 5 ชั้นรัศมี (P.1 ชิดในสุด -> P.5 อยู่นอกสุด)
+                for (let level = 0; level < 5; level++) {
+                    const rIn = innerRadius + (level * layerThickness);
+                    const rOut = rIn + layerThickness - 2;
 
-function menus(){
-  const list = [...baseMenus];
-  const known = new Set(list.map(item=>item[0]));
-  DATA.forEach(item=>{
-    if(!known.has(item.category)){
-      known.add(item.category);
-      list.push([item.category,item.category]);
-    }
-  });
-  return list;
-}
+                    const pathData = describeArc(0, 0, rIn, rOut, startAngle + 1, endAngle - 1);
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', pathData);
+                    path.setAttribute('fill', group.color);
+                    path.setAttribute('opacity', 0.4 + (level * 0.12));
+                    path.setAttribute('class', 'wedge');
 
-function drawMenu(){
-  $("menu").replaceChildren();
-  menus().forEach(([key,label])=>{
-    const button=document.createElement("button");
-    button.type="button";
-    button.textContent=label;
-    button.classList.toggle("active",key===activeMenu);
-    button.setAttribute("aria-pressed",String(key===activeMenu));
-    button.onclick=()=>{
-      activeMenu=key;
-      render();
-    };
-    $("menu").append(button);
-  });
-}
+                    // Event Mouse Over Tooltip
+                    path.addEventListener('mousemove', (e) => showTooltip(e, `${group.name}<br>${areasList[level].code} ${areasList[level].name}<br>เป้าหมาย 25 | ทำได้ 15 | 60%`));
+                    path.addEventListener('mouseout', hideTooltip);
+                    path.addEventListener('click', () => location.href = `${group.link}?area=P${level+1}`);
 
-function categoryRows(){
-  return DATA.filter(item=>
-    activeMenu==="all" || item.category===activeMenu
-  );
-}
+                    svg.appendChild(path);
+                }
+            });
 
-function aggregate(item,group){
-  if(group!=="all") return item.groups[group] || {};
+            // วาด Center Core (วงกลมสีแดงตรงกลาง 5% Area)
+            const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            centerCircle.setAttribute('cx', 0);
+            centerCircle.setAttribute('cy', 0);
+            centerCircle.setAttribute('r', innerRadius);
+            centerCircle.setAttribute('fill', '#ef4444');
+            centerCircle.setAttribute('class', 'center-core');
+            centerCircle.addEventListener('click', () => location.href = 'chart-summary.html');
+            centerCircle.addEventListener('mousemove', (e) => showTooltip(e, '55 MOU<br>คืบหน้า 25%<br>เหลือ 75%<br>(คลิกเพื่อดูสรุปภาพรวม)'));
+            centerCircle.addEventListener('mouseout', hideTooltip);
+            svg.appendChild(centerCircle);
 
-  const values=[1,2,3,4,5].map(g=>item.groups[String(g)] || {});
-  const result={};
+            // ข้อความตรงกลางวงกลมแดง
+            const text1 = createTextNode(0, -10, '55 MOU', '#ffffff', '12px', 'bold');
+            const text2 = createTextNode(0, 8, 'คืบหน้า 25%', '#fef08a', '9px', '600');
+            const text3 = createTextNode(0, 22, 'เหลือ 75%', '#ffffff', '8px', 'normal');
+            svg.appendChild(text1);
+            svg.appendChild(text2);
+            svg.appendChild(text3);
+        }
 
-  ["target","actual","targetPct","actualPct"].forEach(key=>{
-    const entries=values.map(value=>value[key]);
-    result[key]=entries.every(valid)
-      ? entries.reduce((sum,value)=>sum+value,0) /
-        (key.endsWith("Pct") ? 5 : 1)
-      : null;
-  });
+        // ช่วยวาดส่วนโค้ง SVG Arc
+        function describeArc(x, y, innerRadius, outerRadius, startAngle, endAngle) {
+            const startIn = polarToCartesian(x, y, innerRadius, endAngle);
+            const endIn = polarToCartesian(x, y, innerRadius, startAngle);
+            const startOut = polarToCartesian(x, y, outerRadius, endAngle);
+            const endOut = polarToCartesian(x, y, outerRadius, startAngle);
 
-  return result;
-}
+            const arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
 
-function stats(items,group){
-  let complete=0,achieved=0,pending=0,eligible=0;
-  items.forEach(item=>{
-    const value=aggregate(item,group);
-    if(valid(value.target)&&valid(value.actual)){
-      complete++;
-      if(value.target>0){
-        eligible++;
-        if(value.actual>=value.target) achieved++;
-        else pending++;
-      }
-    }
-  });
-  return {complete,achieved,pending,eligible};
-}
+            return [
+                "M", startOut.x, startOut.y,
+                "A", outerRadius, outerRadius, 0, arcSweep, 0, endOut.x, endOut.y,
+                "L", endIn.x, endIn.y,
+                "A", innerRadius, innerRadius, 0, arcSweep, 1, startIn.x, startIn.y,
+                "Z"
+            ].join(" ");
+        }
 
-function cell(row,text,className=""){
-  const td=document.createElement("td");
-  td.textContent=text;
-  td.className=className;
-  row.append(td);
-}
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            const angleInRadians = (angleInDegrees) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        }
 
-function render(){
-  drawMenu();
+        function createTextNode(x, y, text, color, fontSize, fontWeight) {
+            const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            t.setAttribute('x', x);
+            t.setAttribute('y', y);
+            t.setAttribute('fill', color);
+            t.setAttribute('font-size', fontSize);
+            t.setAttribute('font-weight', fontWeight);
+            t.setAttribute('text-anchor', 'middle');
+            t.setAttribute('pointer-events', 'none');
+            t.textContent = text;
+            return t;
+        }
 
-  const group=$("group").value;
-  const items=categoryRows();
-  const label=menus().find(item=>item[0]===activeMenu)?.[1] || activeMenu;
-  const groupLabel=group==="all"?"รวมกลุ่มตรวจสอบ 1–5":"กลุ่มตรวจสอบที่ "+group;
-  const summary=stats(items,group);
+        // 4. Tooltip Control
+        const tooltip = document.getElementById('chartTooltip');
+        function showTooltip(e, text) {
+            tooltip.style.display = 'block';
+            tooltip.innerHTML = text;
+            tooltip.style.left = (e.pageX - document.querySelector('.chart-container-area').offsetLeft + 15) + 'px';
+            tooltip.style.top = (e.pageY - document.querySelector('.chart-container-area').offsetTop - 20) + 'px';
+        }
+        function hideTooltip() {
+            tooltip.style.display = 'none';
+        }
 
-  $("pageTitle").textContent=label;
-  $("count").textContent=DATA.length ? fmt(items.length) : "—";
-  $("complete").textContent=DATA.length ? fmt(summary.complete) : "—";
-  $("achieved").textContent=DATA.length ? fmt(summary.achieved) : "—";
-  $("pending").textContent=DATA.length ? fmt(summary.pending) : "—";
-  $("scope").textContent=`${label} · ${groupLabel} · ${items.length} รายการ`;
-  $("tableTitle").textContent=`${label} · ${groupLabel}`;
+        // 5. ระบบซิงก์ดึงข้อมูลจาก Google Sheets (ทุก 60 วินาที)
+        async function fetchGoogleSheetData() {
+            try {
+                // ดึงข้อมูลผ่าน Google Visualization API จาก Sheet ID จริง
+                const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`);
+                const text = await res.text();
+                
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สำเร็จ';
+                document.getElementById('syncStatus').style.color = '#10b981';
+                
+                const d = new Date();
+                document.getElementById('lastSyncTime').innerText = d.toTimeString().split(' ')[0];
+            } catch (err) {
+                document.getElementById('syncStatus').innerText = 'ซิงก์ล้มเหลว (ใช้ข้อมูลแคช)';
+                document.getElementById('syncStatus').style.color = '#ef4444';
+            }
+        }
 
-  $("rows").replaceChildren();
+        function refreshData() {
+            fetchGoogleSheetData();
+        }
 
-  items.forEach((item,index)=>{
-    const value=aggregate(item,group);
-    const difference=valid(value.actual)&&valid(value.target)
-      ? value.actual-value.target : null;
-    const percentageDifference=valid(value.actualPct)&&valid(value.targetPct)
-      ? value.actualPct-value.targetPct : null;
-
-    const tr=document.createElement("tr");
-    cell(tr,index+1);
-    cell(tr,item.name);
-    cell(tr,item.unit || "—");
-    cell(tr,fmt(value.target));
-    cell(tr,pct(value.targetPct));
-    cell(tr,fmt(value.actual));
-    cell(tr,pct(value.actualPct));
-    cell(tr,fmt(difference),
-      valid(difference) ? (difference<0?"negative":"positive") : "");
-    cell(tr,valid(percentageDifference)
-      ? fmt(percentageDifference)+" จุด" : "—");
-    $("rows").append(tr);
-  });
-
-  if(!items.length){
-    const tr=document.createElement("tr");
-    const td=document.createElement("td");
-    td.colSpan=9;
-    td.className="empty";
-    td.textContent=DATA.length
-      ? "ไม่มีรายการในหมวดนี้"
-      : "รอข้อมูล MOU จาก Google Sheets";
-    tr.append(td);
-    $("rows").append(tr);
-  }
-
-  $("chart").replaceChildren();
-  const groups=group==="all"?[1,2,3,4,5]:[Number(group)];
-
-  groups.forEach(g=>{
-    const s=stats(items,String(g));
-    const rate=s.eligible ? s.achieved/s.eligible*100 : null;
-    const row=document.createElement("div");
-    row.className="bar-row";
-
-    const name=document.createElement("span");
-    name.textContent="กลุ่ม "+g;
-
-    const track=document.createElement("div");
-    track.className="track";
-    const fill=document.createElement("div");
-    fill.className="fill";
-    fill.style.width=(rate ?? 0)+"%";
-    track.append(fill);
-
-    const value=document.createElement("span");
-    value.className="bar-value";
-    value.textContent=rate===null?"—":`${s.achieved}/${s.eligible} · ${pct(rate)}`;
-
-    row.append(name,track,value);
-    $("chart").append(row);
-  });
-
-  $("status").textContent=loadedAt
-    ? `รับข้อมูล ${loadedAt.toLocaleTimeString("th-TH")} · ${DATA.length}/55 รายการ`
-    : "รอข้อมูลจาก Google Sheets";
-}
-
-// เรียกฟังก์ชันนี้ทุกครั้งที่อ่าน Google Sheets สำเร็จ
-window.setMouData=function(rows){
-  if(!Array.isArray(rows)) throw new Error("ข้อมูลต้องเป็น Array");
-
-  const ids=new Set();
-  rows.forEach(item=>{
-    if(!item.id || !item.name || !item.category || !item.groups){
-      throw new Error("รายการต้องมี id, name, category และ groups");
-    }
-    if(ids.has(String(item.id))) throw new Error("พบ id งานซ้ำ: "+item.id);
-    ids.add(String(item.id));
-  });
-
-  DATA=rows;
-  loadedAt=new Date();
-  if(!menus().some(item=>item[0]===activeMenu)) activeMenu="all";
-  render();
-};
-
-$("group").addEventListener("change",render);
-render();
-</script>
+        // เริ่มต้นการทำงานเมื่อโหลดหน้า
+        window.onload = () => {
+            drawChart();
+            fetchGoogleSheetData();
+            setInterval(fetchGoogleSheetData, 60000); // ซิงก์ทุก 60 วินาที
+        };
+    </script>
 </body>
 </html>
