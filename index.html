@@ -68,11 +68,25 @@
         .kpi-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 4px; }
         .kpi-value { font-size: 1.25rem; font-weight: 700; color: #38bdf8; }
 
-        .charts-grid-6 { width: 100%; flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; min-height: 550px; }
-        .chart-card-item { background: #0b172c; border: 1px solid #1e3a8a; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; min-height: 260px; }
-        .chart-card-item h3 { font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 5px; text-align: center; }
+        /* จัดวาง Dashboard 6 กราฟ (ซ้าย 2, ตรงกลางภาพรวมใหญ่, ขวา 3) พร้อมเส้นโยง SVG ควบคุม */
+        .dashboard-layout { width: 100%; flex: 1; display: grid; grid-template-columns: 1fr 1.3fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 15px; position: relative; min-height: 580px; }
+        .chart-box-item { background: #0b172c; border: 1px solid #1e3a8a; border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; }
+        .chart-box-item h3 { font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 2px; text-align: center; }
 
-        .svg-mini { width: 100%; height: 220px; }
+        /* ตำแหน่งการวาง Grid */
+        .item-g1 { grid-column: 1; grid-row: 1; }
+        .item-g2 { grid-column: 1; grid-row: 2; }
+        .item-g3 { grid-column: 3; grid-row: 1; }
+        .item-g4 { grid-column: 3; grid-row: 2; }
+        .item-g5 { grid-column: 3; grid-row: 3; }
+        .item-overview { grid-column: 2; grid-row: 1 / span 3; border: 2px solid var(--accent-gold); background: linear-gradient(135deg, #0b172c 0%, #172554 100%); }
+
+        .svg-mini { width: 100%; height: 150px; }
+        .svg-main { width: 100%; height: 280px; }
+        
+        /* SVG สำหรับเส้นเชื่อมโยงระหว่างกราฟภาพรวมตรงกลางไปยังกลุ่มต่างๆ */
+        .connector-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
         .wedge { cursor: pointer; transition: opacity 0.2s; }
         .wedge:hover { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)); }
         .center-core { cursor: pointer; }
@@ -85,8 +99,7 @@
         .btn-orange-square { background: var(--accent-orange); color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: background 0.2s; }
         .btn-orange-square:hover { background: #ea580c; }
 
-        @media (max-width: 1100px) { .charts-grid-6 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 700px) { .charts-grid-6 { grid-template-columns: 1fr; } .main-content { flex-direction: column; } .sidebar { width: 100%; } header, footer { flex-direction: column; align-items: flex-start; } }
+        @media (max-width: 1000px) { .dashboard-layout { display: flex; flex-direction: column; } .connector-svg { display: none; } }
     </style>
 </head>
 <body>
@@ -160,37 +173,39 @@
                     </div>
                 </div>
 
-                <!-- พื้นที่แสดงกราฟ 6 กราฟ (ซ้าย 2, ขวา 3 และตรงกลางรวม 6 กราฟ) -->
-                <div class="charts-grid-6">
-                    <!-- กราฟที่ 1: G1 (กลุ่มตรวจสอบที่ 1) -->
-                    <div class="chart-card-item">
+                <!-- โครงสร้างแสดง 6 กราฟ (ภาพรวมตรงกลางขนาดใหญ่, G1-G5 ขนาดเล็กด้านซ้ายและขวา) พร้อมเส้นเชื่อมโยง -->
+                <div class="dashboard-layout" id="dashboardLayout">
+                    <!-- เส้นเชื่อมโยง SVG จากตรงกลางไปหากลุ่ม G1-G5 -->
+                    <svg class="connector-svg" id="connectorSvg"></svg>
+
+                    <!-- ด้านซ้าย: G1, G2 (2 กราฟ) -->
+                    <div class="chart-box-item item-g1" id="boxG1">
                         <h3>G1 (กลุ่มตรวจสอบที่ 1)</h3>
-                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG1"></svg>
+                        <svg class="svg-mini" viewBox="-100 -100 200 200" id="chartG1"></svg>
                     </div>
-                    <!-- กราฟที่ 2: G2 (กลุ่มตรวจสอบที่ 2) -->
-                    <div class="chart-card-item">
+                    <div class="chart-box-item item-g2" id="boxG2">
                         <h3>G2 (กลุ่มตรวจสอบที่ 2)</h3>
-                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG2"></svg>
+                        <svg class="svg-mini" viewBox="-100 -100 200 200" id="chartG2"></svg>
                     </div>
-                    <!-- กราฟที่ 3: G3 (กลุ่มตรวจสอบที่ 3) -->
-                    <div class="chart-card-item">
+
+                    <!-- ตรงกลาง: กราฟภาพรวมขนาดใหญ่ (Overview) -->
+                    <div class="chart-box-item item-overview" id="boxOverview">
+                        <h3>ภาพรวมทุกกลุ่ม (All Groups Overview)</h3>
+                        <svg class="svg-main" viewBox="-140 -140 280 280" id="chartOverview"></svg>
+                    </div>
+
+                    <!-- ด้านขวา: G3, G4, G5 (3 กราฟ) -->
+                    <div class="chart-box-item item-g3" id="boxG3">
                         <h3>G3 (กลุ่มตรวจสอบที่ 3)</h3>
-                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG3"></svg>
+                        <svg class="svg-mini" viewBox="-100 -100 200 200" id="chartG3"></svg>
                     </div>
-                    <!-- กราฟที่ 4: G4 (กลุ่มตรวจสอบที่ 4) -->
-                    <div class="chart-card-item">
+                    <div class="chart-box-item item-g4" id="boxG4">
                         <h3>G4 (กลุ่มตรวจสอบที่ 4)</h3>
-                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG4"></svg>
+                        <svg class="svg-mini" viewBox="-100 -100 200 200" id="chartG4"></svg>
                     </div>
-                    <!-- กราฟที่ 5: G5 (กลุ่มตรวจสอบที่ 5) -->
-                    <div class="chart-card-item">
+                    <div class="chart-box-item item-g5" id="boxG5">
                         <h3>G5 (กลุ่มตรวจสอบที่ 5)</h3>
-                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartG5"></svg>
-                    </div>
-                    <!-- กราฟที่ 6: ภาพรวมทั้งหมด (Overview) -->
-                    <div class="chart-card-item" style="border-color: var(--accent-gold);">
-                        <h3>ภาพรวมทุกกลุ่ม (All Groups)</h3>
-                        <svg class="svg-mini" viewBox="-130 -130 260 260" id="chartAll"></svg>
+                        <svg class="svg-mini" viewBox="-100 -100 200 200" id="chartG5"></svg>
                     </div>
                 </div>
 
@@ -333,6 +348,7 @@
                 document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
 
                 drawAllCharts();
+                drawConnectors();
 
             } catch (err) {
                 console.error(err);
@@ -342,24 +358,22 @@
         }
 
         function drawAllCharts() {
-            // วาดกราฟ G1 ถึง G5
             groupsData.forEach((group, gIdx) => {
-                drawGroupChart(`chartG${gIdx + 1}`, gIdx);
+                drawSmallGroupChart(`chartG${gIdx + 1}`, gIdx);
             });
-            // วาดกราฟภาพรวมทั้งหมด (All Groups)
-            drawOverviewChart('chartAll');
+            drawOverviewChart('chartOverview');
         }
 
-        // ฟังก์ชันวาดกราฟวงกลมแยกรายกลุ่ม (มี 5 แฉกตาม 5 ด้าน พร้อมตรงกลางแสดง MOU คืบหน้า... จำนวน...งาน)
-        function drawGroupChart(svgId, gIdx) {
+        // วาดกราฟวงกลมเล็ก G1-G5 (ตรงกลางเป็นภาระงานของกลุ่ม, แฉก 5 ด้าน)
+        function drawSmallGroupChart(svgId, gIdx) {
             const svg = document.getElementById(svgId);
             svg.innerHTML = '';
             const group = groupsData[gIdx];
 
             const totalAreas = 5;
             const anglePerArea = 360 / totalAreas;
-            const innerRadius = 25;
-            const ringWidth = 28;
+            const innerRadius = 22;
+            const ringWidth = 24;
 
             let gTargetSum = 0;
             let gDoneSum = 0;
@@ -402,7 +416,6 @@
                 svg.appendChild(path);
             });
 
-            // วงกลมตรงกลางแสดงภารรวมของกลุ่ม
             const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             centerCircle.setAttribute('cx', 0);
             centerCircle.setAttribute('cy', 0);
@@ -414,19 +427,19 @@
             centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
-            svg.appendChild(createTextNode(0, -4, `${gAvgProgress}%`, '#ffffff', '9.5px', 'bold'));
-            svg.appendChild(createTextNode(0, 7, `${Math.round(gTargetSum)} งาน`, '#fef08a', '8.5px', 'normal'));
+            svg.appendChild(createTextNode(0, -3, `${gAvgProgress}%`, '#ffffff', '8.5px', 'bold'));
+            svg.appendChild(createTextNode(0, 7, `${Math.round(gTargetSum)} งาน`, '#fef08a', '7.5px', 'normal'));
         }
 
-        // ฟังก์ชันวาดกราฟภาพรวมทั้งหมด (All Groups)
+        // วาดกราฟวงกลมภาพรวมขนาดใหญ่ตรงกลาง
         function drawOverviewChart(svgId) {
             const svg = document.getElementById(svgId);
             svg.innerHTML = '';
 
             const totalGroups = 5;
             const anglePerGroup = 360 / totalGroups;
-            const innerRadius = 25;
-            const layerThickness = 11;
+            const innerRadius = 38;
+            const layerThickness = 18;
 
             groupsData.forEach((group, gIdx) => {
                 const startAngle = gIdx * anglePerGroup - 90;
@@ -476,8 +489,45 @@
             centerCircle.addEventListener('mouseout', hideTooltip);
             svg.appendChild(centerCircle);
 
-            svg.appendChild(createTextNode(0, -4, `${realData.progressRate}%`, '#ffffff', '9.5px', 'bold'));
-            svg.appendChild(createTextNode(0, 7, `${realData.totalMOU} MOU`, '#fef08a', '8.5px', 'normal'));
+            svg.appendChild(createTextNode(0, -5, `${realData.progressRate}%`, '#ffffff', '12px', 'bold'));
+            svg.appendChild(createTextNode(0, 10, `${realData.totalMOU} MOU`, '#fef08a', '10px', 'normal'));
+        }
+
+        // วาดเส้นเชื่อมโยงจากกราฟภาพรวมตรงกลาง ไปหากลุ่ม G1 ถึง G5
+        function drawConnectors() {
+            const svg = document.getElementById('connectorSvg');
+            svg.innerHTML = '';
+            const containerRect = document.getElementById('dashboardLayout').getBoundingClientRect();
+            const overviewRect = document.getElementById('boxOverview').getBoundingClientRect();
+
+            const centerX = (overviewRect.left + overviewRect.width / 2) - containerRect.left;
+            const centerY = (overviewRect.top + overviewRect.height / 2) - containerRect.top;
+
+            ['G1', 'G2', 'G3', 'G4', 'G5'].forEach((id, idx) => {
+                const itemElem = document.getElementById(`box${id}`);
+                if (!itemElem) return;
+                const itemRect = itemElem.getBoundingClientRect();
+                const itemX = (itemRect.left + itemRect.width / 2) - containerRect.left;
+                const itemY = (itemRect.top + itemRect.height / 2) - containerRect.top;
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', centerX);
+                line.setAttribute('y1', centerY);
+                line.setAttribute('x2', itemX);
+                line.setAttribute('y2', itemY);
+                line.setAttribute('stroke', groupsData[idx].color);
+                line.setAttribute('stroke-width', '2');
+                line.setAttribute('stroke-dasharray', '4,4');
+                line.setAttribute('opacity', '0.7');
+                svg.appendChild(line);
+
+                const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dot.setAttribute('cx', itemX);
+                dot.setAttribute('cy', itemY);
+                dot.setAttribute('r', '4');
+                dot.setAttribute('fill', groupsData[idx].color);
+                svg.appendChild(dot);
+            });
         }
 
         function describeArc(x, y, innerRadius, outerRadius, startAngle, endAngle) {
@@ -515,6 +565,9 @@
         window.onload = () => {
             fetchRealGoogleSheetData();
             setInterval(fetchRealGoogleSheetData, 30000);
+        };
+        window.onresize = () => {
+            if (realData && realData.groupAreaStats) drawConnectors();
         };
     </script>
 </body>
