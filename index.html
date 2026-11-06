@@ -122,7 +122,7 @@
         <div class="sync-bar">
             <div>
                 <i class="fa-solid fa-circle-dot" id="syncDot" style="color: #f59e0b;"></i> 
-                สถานะ: <span id="syncStatus">กำลังเชื่อมต่อข้อมูล...</span>
+                สถานะ: <span id="syncStatus">กำลังเชื่อมต่อข้อมูล...</span>[cite: 1]
                 | อัปเดตล่าสุด: <span id="lastSyncTime">-</span>
             </div>
             <div>
@@ -271,7 +271,7 @@
 
         async function fetchRealGoogleSheetData() {
             try {
-                document.getElementById('syncStatus').innerText = 'กำลังซิงก์ข้อมูล Google Sheets...';
+                document.getElementById('syncStatus').innerText = 'กำลังซิงก์ข้อมูล Google Sheets...';[cite: 1]
                 document.getElementById('syncDot').style.color = '#f59e0b';
 
                 const resPlan = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=สรุป MOU กลุ่ม 1-5`);
@@ -302,8 +302,8 @@
                 rowsResult.forEach((r, idx) => {
                     if (r.c && r.c[0] && r.c[0].v !== null && typeof r.c[0].v === 'string') {
                         let txt = r.c[0].v.trim();
-                        // กรองเฉพาะแถวที่เป็นรายการ MOU จริงๆ (ไม่เอาหัวตารางและแถวสรุป)
-                        if (txt !== '' && !txt.startsWith('สรุป') && !txt.startsWith('รายการ') && !txt.includes('รวมทั้งสิ้น') && !txt.includes('กลุ่มตรวจสอบที่')) {
+                        // นับเฉพาะแถวที่เป็น MOU จริงๆ (ขึ้นต้นด้วย mou หรือตัวเลขลำดับข้อที่ตรงกับ 50 รายการจริง)
+                        if (txt.toLowerCase().startsWith('mou') || (txt.length > 2 && txt[0].isdigit && txt.includes('.'))) {
                             totalMOUCount++;
                             const areaIdx = getAreaIndexByRow(txt);
 
@@ -348,7 +348,7 @@
                 document.getElementById('kpiPending').innerText = `${pending} รายการ (${((pending/total)*100).toFixed(0)}%)`;
                 document.getElementById('kpiRate').innerText = `${avgRate}% ความคืบหน้า`;
 
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สำเร็จ';
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สำเร็จ';[cite: 1]
                 document.getElementById('syncDot').style.color = '#34d399';
                 document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
 
