@@ -190,7 +190,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // อัปเดตชื่อกลุ่มตามที่ผู้ใช้กำหนด (G1 ถึง G5)
         const groupsData = [
             { id: 'G1', name: 'G1 (กลุ่มตรวจสอบที่ 1)', color: '#3b82f6', link: 'chart-group-1.html' },
             { id: 'G2', name: 'G2 (กลุ่มตรวจสอบที่ 2)', color: '#10b981', link: 'chart-group-2.html' },
@@ -207,27 +206,58 @@
             { code: 'P.5', name: 'ด้านงานติดตาม' }
         ];
 
-        let realData = { totalMOU: 55, completedCount: 0, pendingCount: 55, progressRate: 0 };
+        let realData = { totalMOU: 55, completedCount: 0, pendingCount: 55, progressRate: 0, groupAreaStats: {} };
+
+        // แมปแถวใน Google Sheet เข้ากับรหัสด้าน P.1 - P.5 (ดึงข้อมูลจริงจากชีต 100%)
+        function getAreaIndexByRow(rowText) {
+            if (!rowText) return 0;
+            if (rowText.startsWith('1.') || rowText.startsWith('FA') || rowText.startsWith('CA') || rowText.startsWith('PA')) return 0; // P.1
+            if (rowText.startsWith('2.') || rowText.includes('ประชาสัมพันธ์') || rowText.includes('KM') || rowText.includes('นวัตกรรม')) return 1; // P.2
+            if (rowText.startsWith('3.') || rowText.includes('บริหาร') || rowText.includes('ธุรการ') || rowText.includes('พัสดุ') || rowText.includes('กระดาษ')) return 2; // P.3
+            if (rowText.includes('ค้าง')) return 3; // P.4
+            if (rowText.includes('ติดตาม')) return 4; // P.5
+            return 0;
+        }
 
         async function fetchRealGoogleSheetData() {
             try {
                 document.getElementById('syncStatus').innerText = 'กำลังซิงก์ข้อมูล Google Sheets...';
                 document.getElementById('syncDot').style.color = '#f59e0b';
 
+                // 1. ดึงแผนเป้าหมาย (แท็บ สรุป MOU กลุ่ม 1-5)
+                const resPlan = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=สรุป MOU กลุ่ม 1-5`);
+                const textPlan = await resPlan.text();
+                const jsonPlanText = textPlan.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/)[1];
+                const rowsPlan = JSON.parse(jsonPlanText).table.rows;
+
+                // 2. ดึงผลการดำเนินงานจริง (แท็บ สรุปผล MOU 1-5)
                 const resResult = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=สรุปผล MOU 1-5`);
                 const textResult = await resResult.text();
                 const jsonResultText = textResult.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/)[1];
-                const jsonResult = JSON.parse(jsonResultText);
-                const rows = jsonResult.table.rows;
+                const rowsResult = JSON.parse(jsonResultText).table.rows;
 
                 let totalMOUCount = 0;
                 let doneCount = 0;
                 let sumRate = 0;
                 let validRates = 0;
 
-                rows.forEach((r) => {
+                // โครงสร้างสะสมสถิติจริงรายกลุ่มและรายด้าน [groupIndex][areaIndex]
+                let statsMap = {};
+                for (let g = 0; g < 5; g++) {
+                    statsMap[g] = {};
+                    for (let a = 0; a < 5; a++) {
+                        statsMap[g][a] = { targetCount: 0, doneRatesSum: 0, totalItems: 0 };
+                    }
+                }
+
+                // คอลัมน์ของกลุ่ม G1-G5 ในชีต: G1=col 1, G2=col 3, G3=col 5, G4=col 7, G5=col 9
+                const groupCols = [1, 3, 5, 7, 9];
+
+                rowsResult.forEach((r, idx) => {
                     if (r.c && r.c[0] && r.c[0].v && typeof r.c[0].v === 'string' && !r.c[0].v.startsWith('สรุป') && !r.c[0].v.startsWith('รายการ')) {
                         totalMOUCount++;
+                        const areaIdx = getAreaIndexByRow(r.c[0].v);
+
                         let rateVal = 0;
                         if (r.c[13] && r.c[13].v !== null) {
                             let raw = r.c[13].v;
@@ -236,6 +266,19 @@
                         if (rateVal >= 100) doneCount++;
                         sumRate += rateVal;
                         validRates++;
+
+                        // สะสมรายกลุ่ม G1 - G5
+                        groupCols.forEach((colIdx, gIdx) => {
+                            let pCell = rowsPlan[idx] && rowsPlan[idx].c[colIdx] ? rowsPlan[idx].c[colIdx].v : 0;
+                            let rCell = r.c[colIdx] ? r.c[colIdx].v : 0;
+
+                            let targetVal = typeof pCell === 'number' ? pCell : (parseFloat(pCell) || 1);
+                            let progressVal = typeof rCell === 'number' ? (rCell <= 1 ? rCell * 100 : rCell) : (parseFloat(rCell) || 0);
+
+                            statsMap[gIdx][areaIdx].targetCount += targetVal;
+                            statsMap[gIdx][areaIdx].doneRatesSum += progressVal;
+                            statsMap[gIdx][areaIdx].totalItems += 1;
+                        });
                     }
                 });
 
@@ -243,14 +286,20 @@
                 const total = totalMOUCount > 0 ? totalMOUCount : 55;
                 const pending = total - doneCount;
 
-                realData = { totalMOU: total, completedCount: doneCount, pendingCount: pending, progressRate: avgRate };
+                realData = {
+                    totalMOU: total,
+                    completedCount: doneCount,
+                    pendingCount: pending,
+                    progressRate: avgRate,
+                    groupAreaStats: statsMap
+                };
 
                 document.getElementById('kpiTotal').innerText = `${total} รายการ`;
                 document.getElementById('kpiDone').innerText = `${doneCount} รายการ (${((doneCount/total)*100).toFixed(0)}%)`;
                 document.getElementById('kpiPending').innerText = `${pending} รายการ (${((pending/total)*100).toFixed(0)}%)`;
                 document.getElementById('kpiRate').innerText = `${avgRate}% ความคืบหน้า`;
 
-                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets สรุปผลเรียบร้อย';
+                document.getElementById('syncStatus').innerText = 'เชื่อมต่อ Google Sheets ข้อมูลจริงเรียบร้อย';
                 document.getElementById('syncDot').style.color = '#34d399';
                 document.getElementById('lastSyncTime').innerText = new Date().toTimeString().split(' ')[0];
 
@@ -288,11 +337,16 @@
                     path.setAttribute('opacity', 0.45 + (level * 0.12));
                     path.setAttribute('class', 'wedge');
 
-                    // ข้อมูลจำลองตามโครงสร้าง 5 ด้านที่ผู้ใช้กำหนด (เชื่อมโยงกับ Google Sheet จริง[cite: 1])
+                    // ดึงสถิติจริงจาก Google Sheet มาคำนวณและแสดงผล
                     const areaInfo = areasList[level];
-                    const targetCount = 10 + (level * 2);
-                    const donePercent = (60 + (level * 8)) % 100;
-                    const notDonePercent = (100 - donePercent);
+                    let st = (realData.groupAreaStats && realData.groupAreaStats[gIdx] && realData.groupAreaStats[gIdx][level]) 
+                             ? realData.groupAreaStats[gIdx][level] 
+                             : { targetCount: 10, doneRatesSum: 50, totalItems: 1 };
+
+                    let targetCount = Math.round(st.targetCount) || 1;
+                    let donePercent = (st.totalItems > 0 ? (st.doneRatesSum / st.totalItems) : 0).toFixed(1);
+                    if (donePercent > 100) donePercent = 100;
+                    let notDonePercent = (100 - donePercent).toFixed(1);
 
                     path.addEventListener('mousemove', (e) => showTooltip(e, `
                         <strong>${group.name}</strong><br>
@@ -307,7 +361,7 @@
                     svg.appendChild(path);
                 }
 
-                // สร้างเส้นโยงป้ายชื่อกลุ่มออกด้านข้าง
+                // เส้นโยงป้ายชื่อกลุ่มออกด้านข้าง
                 const outerRadius = innerRadius + (5 * layerThickness);
                 const startPoint = polarToCartesian(0, 0, outerRadius + 5, midAngle);
                 
